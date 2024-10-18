@@ -9,7 +9,7 @@ Nuestra tienda consiste en una tienda de zapatos sobre el ámbito deportivo. Com
 Esta página servirá para poder hacer un estudio de mercado sobre los productos más vendidos en la página web para
 Ayudar a los usuarios a tener una mayor facilidad a la hora de elegir los productos que más le interesen.
 
-1.¿Cómo funciona?: Al entrar en la página se registrará las actividades y las compras que quieran o hayan querido se registrará en el ERP para poder hacer los estudio de mercado necesarios.
+1. ¿Cómo funciona?: Al entrar en la página se registrará las actividades y las compras que quieran o hayan querido se registrará en el ERP para poder hacer los estudio de mercado necesarios.
 
 2. participación del estudio: Al meterte en la pagina y en un producto te saldran mas productos relacionados y si lo compro otra persona tambien puede salir las opciones que el haya comprado.
 
