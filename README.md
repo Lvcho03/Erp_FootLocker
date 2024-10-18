@@ -18,3 +18,5 @@ Ayudar a los usuarios a tener una mayor facilidad a la hora de elegir los produc
 4. Optimiza el rendimiento: Con el ERP, podrás analizar el rendimiento de cada producto y localizar las áreas donde tu tienda necesita mejorar. De esta forma, podrás ajustar tus operaciones para aumentar la eficiencia y reducir costos, asegurando que siempre tengas los productos adecuados en stock.
 
 5. Lenguages utilizados: utilizaremos HTML, CSS, JavaScript y SQL. 
+
+6. Instalacion y versiones: Las versiones necesarias son: Node.js >= 18.x.x, Mysql:
