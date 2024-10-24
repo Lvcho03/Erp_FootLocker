@@ -1,0 +1,19 @@
+{
+    "TablaAdmin": [
+      {
+        "id": 1,
+        "nombre": "admin",
+        "contrasena": "admin"
+      }
+    ],
+    "TablaUsuario": [
+      {
+        "id": 1,
+        "nombre": "usuario",
+        "contrasena": "usuario"   
+        
+        
+      }
+    ]
+  }
+  
