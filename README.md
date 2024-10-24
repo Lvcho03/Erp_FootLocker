@@ -17,4 +17,4 @@ Optimiza el rendimiento: Con el ERP, podrás analizar el rendimiento de cada pro
 
 Lenguages utilizados: utilizaremos HTML, CSS, JavaScript y SQL.
 
-Instalacion y versiones: Las versiones necesarias son: Node.js >= 18.x.x, Mysql:
+Instalacion y versiones: Las versiones necesarias son: Node.js >= 18.x.x, MySQL Serve: >= 8.0.x, bootstrap: ~5.4.x, Git: >= 2.42.x
