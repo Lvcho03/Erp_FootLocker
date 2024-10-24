@@ -1,12 +1,17 @@
 body{
     background-position: center;
 
+
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     width: 1080px;
     height: 350px;
 
@@ -14,12 +19,27 @@ header{
 }
 
 
-section
+section{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1080px;
+    height: 850px;
+}
 
 section .estado{
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 400px;
+    height: 400px; 
 }
 
 footer{
-    
+    width: 1080px;
+    height: 350px;
+
+    background-color: rgb(39, 42, 87);
 }
