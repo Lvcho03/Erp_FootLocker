@@ -12,10 +12,18 @@ header{
     align-items: center;
     justify-content: center;
 
-    width: 1080px;
+    width: 1920px;
     height: 350px;
 
     background-color: rgb(39, 42, 87);
+}
+header .logo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 650px;
+    height: 250px;
 }
 
 
@@ -24,7 +32,7 @@ section{
     align-items: center;
     justify-content: center;
 
-    width: 1080px;
+    width: 1920px;
     height: 850px;
 }
 
@@ -37,8 +45,17 @@ section .estado{
     height: 400px; 
 }
 
+section .estado .titulo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 200px;
+    height: 50px; 
+}
+
 footer{
-    width: 1080px;
+    width: 19200px;
     height: 350px;
 
     background-color: rgb(39, 42, 87);
