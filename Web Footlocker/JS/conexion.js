@@ -13,6 +13,7 @@ class Conexion {
         this.cargarDatos(); // Llama a cargarDatos() después de inicializar propiedades
     }
 
+    // Buscar datos en Json
     async cargarDatos() {
         try {
             const response = await fetch('Json/BD.json');
