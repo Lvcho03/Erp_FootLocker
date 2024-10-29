@@ -1,0 +1,90 @@
+body{
+height: max-content;
+width: auto; 
+margin: 0px;
+}
+
+.wrapp{
+display: flex;
+justify-content: space-around;
+height: auto;
+width: 100%;
+border: 2px solid red;
+align-items: center;
+
+}
+
+.contenedor-form{
+display: flex;
+justify-content: flex-end;
+width: 50%;
+height: max-content;    
+}
+
+.presentacion{
+width: 50%;
+height: 300px;
+border: 2px solid black;
+}
+
+.presentacion h1 {
+    font-size: 2.5em;
+    color: #333;
+}
+.boton-registro {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+.w3-modal-content {
+    padding: 20px;
+}
+.formulario .form-section {
+    padding: 20px;
+}
+.Usuario, .contraseña {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.aceptar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+.cancelar {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+}
+.footer-form {
+    text-align: center;
+    padding: 10px;
+}
+.contra-olvidada a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+.cruceta-salir {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
