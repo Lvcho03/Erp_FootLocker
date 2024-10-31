@@ -5,29 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="../css/estilosLogin">
+   
 </head>
     <body>
         <div class="wrapp">
-
             <div class="presentacion">
                 <h1>FOOTLOCKER</h1>
                 <p class="txtPresentacion"></p>
                 <img src="" alt="">
-            </div>
-
-            <div class="contenedor-form">
-                <div class="fondo">
-                    <button onclick="document.getElementById('id01').style.display='block'" class="boton-registro">Login</button>
-                    <div id="id01" class="w3-modal">
-                        <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:500px">
     
+                <!-- Botón para abrir el formulario de Login -->
+                <button onclick="mostrarFormulario()" class="boton-registro">Login</button>
+            </div>
+    
+            <!-- Contenedor del formulario con fondo oscuro -->
+            <div id="contenedor-form" class="contenedor-form" onclick="cerrarFormulario(event)">
+                <div class="fondo">
+                    <div id="id01" class="w3-modal" onclick="event.stopPropagation()">
+                        <div id="from-container" class="fade" style="max-width:500px">
                             <div class="w3-center"><br>
-                                <span onclick="document.getElementById('id01').style.display='none'"
-                                    class="cruceta-salir" title="cerrar">×</span>
+                                <span onclick="cerrarFormulario()" class="cruceta-salir" title="cerrar">×</span>
                                 <img src="https://via.placeholder.com/100" alt="Avatar" style="width:20%" class="w3-circle w3-margin-top">
                             </div>
-    
-                            <form class="formulario" action="">
+                            <form id="myForm" class="formulario" action="">
                                 <div class="form-section">
                                     <label><b>Usuario</b></label>
                                     <input class="Usuario" type="text" placeholder="Escriba el usuario..." name="usuario" required>
@@ -37,19 +37,15 @@
                                     <input class="recuerdame" type="checkbox" checked="checked"> Recuerdame
                                 </div>
                             </form>
-                            
                             <div class="footer-form">
-                                <button onclick="document.getElementById('id01').style.display='none'" type="button" class="cancelar">Cancelar</button>
+                                <button onclick="cerrarFormulario()" type="button" class="cancelar">Cancelar</button>
                                 <span class="contra-olvidada"><a href="#">¿Contraseña olvidada?</a></span>
                             </div>
-    
                         </div>
                     </div>
                 </div>
-            </div>    
-            <style>
-
-            </style>
-        </div>    
+            </div>
+        <script src="../JS/fadein.js"></script>
+        
     </body>   
 </html>     
