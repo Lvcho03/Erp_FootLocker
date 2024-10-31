@@ -10,13 +10,14 @@
     <body>
         <div class="wrapp">
             <div class="presentacion">
-                <h1>FOOTLOCKER</h1>
+                <h1 id="titulo">BIENVENIDO A</h1>
                 <p class="txtPresentacion"></p>
                 <img src="" alt="">
-    
+                
+                <script>cerrarFormulario()</script>
+
                 <!-- Botón para abrir el formulario de Login -->
-                <button onclick="mostrarFormulario()" class="boton-registro">Login</button>
-            </div>
+                <button onclick="mostrarFormulario()" class="boton-registro">Login</button>            </div>
     
             <!-- Contenedor del formulario con fondo oscuro -->
             <div id="contenedor-form" class="contenedor-form" onclick="cerrarFormulario(event)">
@@ -24,7 +25,7 @@
                     <div id="id01" class="w3-modal" onclick="event.stopPropagation()">
                         <div id="from-container" class="fade" style="max-width:500px">
                             <div class="w3-center"><br>
-                                <span onclick="cerrarFormulario()" class="cruceta-salir" title="cerrar">×</span>
+                               
                                 <img src="https://via.placeholder.com/100" alt="Avatar" style="width:20%" class="w3-circle w3-margin-top">
                             </div>
                             <form id="myForm" class="formulario" action="">
