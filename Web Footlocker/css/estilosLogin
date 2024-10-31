@@ -2,7 +2,7 @@ body{
 height: max-content;
 width: auto; 
 margin: 0px;
-background-image: url('../imagenes/logo.png');
+background-image: url('../imagenes/logo1.png');
 background-size: cover; /* O 'contain' si prefieres */
 background-position: center;
 background-repeat: no-repeat;
@@ -19,6 +19,9 @@ width: 100%;
 border: 2px solid red;
 align-items: center;
 
+}
+.sombra{
+    background: rgba(0, 0, 0, 0.7);
 }
 
 
@@ -56,7 +59,6 @@ margin-top: 100px;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,7 +75,8 @@ margin-top: 100px;
     transition: opacity 0.5s ease;
 }
 #contenedor-form.in #id01 {
-    opacity: 1;
+   opacity: 1;
+  
 }
 .cruceta-salir {
     position: absolute;
