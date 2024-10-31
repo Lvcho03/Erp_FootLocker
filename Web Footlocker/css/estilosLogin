@@ -1,0 +1,92 @@
+body{
+height: max-content;
+width: auto; 
+margin: 0px;
+background-image: url('../imagenes/logo1.png');
+background-size: cover; /* O 'contain' si prefieres */
+background-position: center;
+background-repeat: no-repeat;
+height: 100vh; /* Para que ocupe toda la altura de la ventana */
+
+}
+
+.wrapp{
+display: flex;
+flex-direction: column;
+justify-content: space-around;
+height: auto;
+width: 100%;
+border: 2px solid red;
+align-items: center;
+
+}
+.sombra{
+    background: rgba(0, 0, 0, 0.7);
+}
+
+
+.presentacion{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+width: 50%;
+height: 300px;
+border: 2px solid black;
+margin-top: 100px;
+}
+
+
+
+.presentacion h1 {
+    font-size: 2.5em;
+    color: #333;
+
+}
+.boton-registro {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin: 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+}
+#contenedor-form {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+#id01 {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    max-width: 500px;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+#contenedor-form.in #id01 {
+   opacity: 1;
+  
+}
+.cruceta-salir {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+.footer-form {
+    text-align: center;
+    padding: 10px;
+}
