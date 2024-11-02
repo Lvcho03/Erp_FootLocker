@@ -1,20 +1,84 @@
-// formulario.js
-
 function mostrarFormulario() {
-    document.getElementById('contenedor-form').style.display = 'block';
+    const contenedorForm = document.getElementById("contenedor-form");
+    contenedorForm.classList.add("in"); // añade la clase `in` para hacerlo visible
 }
 
 function cerrarFormulario(event) {
-    if (event) event.stopPropagation(); // Evitar cerrar al hacer clic en el modal
-    document.getElementById('contenedor-form').style.display = 'none';
+    if (event) event.stopPropagation();
+    document.getElementById("contenedor-form").classList.remove("in");
 }
 
-// Espera que la página se cargue completamente
-window.addEventListener('load', function() {
-    const titulo = document.getElementById('titulo');
+
+document.addEventListener("DOMContentLoaded", function() {
+    const titulo = document.getElementById("titulo");
+    titulo.style.opacity = "1";
+    titulo.style.transform = "translateX(0)";
+})
+
+var esBoolean = true; // Inicializa como true para permitir mostrar la alerta
+
+function mostrarAlerta(mensaje) {
+    const alerta = document.getElementById("alerta");
+    const mensajeAlerta = document.getElementById("mensajeAlerta");
+    const btn = document.getElementById("boton");
+    mensajeAlerta.textContent = mensaje; // Asignar el mensaje al span
+    btn.style.display ="flex"
+    alerta.style.display = "flex"; // Mostrar la alerta como flex
+    alerta.classList.remove("oculto"); // Quitar la clase "oculto" para permitir el fade out
+    esBoolean = false; // Cambia a false porque la alerta está visible
+    console.log(esBoolean);
+}
+
+// Función para cerrar la alerta
+function cerrarAlerta() {
+    const alerta = document.getElementById("alerta");
+    const btn = document.getElementById("boton");
+    // Aplicar la clase "oculto" para iniciar el fade out
+    alerta.classList.add("oculto");
     
-    // Agrega la clase 'mostrar' después de un breve retraso
-    setTimeout(() => {
-        titulo.classList.add('mostrar');
-    }, 500); // Aparece después de 0.5 segundos
+    // Esperar a que la transición de opacidad termine antes de cambiar esBoolean
+    alerta.addEventListener('transitionend', () => {
+        alerta.style.display = "none"; // Establecer display a none después de ocultar
+        btn.style.display = "none";
+        esBoolean = true; // Cambia a true porque la alerta está oculta
+        console.log(esBoolean);
+    }, { once: true }); // Asegurarse de que el listener se ejecute solo una vez
+}
+
+// Para validar al enviar el formulario
+document.getElementById("myForm").addEventListener("submit", async function(event) {
+    event.preventDefault(); // Evitar recargar la página
+
+    const conexion = new Conexion();
+    const usuario = document.getElementById("usuario").value;
+    const contrasena = document.getElementById("contrasena").value;
+
+    await conexion.cargarDatos();
+
+    // Comprobar si las credenciales son válidas
+    const usuarioValido = conexion.validarUsuario(usuario, contrasena);
+    const adminValido = conexion.validarAdmin(usuario,contrasena);
+    
+    if (adminValido) {
+        window.location.href = "templateAdminPage.html";
+        cerrarFormulario(); // Cerrar el formulario si es necesario
+    }else if(usuarioValido){
+
+        window.location.href = "templateNotAdminPage.html"
+
+    }else {
+        // Mostrar la alerta solo si está oculta
+        if (esBoolean) {
+            mostrarAlerta("Usuario o contraseña incorrectos. Por favor, intenta de nuevo.");
+        }
+    }
+   
+  
 });
+
+
+
+
+
+
+
