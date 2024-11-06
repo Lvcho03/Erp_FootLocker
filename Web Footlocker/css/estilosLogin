@@ -1,62 +1,40 @@
-body{
-height: max-content;
-width: auto; 
-margin: 0px;
-background-image: url('../imagenes/logo.png');
-background-size: cover; /* O 'contain' si prefieres */
-background-position: center;
-background-repeat: no-repeat;
-height: 100vh; /* Para que ocupe toda la altura de la ventana */
-
+/* Estilos generales */
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100%;
+    background-image: url('../imagenes/logo.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-.wrapp{
-display: flex;
-flex-direction: column;
-justify-content: space-around;
-height: auto;
-width: 100%;
-
-align-items: center;
-
-}
-.sombra{
-    background: rgba(0, 0, 0, 0.7);
+.wrapp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
 }
 
-
-.presentacion{
-display: flex;
-flex-direction: column;
-justify-content: center;
-justify-content: space-between;
-align-items: center;
-width: 50%;
-height: 550px;
-margin-top: 100px;
+.presentacion {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    height: 550px;
+    margin-top: 100px;
 }
 
 
-
-.presentacion h1 {
+#titulo {
     font-size: 3.5em;
     color: rgba(246, 246, 248, 1);
     margin-top: 100px;
     opacity: 0;
-    transform: translateX(-100px); /* Desplazado a la izquierda */
-    transition: opacity 1s ease, transform 1s ease;
-}
-
-/* Clase que aplica el efecto de aparición */
-.mostrar {
-    opacity: 1;
-    transform: translateX(0); /* Vuelve a la posición original */
-}
-
-#titulo {
-    opacity: 0;
-    transform: translateX(-100px); /* Desplazado a la izquierda */
-    transition: opacity 1s ease, transform 1s ease; /* Transición suave */
+    transform: translateX(-100px);
+    transition: opacity 1s ease, transform 3s ease;
 }
 
 
@@ -69,39 +47,112 @@ margin-top: 100px;
     border-radius: 20px;
     cursor: pointer;
     font-size: 1em;  
-    box-shadow:  0px 4px 50px 10px rgba(226, 222, 222, 0.3);  
+    box-shadow: 0px 4px 50px 10px rgba(226, 222, 222, 0.3);  
 }
 
-.boton-registro:hover{
-background-color: #7e48ca;
+.boton-registro:hover {
+    background-color: #7e48ca;
 }
 
+/* Estilos para el formulario */
 #contenedor-form {
-    display: none; /* Oculto por defecto */
+    display: none !important; /* Oculto por defecto */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    display: flex;
+    background: rgba(0, 0, 0, 0.7);
     align-items: center;
     justify-content: center;
     z-index: 1000;
 }
-#id01 {
-    background-color: white;
+
+#contenedor-form.in {
+    display: flex !important; /* Muestra el formulario cuando tiene la clase 'in' */
+}
+
+#myForm {
+    background-color: rgb(66, 21, 96);
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
     max-width: 500px;
+    width: 465px;
+    height: 280px;
+}
+
+/* Estilo general para la sección del formulario */
+.form-section {
+    background-color: #f4f4f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     width: 100%;
-    opacity: 0;
-    transition: opacity 0.5s ease;
+    max-width: 400px;
+    font-family: Arial, sans-serif;
+    border: 2px solid rgb(166, 0, 255);
 }
-#contenedor-form.in #id01 {
-   opacity: 1;
-  
+
+/* Estilos para las etiquetas */
+.form-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
 }
+
+/* Estilos para los campos de entrada */
+.form-section input[type="text"],
+.form-section input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.form-section input[type="text"]:focus,
+.form-section input[type="password"]:focus {
+    border-color: #7e48ca;
+    outline: none;
+}
+
+/* Estilo del botón de enviar */
+.form-section .aceptar {
+    background-color: #7e48ca;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.form-section .aceptar:hover {
+    background-color: #5c36a6;
+}
+
+/* Estilo para el checkbox y el texto de "Recuérdame" */
+.form-section .recuerdame {
+    margin-right: 8px;
+}
+
+.form-section label[for="recuerdame"] {
+    font-size: 14px;
+    color: #666;
+    display: inline;
+    vertical-align: middle;
+}
+
+/* Estilo para el botón de cierre */
 .cruceta-salir {
     position: absolute;
     top: 20px;
@@ -110,7 +161,54 @@ background-color: #7e48ca;
     color: #555;
     cursor: pointer;
 }
-.footer-form {
-    text-align: center;
-    padding: 10px;
+
+#alerta {
+    opacity: 1;
+    transition: opacity 0.5s ease; /* Transición suave para la opacidad */
+}
+
+#alerta.oculto {
+    opacity: 0; /* Ocultar la alerta mediante la opacidad */
+    pointer-events: none; /* Evitar interacciones mientras la alerta está oculta */
+}
+
+.alerta {
+    display: none;
+    background-color: #f44336;
+    color: white;
+    padding: 15px;
+    margin: 20px 0;
+    border: 1px solid #d32f2f;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: opacity 0.5s ease;
+}
+
+.oculto {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.btn {
+    display: none;
+    background-color: #ffffff;
+    color: #f44336;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn:hover {
+    background-color: #f44336;
+    color: white;
+}
+
+.btn-close {
+    font-weight: bold;
+    outline: none;
 }
