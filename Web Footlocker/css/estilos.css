@@ -1,100 +1,121 @@
 @font-face {
     font-family: Bitter;
-    src:url(../fuentes/Bitter-VariableFont_wght.ttf)
+    src: url(../fuentes/Bitter-VariableFont_wght.ttf);
 }
 
-body{
-    background-position: center;
-
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-
+/* Asegura que html y body ocupen toda la ventana */
+html, body {
     height: 100%;
-    margin: 0px;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Evita desplazamiento horizontal */
 }
 
-header{
+body {
+    background-position: center;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column; /* Alinea header, section y footer en columna */
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh; /* Asegura que body ocupe toda la ventana */
+    margin: 0;
+}
+
+header {
+    display: flex;
     align-items: center;
     justify-content: center;
-
     width: 100%;
-    height: 225px;
-
+    height: 100px;
     background-color: rgb(39, 42, 87);
 }
-header .logo{
+
+header .logo {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    width: 650px;
-    height: 250px;
+    width: 350px;
+    height: 100px;
 }
 
-section{
+section {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-
     width: 100%;
-    height: 1200px;
-
-    background-color: whitesmoke;
+    background-color:rgb(201, 189, 219);
 }
-section .bienvenido{
+
+section .bienvenido {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    width: 200px;
-    height: 50px; 
-    margin-bottom: 50px;
+    width: 300px;
+    height: 75px;
+    margin: 0 auto 50px; /* Centra y da margen inferior */
+    margin-top: 30px;
+    border-radius: 40px;
+    box-shadow: 0px 4px 50px 10px #653f77;
 
     background-color: rgb(136, 98, 196);
     color: whitesmoke;
-    font-size: 50px;
+    font-size: 30px;
     font-family: Bitter;
 }
-section .estado{
+
+section .estado {
     display: flex;
+    flex-direction: column; /* Coloca elementos en columnas */
     align-items: center;
-    justify-content: center;
-
-    width: 400px;
-    height: 400px; 
-    margin-top: 50px;
-
+    justify-content: flex-start; /* Alinea contenido al inicio */
+    width: 500px;
+    height: 550px;
+    margin: 50px auto 0; /* Centra y da margen superior */
+    margin-bottom: 30px;
+    border-radius: 40px;
+    box-shadow: 0px 4px 50px 10px #653f77;
     background-color: rgb(136, 98, 196);
     color: whitesmoke;
-    font-size: 50px;
-}
-section .estado ul{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-section .estado nav{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-section .estado nav li{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 20px;
 }
 
-footer{
+section .estado ul {
     display: flex;
-    flex-wrap: wrap;
-
+    align-items: center;
+    justify-content: center;
+    height: 75px;
     width: 100%;
-    height: 225px;
+    font-size: 30px;
+    font-family: Bitter;
+}
 
+section .estado nav {
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos nav se muestren en columna */
+    align-items: center;
+    justify-content: flex-start;
+    height: 475px;
+    width: 100%;
+}
+
+section .estado nav li {
+    display: flex;
+    align-items: center;
+    justify-content:left;
+    width: 100%; /* Asegura que los elementos nav llenen todo el ancho */
+    margin: 10px 0; /* Espacio entre cada li */
+    margin-left: 100px;
+    text-align: left;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 92px;
     background-color: rgb(39, 42, 87);
+    margin-top: auto; /* Empuja el footer hacia abajo */
+    margin: 0px;
 }
