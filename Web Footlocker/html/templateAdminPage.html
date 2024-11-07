@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>admin</title>
     <link href="../css/estilos.css" rel="stylesheet" type="text/css">
+    <script src="../JS/conexion.js"></script>
 </head>
 
 <body>
@@ -14,10 +15,10 @@
         </div>
     </header>
     <section>
-
+        
         <div class="sombra">
             <div class="bienvenido">
-                Bienvenido, Admin
+                Bienvenido,<span id="nameAdmin"></span>
             </div>
             <div class="estado">
                 <ul> Eres Admin </ul>
@@ -34,11 +35,26 @@
                 </nav>
             </div>
         </div>
-
+        
         <section>
             <footer>
 
             </footer>
+            <script>
+                // Crear una instancia de Conexion
+                const conexion = new Conexion();
+        
+                // Esperar a que se carguen los datos y luego mostrar el nombre
+                document.addEventListener("DOMContentLoaded", async () => {
+                    await conexion.cargarDatos(); // Cargar los datos de JSON
+                    const user = conexion.devolverNameUsuario();
+        
+                    // Mostrar el nombre de usuario en el HTML si existe
+                    if (user) {
+                        document.getElementById("nameAdmin").textContent = user.nombre;
+                    }
+                });
+            </script>
 </body>
 
 </html>
