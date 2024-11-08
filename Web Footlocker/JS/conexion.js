@@ -15,9 +15,12 @@ class Conexion {
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 this.usuarios = data.TablaUsuario; // Cargar todos los usuarios
                 this.administradores = data.TablaAdmin; // Cargar todos los administradores
-                console.log("Datos cargados correctamente:", this.usuarios, this.administradores);
+                
+                console.log(this.administradores);
+                
             })
             .catch(error => {
                 console.error('Error al cargar los datos:', error);
@@ -26,18 +29,27 @@ class Conexion {
 
     validarUsuario(usuario, contrasena) {
         const usuarioEncontrado = this.usuarios.find(u => u.nombre === usuario && u.contrasena === contrasena);
+        console.log(usuario,contrasena);
+        if (usuarioEncontrado) {
+            this.user = usuarioEncontrado; // Asignar usuario encontrado a this.user
+            console.log("Usuario validado:", this.user);
+        }
         return !!usuarioEncontrado;
     }
 
     validarAdmin(admin, contrasena) {
         const adminEncontrado = this.administradores.find(a => a.nombre === admin && a.contrasena === contrasena);
-        this.user = adminEncontrado;
+        if (adminEncontrado) {
+            this.user = adminEncontrado; // Asignar admin encontrado a this.user
+            console.log("Administrador validado:", this.user);
+        }
         return !!adminEncontrado;
     }
 
     devolverNameUsuario() {
-        console.log("CACA");
-        console.log(this.user);
+        if (!this.user) {
+            console.log("Error: this.user es null");
+        }
         return this.user ? this.user.nombre : null;
     }
 }

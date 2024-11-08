@@ -45,9 +45,9 @@ function cerrarAlerta() {
     }, { once: true }); // Asegurarse de que el listener se ejecute solo una vez
 }
 
-// Para validar al enviar el formulario
+// En el submit del formulario, para cargar datos y validar usuario/admin
 document.getElementById("myForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Evitar recargar la página
+    event.preventDefault();
 
     const conexion = new Conexion();
     const usuario = document.getElementById("usuario").value;
@@ -59,13 +59,17 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
         const adminValido = conexion.validarAdmin(usuario, contrasena);
 
         if (adminValido) {
-            window.location.href = "templateAdminPage.html";
-            cerrarFormulario(); // Cerrar el formulario si es necesario
+            window.location.href = "templateAdminPage.html"; // Redirigir a la página de administrador
+            cerrarFormulario(); 
+            
         } else if (usuarioValido) {
-            window.location.href = "templateNotAdminPage.html";
+            window.location.href = "templateNotAdminPage.html"; // Redirigir a la página de usuario
         } else {
             mostrarAlerta("Usuario o contraseña incorrectos. Por favor, intenta de nuevo.");
         }
+
+        localStorage.setItem("nombreUsuario", usuario);
+
     }).catch(error => {
         console.error("Error al cargar los datos:", error);
         mostrarAlerta("Hubo un error al cargar los datos. Por favor, intenta de nuevo.");

@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Panel usuario</title>
+    <title>Usuario</title>
     <link href="../css/estilos.css" rel="stylesheet" type="text/css">
+    <script src="../JS/conexion.js"></script>
 </head>
-
 
 <body>
     <header>
@@ -18,7 +18,7 @@
 
         <div class="sombra">
             <div class="bienvenido">
-                Bienvenido, Usuario
+                <p>Bienvenido,<span id="nameAdmin"></span>,eres usuario</p>
             </div>
             <div class="estado">
                 <ul> Eres usuario </ul>
@@ -40,6 +40,23 @@
             <footer>
 
             </footer>
+            <script>
+                // Crear una instancia de Conexion
+                const conexion = new Conexion();
+
+                // Esperar a que se carguen los datos y luego mostrar el nombre
+                document.addEventListener("DOMContentLoaded", () => {
+                    const nombreUsuario = localStorage.getItem("nombreUsuario");
+                    console.log(nombreUsuario+"nombreusu");
+                    // Mostrar el nombre de usuario en el HTML si existe
+                    if (nombreUsuario) {
+                        
+                        document.getElementById("nameAdmin").textContent = nombreUsuario;
+                        console.log(nombreUsuario);
+                       
+                    }
+                });
+            </script>
 </body>
 
 </html>

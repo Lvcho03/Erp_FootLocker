@@ -2,17 +2,16 @@
     "TablaAdmin": [
       {
         "id": 1,
-        "nombre": "admin",
+        "nombre": "juan",
         "contrasena": "admin"
       }
     ],
     "TablaUsuario": [
       {
         "id": 1,
-        "nombre": "usuario",
+        "nombre": "carlos",
         "contrasena": "usuario"   
-        
-        
+
       }
     ]
   }
