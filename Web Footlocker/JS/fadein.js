@@ -15,17 +15,24 @@ document.addEventListener("DOMContentLoaded", function() {
     titulo.style.transform = "translateX(0)";
 })
 
+document.addEventListener("DOMContentLoaded", function() {
+    const titulo = document.getElementById("txtPresentacion");
+    titulo.style.opacity = "1";
+    titulo.style.transform = "translateX(0)";
+})
+
+
 var esBoolean = true; // Inicializa como true para permitir mostrar la alerta
 
 function mostrarAlerta(mensaje) {
     const alerta = document.getElementById("alerta");
     const mensajeAlerta = document.getElementById("mensajeAlerta");
     const btn = document.getElementById("boton");
-    mensajeAlerta.textContent = mensaje; // Asignar el mensaje al span
+    mensajeAlerta.textContent = mensaje; 
     btn.style.display ="flex"
-    alerta.style.display = "flex"; // Mostrar la alerta como flex
-    alerta.classList.remove("oculto"); // Quitar la clase "oculto" para permitir el fade out
-    esBoolean = false; // Cambia a false porque la alerta está visible
+    alerta.style.display = "flex"; 
+    alerta.classList.remove("oculto"); 
+    esBoolean = false; 
     console.log(esBoolean);
 }
 
@@ -33,16 +40,15 @@ function mostrarAlerta(mensaje) {
 function cerrarAlerta() {
     const alerta = document.getElementById("alerta");
     const btn = document.getElementById("boton");
-    // Aplicar la clase "oculto" para iniciar el fade out
+   
     alerta.classList.add("oculto");
     
-    // Esperar a que la transición de opacidad termine antes de cambiar esBoolean
     alerta.addEventListener('transitionend', () => {
-        alerta.style.display = "none"; // Establecer display a none después de ocultar
+        alerta.style.display = "none"; 
         btn.style.display = "none";
-        esBoolean = true; // Cambia a true porque la alerta está oculta
+        esBoolean = true; 
         console.log(esBoolean);
-    }, { once: true }); // Asegurarse de que el listener se ejecute solo una vez
+    }, { once: true }); 
 }
 
 // En el submit del formulario, para cargar datos y validar usuario/admin
