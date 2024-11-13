@@ -25,24 +25,33 @@ body {
     width: 50%;
     height: 550px;
     margin-top: 100px;
+    color: rgba(246, 246, 248, 1);
+
 }
 
 
 #titulo {
     font-size: 3.5em;
-    color: rgba(246, 246, 248, 1);
-    margin-top: 100px;
+    margin-top: -30px;
     opacity: 0;
     transform: translateX(-100px);
     transition: opacity 1s ease, transform 3s ease;
 }
 
+#txtPresentacion {
+    font-size: 1.5em;
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateX(-100px);
+    transition: opacity 1s ease, transform 3s ease;
+}
 
 .boton-registro {
     background-color: #583b80;
     color: white;
     padding: 10px 30px;
     margin: 20px;
+    margin-top: 50px;
     border: none;
     border-radius: 20px;
     cursor: pointer;
