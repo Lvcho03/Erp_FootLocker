@@ -21,17 +21,17 @@ Instalacion y versiones: Las versiones necesarias son: Node.js >= 18.x.x, JSON >
 
 Como utilizar los programas:
 
-HTML:
+## HTML:
 No necesitas nada especial para escribir HTML. Solo un editor de texto (como Bloc de Notas o Visual Studio Code) donde puedas escribir el código y guardarlo como un archivo .html. Luego, puedes abrir este archivo en cualquier navegador de Internet (como Chrome, Firefox, etc.) para ver el contenido.
 
-CSS:
+## CSS:
 CSS también se escribe en un archivo que puedes crear en un editor de texto. Para que el navegador sepa que debe aplicar esos estilos, debes decirle al archivo HTML que use ese archivo de CSS.
 
-JavaScript:
+## JavaScript:
 Igual que HTML y CSS, se puede escribir JavaScript en un editor de texto. Luego, simplemente debes enlazar este archivo a la página HTML para que funcione en el navegador.
 
-Json:
+## Json:
 JSON también se guarda en un archivo, y puedes crear uno en un editor de texto. Es muy común ver JSON en aplicaciones donde necesitas almacenar información y luego acceder a ella.
 
-XAMPP:
-XAMPP se instala como cualquier otro programa en tu computadora. Luego de instalarlo, puedes abrir su panel de control para iniciar el servidor. Una vez que el servidor esté en funcionamiento, podrás guardar tu proyecto en una carpeta especial de XAMPP y ver cómo se comporta en el navegador, usando la dirección localhost.
+## XAMPP:
+XAMPP se instala como cualquier otro programa en tu computadora. Luego de instalarlo, puedes abrir su panel de control para iniciar el servidor. Una vez que el servidor esté en funcionamiento, podrás guardar tu proyecto en una carpeta especial de XAMPP y ver cómo se comporta en el navegador, usando la dirección localhost. Guardamos la carpeta del proyecto en la carpeta HTDOCS dentro de la carpeta de XAMPP luego abrimos la aplicacion le damos a iniciar apache y ya nos dejara entrar al servidor local con nuestro proyecto
