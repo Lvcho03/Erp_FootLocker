@@ -15,6 +15,11 @@ Facilita la toma de decisiones: Al tener acceso a los datos en tiempo real sobre
 
 Optimiza el rendimiento: Con el ERP, podrás analizar el rendimiento de cada producto y localizar las áreas donde tu tienda necesita mejorar. De esta forma, podrás ajustar tus operaciones para aumentar la eficiencia y reducir costos, asegurando que siempre tengas los productos adecuados en stock.
 
-Lenguages utilizados: utilizaremos HTML, CSS, JavaScript y SQL.
+Lenguages utilizados: utilizaremos HTML, CSS, JavaScript, JSON, XAMMP.
 
-Instalacion y versiones: Las versiones necesarias son: Node.js >= 18.x.x, MySQL Serve: >= 8.0.x, bootstrap: ~5.4.x, Git: >= 2.42.x
+Instalacion y versiones: Las versiones necesarias son: 
+                        Node.js >= 18.x.x
+                        JSON >=
+                        bootstrap: ~5.4.x
+                        XAMMP >=
+                        Git: >= 2.42.x
