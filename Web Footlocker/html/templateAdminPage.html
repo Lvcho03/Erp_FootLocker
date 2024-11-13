@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>admin</title>
         <link href="../css/estilos.css" rel="stylesheet" type="text/css">
+        <script src="../JS/conexion.js"></script>
     </head>
     <body>
         <header>
@@ -15,7 +16,7 @@
 
             <div class="sombra">
                 <div class="bienvenido">
-                    Bienvenido, Admin
+                    <p>Bienvenido,<span id="nameAdmin"></span>,eres administrador</p>
                 </div>
                 <div class="estado">
                     <ul> Eres Admin </ul>
@@ -33,6 +34,23 @@
         <footer>
 
         </footer>
+
+
+        <script>
+            const conexion = new Conexion();
+            document.addEventListener("DOMContentLoaded", () => {
+                const nombreUsuario = localStorage.getItem("nombreUsuario");
+                console.log(nombreUsuario+"nombreusu");
+                if (nombreUsuario) {
+                    
+                    document.getElementById("nameAdmin").textContent = nombreUsuario;
+                    console.log(nombreUsuario);
+                   
+                }
+            });
+        </script>
+
+
     </body>
 
 </html>
