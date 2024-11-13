@@ -51,7 +51,7 @@ section .bienvenido {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 300px;
+    width: 600px;
     height: 75px;
     margin: 0 auto 50px; /* Centra y da margen inferior */
     margin-top: 30px;
