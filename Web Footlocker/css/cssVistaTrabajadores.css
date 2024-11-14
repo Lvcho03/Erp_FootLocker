@@ -1,0 +1,254 @@
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 350px;
+    background-color: rgb(39, 42, 87);
+    margin-top: 0px;
+    box-shadow: 5px 0 40px rgba(0, 0, 0, 0.5);
+}
+
+
+header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 100px;
+}
+
+header .FormAdd{
+display: flex;
+flex-wrap: wrap;
+flex-direction: row;
+align-content: space-around;
+justify-content: space-around;
+width: 500px;
+height: 250px;
+
+}
+
+header .countWorkers{
+
+ margin-left: 120px;  
+color: #665ece;
+position: relative;
+
+position: relative;
+
+font-size: 1em;
+
+color: white; /* Color del texto */
+
+padding: 20px;
+
+text-align: center;
+
+z-index: 1; /* Asegúrate de que el texto esté por encima de la mancha */
+
+}
+header .countWorkers::before{
+content: '';
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 50%;
+
+    width: 50%; /* Ajusta el tamaño de la mancha */
+
+    height: 120%;
+
+    background: rgba(255, 255, 255, 0.6); /* Mancha blanca semi-transparente */
+
+    border-radius: 50%; /* Forma circular */
+
+    transform: translate(-50%, -50%); /* Centrar la mancha */
+
+    filter: blur(150px); /* Desenfoque de la mancha */
+
+    z-index: -1; /* Asegúrate de que la mancha esté detrás del texto */
+
+}
+
+body {
+
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    height: auto;
+    width: auto;
+    margin: 0px;
+}
+
+
+.container {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+}
+
+
+.worker-card {
+
+    background: white;
+
+    border-radius: 8px;
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+   
+    margin: 20px;
+
+    padding: 20px;
+
+    width: 250px;
+
+    text-align: center;
+
+    position: relative; /* Para posicionar la cruz de eliminación */
+
+}
+
+
+.profile-pic {
+
+    border-radius: 50%;
+
+    width: 100px;
+
+    height: 100px;
+
+    object-fit: cover;
+
+    margin-bottom: 15px;
+
+}
+
+
+.worker-info h2 {
+
+    font-size: 1.5em;
+
+    margin: 0 0 10px;
+
+}
+
+
+.worker-info p {
+
+    margin: 5px 0;
+
+}
+
+
+.delete-icon {
+
+    position: absolute;
+
+    top: 10px;
+
+    right: 10px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+    color: red; /* Color de la cruz */
+
+}
+
+
+.edit-button, .confirm-button {
+
+    margin-top: 10px;
+
+    padding: 5px 10px;
+
+    background-color: #007bff; /* Color del botón */
+
+    color: white;
+
+    border: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+}
+
+
+.edit-button:hover, .confirm-button:hover {
+
+    background-color: #0056b3; /* Color del botón al pasar el ratón */
+
+}
+
+
+.edit-input {
+
+    display: block;
+
+    margin: 10px auto;
+
+    width: 90%;
+
+    padding: 5px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 4px;
+
+}
+/* Agregar estilos para el formulario de nuevo trabajador */
+
+h3 {
+
+    margin-top: 20px;
+
+}
+
+
+input[type="text"], input[type="email"], input[type="tel"] {
+
+    width: 200px;
+
+    margin: 5px;
+
+    padding: 8px;
+
+    border: 1px solid #ccc;
+
+    border-radius: 4px;
+
+}
+
+
+#add-worker-button {
+
+    padding: 8px 12px;
+
+    background-color: #28a745; /* Color verde para el botón */
+
+    color: white;
+
+    border: none;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+}
+
+
+#add-worker-button:hover {
+
+    background-color: #218838; /* Color más oscuro al pasar el ratón */
+
+}

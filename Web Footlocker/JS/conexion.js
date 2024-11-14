@@ -15,7 +15,7 @@ class Conexion {
                 return response.json();
             })
             .then(data => {
-                console.log(data);
+              
                 this.usuarios = data.TablaUsuario; // Cargar todos los usuarios
                 this.administradores = data.TablaAdmin; // Cargar todos los administradores
                 
