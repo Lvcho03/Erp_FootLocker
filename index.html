@@ -4,8 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/estiloslogin">
-   
+    <!--<link rel="stylesheet" href="estiloslogin.css"> -->
+
+    <style>body {
+        margin: 0;
+        height: 100vh;
+        width: 100%;
+        background-image: url("imagenes/logo.jpeg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    
+    .wrapp {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;
+    
+        
+    }
+    
+    .presentacion {
+        display: flex;
+        flex-direction: column;
+        justify-content: safe;
+        align-items: center;
+        width: 50%;
+        height: 550px;
+        margin-top: 100px;
+        color: rgba(246, 246, 248, 1);
+    
+    }
+    
+    
+    #titulo {
+        font-size: 3.5em;
+        margin-top: -30px;
+        opacity: 0;
+        transform: translateX(-100px);
+        transition: opacity 1s ease, transform 3s ease;
+    }
+    
+    .presentacionTxt{
+    margin-bottom: 100px;
+    
+    
+    }
+    
+    #txtPresentacion {
+        font-size: 1.5em;
+        margin-bottom: 50px;
+        opacity: 0;
+        transform: translateX(-100px);
+        transition: opacity 1s ease, transform 3s ease;
+    }
+    
+    
+    .boton-registro {
+        display: flex;
+        background-color: #583b80;
+        color: white;
+        padding: 10px 30px;
+        margin: 20px;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 1em;  
+        box-shadow: 0px 4px 50px 10px rgba(226, 222, 222, 0.3);  
+    }
+    
+    .boton-registro:hover {
+        background-color: #7e48ca;
+    }
+    
+    /* Estilos para el formulario */
+    #contenedor-form {
+        display: none !important; /* Oculto por defecto */
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+    
+    #contenedor-form.in {
+        display: flex !important; /* Muestra el formulario cuando tiene la clase 'in' */
+    }
+    
+    #myForm {
+        background-color: rgb(66, 21, 96);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        width: 465px;
+        height: 280px;
+    }
+    
+    /* Estilo general para la sección del formulario */
+    .form-section {
+        background-color: #f4f4f9;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+        font-family: Arial, sans-serif;
+        border: 2px solid rgb(166, 0, 255);
+    }
+    
+    /* Estilos para las etiquetas */
+    .form-section label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    /* Estilos para los campos de entrada */
+    .form-section input[type="text"],
+    .form-section input[type="password"] {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+    }
+    
+    .form-section input[type="text"]:focus,
+    .form-section input[type="password"]:focus {
+        border-color: #7e48ca;
+        outline: none;
+    }
+    
+    /* Estilo del botón de enviar */
+    .form-section .aceptar {
+        background-color: #7e48ca;
+        color: white;
+        padding: 12px;
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    }
+    
+    .form-section .aceptar:hover {
+        background-color: #5c36a6;
+    }
+    
+    /* Estilo para el checkbox y el texto de "Recuérdame" */
+    .form-section .recuerdame {
+        margin-right: 8px;
+    }
+    
+    .form-section label[for="recuerdame"] {
+        font-size: 14px;
+        color: #666;
+        display: inline;
+        vertical-align: middle;
+    }
+    
+    /* Estilo para el botón de cierre */
+    .cruceta-salir {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 24px;
+        color: #555;
+        cursor: pointer;
+    }
+    
+    #alerta {
+        opacity: 1;
+        transition: opacity 0.5s ease; /* Transición suave para la opacidad */
+    }
+    
+    #alerta.oculto {
+        opacity: 0; /* Ocultar la alerta mediante la opacidad */
+        pointer-events: none; /* Evitar interacciones mientras la alerta está oculta */
+    }
+    
+    .alerta {
+        display: none;
+        background-color: #f44336;
+        color: white;
+        padding: 15px;
+        margin: 20px 0;
+        border: 1px solid #d32f2f;
+        border-radius: 5px;
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: opacity 0.5s ease;
+    }
+    
+    .oculto {
+        opacity: 0;
+        pointer-events: none;
+    }
+    
+    .btn {
+        display: none;
+        background-color: #ffffff;
+        color: #f44336;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .btn:hover {
+        background-color: #f44336;
+        color: white;
+    }
+    
+    .btn-close {
+        font-weight: bold;
+        outline: none;
+    }</style>
+
+<script>document.addEventListener("DOMContentLoaded", function() {
+    const titulo = document.getElementById("titulo");
+    titulo.style.opacity = "1";
+    titulo.style.transform = "translateX(0)";
+})
+
+document.addEventListener("DOMContentLoaded", function() {
+    const titulo = document.getElementById("txtPresentacion");
+    titulo.style.opacity = "1";
+    titulo.style.transform = "translateX(0)";
+})</script>
+
+
 </head>
     <body>
         <div class="wrapp">
