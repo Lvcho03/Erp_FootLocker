@@ -60,7 +60,7 @@ function addWorker() {
     div.id = `worker-card-${workerCount}`;
     div.innerHTML = `
       <span class="delete-icon" id="delete-${workerCount}" onclick="deleteWorker(${workerCount})">✖</span>
-      <img src="https://via.placeholder.com/100" alt="Foto de Perfil" class="profile-pic" id="profile-pic-${workerCount}">
+      <img src="worker.png" alt="Foto de Perfil" class="profile-pic" id="profile-pic-${workerCount}">
       <div class="worker-info">
         <h2 id="worker-name-${workerCount}">${name}</h2>
         <p><strong>Email:</strong> <span id="worker-email-${workerCount}">${email}</span></p>
