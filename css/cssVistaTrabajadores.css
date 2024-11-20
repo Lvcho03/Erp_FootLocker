@@ -117,9 +117,17 @@ body {
 }
 
 
+.workers{
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+
 .profile-pic {
 
-    border-radius: 50%;
+
 
     width: 100px;
 

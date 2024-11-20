@@ -1,153 +1,93 @@
-const workerName = document.getElementById('worker-name-1').innerText;
+let workerCount = 0; // Contador global de trabajadores
 
-const workerEmail = document.getElementById('worker-email-1').innerText;
-
-const workerPhone = document.getElementById('worker-phone-1').innerText;
-
-const workerAddress = document.getElementById('worker-address-1').innerText;
-
-
-// Mostrar los datos en la consola
-
-console.log(`Nombre: ${workerName}`);
-
-console.log(`Email: ${workerEmail}`);
-
-console.log(`Teléfono: ${workerPhone}`);
-
-console.log(`Dirección: ${workerAddress}`);
-
-
-// Función para eliminar un trabajador
-
-function deleteWorker(workerId) {
-
-    const workerCard = document.getElementById(`worker-card-${workerId}`);
-
-    if (workerCard) {
-
-        workerCard.remove();
-
-    }
-
+// Función para mostrar trabajadores iniciales desde un archivo JSON
+function shoWorkers() {
+    fetch("BD.json")
+        .then((respuesta) => {
+            if (!respuesta.ok) {
+                throw new Error("Error al cargar el archivo JSON");
+            }
+            return respuesta.json();
+        })
+        .then((datos) => {
+            console.log("Datos cargados:", datos); // Verifica la estructura
+            const usuarios = datos.TablaUsuario; // Accede al array TablaUsuario
+        
+            const contenedor = document.getElementById("worker-cards-container");
+            usuarios.forEach((usuario, index) => {
+                const div = document.createElement("div");
+                div.classList.add("worker-card");
+                div.id = `worker-card-${index}`;
+                div.innerHTML = `
+                  <span class="delete-icon" id="delete-${index}" onclick="deleteWorker(${index})">✖</span>
+                  <img src="worker.png"  class="profile-pic" id="profile-pic-${index}">
+                  <div class="worker-info">
+                    <h2 id="worker-name-${index}">${usuario.nombre} ${usuario.apellidos}</h2>
+                    <p><strong>Email:</strong> <span id="worker-email-${index}">${usuario.email}</span></p>
+                    <p><strong>Teléfono:</strong> <span id="worker-phone-${index}">${usuario.numTel}</span></p>
+                    <p><strong>Dirección:</strong> <span id="worker-address-${index}">${usuario.direccion}</span></p>
+                  </div>
+                `;
+                contenedor.appendChild(div);
+            });
+            workerCount = usuarios.length; // Actualiza el contador
+            updateWorkerCount();
+        })
+        .catch((error) => console.error("Error:", error));
 }
 
 
-
-
-// Función para eliminar un trabajador
-function deleteWorker(workerId) {
-    const workerCard = document.getElementById(`worker-card-${workerId}`);
-  
-    if (workerCard) {
-        workerCard.remove();
-    }
+// Función para actualizar el contador de trabajadores
+function updateWorkerCount() {
+    document.getElementById("worker-count").innerText = `TRABAJADORES ACTUALES: ${workerCount}`;
 }
-
-
-
-
-// Función para habilitar el modo de edición
-
-function editWorker(workerId) {
-
-    // Mostrar los campos de entrada
-
-    document.getElementById(`edit-name-${workerId}`).style.display = 'block';
-
-    document.getElementById(`edit-email-${workerId}`).style.display = 'block';
-
-    document.getElementById(`edit-phone-${workerId}`).style.display = 'block';
-
-    document.getElementById(`edit-address-${workerId}`).style.display = 'block';
-
-    
-
-    // Llenar los campos de entrada con los valores actuales
-
-    document.getElementById(`edit-name-${workerId}`).value = document.getElementById(`worker-name-${workerId}`).innerText;
-
-    document.getElementById(`edit-email-${workerId}`).value = document.getElementById(`worker-email-${workerId}`).innerText;
-
-    document.getElementById(`edit-phone-${workerId}`).value = document.getElementById(`worker-phone-${workerId}`).innerText;
-
-    document.getElementById(`edit-address-${workerId}`).value = document.getElementById(`worker-address-${workerId}`).innerText;
-
-
-    // Ocultar el botón de modificar y mostrar el botón de confirmar
-
-    document.getElementById(`edit-${workerId}`).style.display = 'none';
-
-    document.getElementById(`confirm-${workerId}`).style.display = 'block';
-
-}
-
-
-// Función para confirmar la edición
-
-function confirmEdit(workerId) {
-
-    // Obtener los nuevos valores de los campos de entrada
-
-    const newName = document.getElementById(`edit-name-${workerId}`).value;
-
-    const newEmail = document.getElementById(`edit-email-${workerId}`).value;
-
-    const newPhone = document.getElementById(`edit-phone-${workerId}`).value;
-
-    const newAddress = document.getElementById(`edit-address-${workerId}`).value;
-
-
-    // Actualizar los valores en la tarjeta del trabajador
-
-    document.getElementById(`worker-name-${workerId}`).innerText = newName;
-
-    document.getElementById(`worker-email-${workerId}`).innerText = newEmail;
-
-    document.getElementById(`worker-phone-${workerId}`).innerText = newPhone;
-
-    document.getElementById(`worker-address-${workerId}`).innerText = newAddress;
-
-
-    // Ocultar los campos de entrada
-
-    document.getElementById(`edit-name-${workerId}`).style.display = 'none';
-
-    document.getElementById(`edit-email-${workerId}`).style.display = 'none';
-
-    document.getElementById(`edit-phone-${workerId}`).style.display = 'none';
-
-    document.getElementById(`edit-address-${workerId}`).style.display = 'none';
-
-
-    // Mostrar el botón de modificar y ocultar el botón de confirmar
-
-    document.getElementById(`edit-${workerId}`).style.display = 'block';
-
-    document.getElementById(`confirm-${workerId}`).style.display = 'none';
-
-}
-
 
 // Función para agregar un nuevo trabajador
-
 function addWorker() {
+    const name = document.getElementById("new-worker-name").value;
+    const email = document.getElementById("new-worker-email").value;
+    const phone = document.getElementById("new-worker-phone").value;
+    const address = document.getElementById("new-worker-address").value;
 
-    workerCount++; // Incrementar el contador de trabajadores
+    if (!name || !email || !phone || !address) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
 
+    const contenedor = document.getElementById("worker-cards-container");
+    const div = document.createElement("div");
+    div.classList.add("worker-card");
+    div.id = `worker-card-${workerCount}`;
+    div.innerHTML = `
+      <span class="delete-icon" id="delete-${workerCount}" onclick="deleteWorker(${workerCount})">✖</span>
+      <img src="https://via.placeholder.com/100" alt="Foto de Perfil" class="profile-pic" id="profile-pic-${workerCount}">
+      <div class="worker-info">
+        <h2 id="worker-name-${workerCount}">${name}</h2>
+        <p><strong>Email:</strong> <span id="worker-email-${workerCount}">${email}</span></p>
+        <p><strong>Teléfono:</strong> <span id="worker-phone-${workerCount}">${phone}</span></p>
+        <p><strong>Dirección:</strong> <span id="worker-address-${workerCount}">${address}</span></p>
+      </div>
+    `;
+    contenedor.appendChild(div);
+    workerCount++;
+    updateWorkerCount();
 
-    // Obtener los valores del formulario
-
-    const name = document.getElementById('new-worker-name').value;
-
-    const email = document.getElementById('new-worker-email').value;
-
-    const phone = document.getElementById('-newworker-phone').value;
-
-    const address = document.getElementById('new-worker-address').value;
-
-
-    // Crear una nueva tarjeta de trabajador
-
-    const newWorkerCard = 'worker-card';
+    // Limpia los campos de entrada
+    document.getElementById("new-worker-name").value = "";
+    document.getElementById("new-worker-email").value = "";
+    document.getElementById("new-worker-phone").value = "";
+    document.getElementById("new-worker-address").value = "";
 }
+
+// Función para eliminar un trabajador
+function deleteWorker(workerId) {
+    const workerCard = document.getElementById(`worker-card-${workerId}`);
+    if (workerCard) {
+        workerCard.remove();
+        workerCount--;
+        updateWorkerCount();
+    }
+}
+
+// Inicializa la aplicación cargando los trabajadores del JSON
+document.addEventListener("DOMContentLoaded", shoWorkers);
