@@ -9,7 +9,7 @@
   "TablaUsuario": [
     {
       "id": 1,
-      "nombre": "carlos ",
+      "nombre": "carlos juan",
       "email": "cgargi@gmail.es",
       "numTel": "67879474",
       "direccion": "calle barrio sesamo"
@@ -105,7 +105,6 @@
     {
       "id": 13,
       "nombre": "xd xd",
-      "contrasena": "usuario",
       "email": "x",
       "numTel": "x",
       "direccion": "x"
@@ -126,6 +125,15 @@
       "email": "dfsfasffasf",
       "numTel": "ffasfasff",
       "direccion": "asffafasfas"
+    },
+    {
+      "id": 16,
+      "nombre": "aa",
+      "apellidos": "aa",
+      "contrasena": "usuario",
+      "email": "aa",
+      "numTel": "aa",
+      "direccion": "aa"
     }
   ]
 }

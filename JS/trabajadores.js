@@ -68,7 +68,7 @@ function shoWorkers() {
 
                     <p><strong>Dirección:</strong> <span id="worker-address-${usuario.id}">${usuario.direccion}</span></p>
 
-                    <button id="edit-${usuario.id}" onclick="editWorker(${usuario.id})">Editar</button>
+                    <button class="edicion" id="edit-${usuario.id}" onclick="editWorker(${usuario.id})">Editar</button>
 
                   </div>
 
