@@ -1,12 +1,32 @@
 var workerCount = 0; // Contador global de trabajadores
 
+// Función para eliminar un trabajador
+// Función para eliminar un trabajador usando POST
 function deleteWorker(workerId) {
-    const workerCard = document.getElementById(`worker-card-${workerId}`);
-    if (workerCard) {
-        workerCard.remove();
-        workerCount--;
-        updateWorkerCount();
-    }
+    // Enviar la solicitud POST al servidor para eliminar al trabajador
+    fetch("http://localhost:3000/empleados/delete", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: workerId }) // Enviar el ID del trabajador como JSON
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Error al eliminar el trabajador.");
+        }
+    })
+    .then(result => {
+        alert("Trabajador eliminado correctamente");
+        console.log(result);
+        // Llamar a la función para actualizar la lista de trabajadores en la interfaz
+        showWorkers();
+    })
+    .catch(error => {
+        alert(error.message);
+    });
 }
 
 // Función para mostrar trabajadores iniciales desde un archivo JSON

@@ -8,15 +8,6 @@
   ],
   "TablaUsuario": [
     {
-      "id": 1,
-      "nombre": "carlos",
-      "apellidos": "García Giménez",
-      "contrasena": "usuario",
-      "email": "cgargi@gmail.com",
-      "numTel": "678794396",
-      "direccion": "calle Aragón nº3"
-    },
-    {
       "id": 2,
       "nombre": "pepe",
       "apellidos": "Capo Gonzalez",
@@ -114,24 +105,6 @@
       "email": "noczabe@gmail.com",
       "numTel": "699999999",
       "direccion": "calle NingunLao nº0"
-    },
-    {
-      "id": 13,
-      "nombre": "xd",
-      "apellidos": "xd",
-      "contrasena": "usuario",
-      "email": "x",
-      "numTel": "x",
-      "direccion": "x"
-    },
-    {
-      "id": 14,
-      "nombre": "lucho",
-      "apellidos": "lucho",
-      "contrasena": "usuario",
-      "email": "miranda",
-      "numTel": "1024323",
-      "direccion": "243423"
     }
   ]
 }
