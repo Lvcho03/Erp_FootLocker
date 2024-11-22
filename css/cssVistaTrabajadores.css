@@ -260,3 +260,65 @@ input[type="text"], input[type="email"], input[type="tel"] {
     background-color: #218838; /* Color más oscuro al pasar el ratón */
 
 }
+.modal {
+
+    display: none; /* Oculto por defecto */
+
+    position: fixed; /* Fijo en la pantalla */
+
+    z-index: 1; /* En frente */
+
+    left: 0;
+
+    top: 0;
+
+    width: 100%; /* Ancho completo */
+
+    height: 100%; /* Alto completo */
+
+    overflow: auto; /* Habilitar scroll si es necesario */
+
+    background-color: rgba(0, 0, 0, 0.4); /* Fondo semi-transparente */
+
+}
+
+
+.modal-content {
+
+    background-color: #fefefe;
+
+    margin: 15% auto; /* 15% desde arriba y centrado */
+
+    padding: 20px;
+
+    border: 1px solid #888;
+
+    width: 80%; /* Ancho del modal */
+
+}
+
+
+.close-button {
+
+    color: #aaa;
+
+    float: right;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+}
+
+
+.close-button:hover,
+
+.close-button:focus {
+
+    color: black;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+}
