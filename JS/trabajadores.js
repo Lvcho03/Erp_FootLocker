@@ -3,13 +3,12 @@ var workerCount = 0; // Contador global de trabajadores
 // Función para eliminar un trabajador
 // Función para eliminar un trabajador usando POST
 function deleteWorker(workerId) {
-    // Enviar la solicitud POST al servidor para eliminar al trabajador
     fetch("http://localhost:3000/empleados/delete", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id: workerId }) // Enviar el ID del trabajador como JSON
+        body: JSON.stringify({ id: workerId })
     })
     .then(response => {
         if (response.ok) {
@@ -21,13 +20,13 @@ function deleteWorker(workerId) {
     .then(result => {
         alert("Trabajador eliminado correctamente");
         console.log(result);
-        // Llamar a la función para actualizar la lista de trabajadores en la interfaz
-        showWorkers();
+        showWorkers(); // Actualiza la lista de trabajadores en el frontend
     })
     .catch(error => {
         alert(error.message);
     });
 }
+
 
 // Función para mostrar trabajadores iniciales desde un archivo JSON
 function shoWorkers() {
@@ -82,8 +81,8 @@ function addWorker() {
 
     const nuevoUsuario = {
         nombre: name,
-        apellidos: name, // Aquí usas el nombre para los apellidos, pero podrías querer un campo separado
-        contrasena: "usuario", // Esto parece ser fijo; tal vez debería ser un campo también
+        apellidos: name, // Opcional: Cambia esto si tienes un campo para "apellidos"
+        contrasena: "usuario", // Contraseña fija o basada en un campo
         email: email,
         numTel: phone,
         direccion: address
@@ -95,22 +94,22 @@ function addWorker() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(nuevoUsuario) // Enviar los datos como JSON
+        body: JSON.stringify(nuevoUsuario)
     })
-    .then(function(response) {
+    .then(response => {
         if (response.ok) {
-            return response.json(); // Convertir la respuesta del servidor a JSON
+            return response.json();
         } else {
             throw new Error("Error al agregar el trabajador.");
         }
     })
-    .then(function(result) {
+    .then(result => {
         alert("Trabajador agregado correctamente");
         console.log(result);
-        shoWorkers();  // Asegúrate de que esta función esté definida para mostrar los trabajadores
+        showWorkers(); // Actualiza la lista de trabajadores en el frontend
     })
-    .catch(function(error) {
-        alert(error.message);  // Mostrar el error en caso de que algo falle
+    .catch(error => {
+        alert(error.message);
     });
 
     // Limpiar los campos de entrada

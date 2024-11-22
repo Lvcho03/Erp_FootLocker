@@ -45,66 +45,12 @@
     },
     {
       "id": 6,
-      "nombre": "josito",
-      "apellidos": "Alma Marcela",
+      "nombre": "22",
+      "apellidos": "22",
       "contrasena": "usuario",
-      "email": "nocaihte@gmail.com",
-      "numTel": "687549876",
-      "direccion": "calle Aragón nº8"
-    },
-    {
-      "id": 7,
-      "nombre": "alvaro",
-      "apellidos": "Alvarez Ibañez",
-      "contrasena": "usuario",
-      "email": "caraquia@gmail.com",
-      "numTel": "698542378",
-      "direccion": "calle Aragón nº9"
-    },
-    {
-      "id": 8,
-      "nombre": "laura",
-      "apellidos": "Maeb Amudahbi",
-      "contrasena": "usuario",
-      "email": "nohamieat@gmail.com",
-      "numTel": "691120015",
-      "direccion": "calle Aragón nº21"
-    },
-    {
-      "id": 9,
-      "nombre": "pedro",
-      "apellidos": "Sancho Corrido",
-      "contrasena": "usuario",
-      "email": "corruelg@gmail.com",
-      "numTel": "620000000",
-      "direccion": "calle Aragón nº1"
-    },
-    {
-      "id": 10,
-      "nombre": "monica",
-      "apellidos": "Naranjo Colombi",
-      "contrasena": "usuario",
-      "email": "celuycar@gmail.com",
-      "numTel": "678976532",
-      "direccion": "calle Aragón nº10"
-    },
-    {
-      "id": 11,
-      "nombre": "isagi",
-      "apellidos": "Yoichi Bluelock",
-      "contrasena": "usuario",
-      "email": "egoist999@gmail.com",
-      "numTel": "650000000",
-      "direccion": "calle Aragón nº11"
-    },
-    {
-      "id": 12,
-      "nombre": "nadie",
-      "apellidos": "Cualquiera Quiensea",
-      "contrasena": "usuario",
-      "email": "noczabe@gmail.com",
-      "numTel": "699999999",
-      "direccion": "calle NingunLao nº0"
+      "email": "22",
+      "numTel": "22",
+      "direccion": "22"
     }
   ]
 }
