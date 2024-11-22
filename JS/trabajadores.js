@@ -1,5 +1,4 @@
-let workerCount = 0; // Contador global de trabajadores
-
+var workerCount = 0; // Contador global de trabajadores
 
 function deleteWorker(workerId) {
     const workerCard = document.getElementById(`worker-card-${workerId}`);
@@ -10,36 +9,32 @@ function deleteWorker(workerId) {
     }
 }
 
-
 // Función para mostrar trabajadores iniciales desde un archivo JSON
 function shoWorkers() {
-    fetch("BD.json")
+    fetch("http://localhost:3000/empleados")
         .then((respuesta) => {
             if (!respuesta.ok) {
-                throw new Error("Error al cargar el archivo JSON");
+                throw new Error("Error al cargar los trabajadores");
             }
             return respuesta.json();
         })
-        .then((datos) => {
-            console.log("Datos cargados:", datos); // Verifica la estructura
-            const usuarios = datos.TablaUsuario; // Accede al array TablaUsuario
-        
+        .then((usuarios) => {
+            console.log("Datos cargados:", usuarios); // Verifica la estructura
             const contenedor = document.getElementById("worker-cards-container");
             usuarios.forEach((usuario, index) => {
                 const div = document.createElement("div");
                 div.classList.add("worker-card");
-                div.id = `worker-card-${index}`;
+                div.id = `worker-card-${usuario.id}`;
                 div.innerHTML = `
-                  <span class="delete-icon" id="delete-${index}" onclick="deleteWorker(${index})">✖</span>
-                  <img src="worker.png"  class="profile-pic" id="profile-pic-${index}">
+                  <span class="delete-icon" id="delete-${usuario.id}" onclick="deleteWorker(${usuario.id})">✖</span>
+                  <img src="worker.png" class="profile-pic" id="profile-pic-${usuario.id}">
                   <div class="worker-info">
-                    <h2 id="worker-name-${index}">${usuario.nombre} ${usuario.apellidos}</h2>
-                    <p><strong>Email:</strong> <span id="worker-email-${index}">${usuario.email}</span></p>
-                    <p><strong>Teléfono:</strong> <span id="worker-phone-${index}">${usuario.numTel}</span></p>
-                    <p><strong>Dirección:</strong> <span id="worker-address-${index}">${usuario.direccion}</span></p>
+                    <h2 id="worker-name-${usuario.id}">${usuario.nombre} ${usuario.apellidos}</h2>
+                    <p><strong>Email:</strong> <span id="worker-email-${usuario.id}">${usuario.email}</span></p>
+                    <p><strong>Teléfono:</strong> <span id="worker-phone-${usuario.id}">${usuario.numTel}</span></p>
+                    <p><strong>Dirección:</strong> <span id="worker-address-${usuario.id}">${usuario.direccion}</span></p>
                   </div>
                 `;
-                console.log("usuario cargado")
                 contenedor.appendChild(div);
             });
             workerCount = usuarios.length; // Actualiza el contador
@@ -47,7 +42,6 @@ function shoWorkers() {
         })
         .catch((error) => console.error("Error:", error));
 }
-
 
 // Función para actualizar el contador de trabajadores
 function updateWorkerCount() {
@@ -76,7 +70,7 @@ function addWorker() {
     };
 
     // Enviar la solicitud al servidor
-    fetch("http://localhost:3000/add", {
+    fetch("http://localhost:3000/empleados/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -93,7 +87,6 @@ function addWorker() {
     .then(function(result) {
         alert("Trabajador agregado correctamente");
         console.log(result);
-        // Aquí podrías llamar a la función para actualizar la lista de trabajadores si es necesario
         shoWorkers();  // Asegúrate de que esta función esté definida para mostrar los trabajadores
     })
     .catch(function(error) {
@@ -107,8 +100,5 @@ function addWorker() {
     document.getElementById("new-worker-address").value = "";
 }
 
-
-
-
-// Inicializa la aplicación cargando los trabajadores del JSON
+// Inicializa la aplicación cargando los trabajadores del servidor
 document.addEventListener("DOMContentLoaded", shoWorkers);

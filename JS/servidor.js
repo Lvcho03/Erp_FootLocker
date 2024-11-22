@@ -1,21 +1,30 @@
-const http = require("http");
-const fs = require("fs");
-const url = require("url");
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');  // Importar el módulo fs para trabajar con el sistema de archivos
 
-// Ruta al archivo JSON
-const dataPath = "BD.json"
+// Crear la aplicación express
+const app = express();
 
-// Leer el archivo JSON
+// Usar CORS para permitir solicitudes desde cualquier origen
+app.use(cors());  // Esto permite solicitudes de cualquier origen. Puedes restringirlo si lo deseas
+
+// Ruta al archivo JSON (base de datos)
+const dataPath = './BD.json';
+
+// Middleware para que Express pueda leer JSON en las peticiones POST
+app.use(express.json());
+
+// Función para leer los datos del archivo JSON
 function readData() {
     try {
-        const rawData = fs.readFileSync("BD.json");
+        const rawData = fs.readFileSync(dataPath);
         return JSON.parse(rawData);
     } catch (err) {
         throw new Error("Error al leer el archivo de datos");
     }
 }
 
-// Escribir en el archivo JSON
+// Función para escribir en el archivo JSON
 function writeData(data) {
     try {
         fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
@@ -24,107 +33,38 @@ function writeData(data) {
     }
 }
 
-// Responder con un mensaje de éxito o error
-function sendResponse(res, statusCode, message, data = null) {
-    res.statusCode = statusCode;
-    const response = { message, data };
-    res.end(JSON.stringify(response));
-}
-
-const hostname = "localhost";
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-    const { pathname, query } = url.parse(req.url, true);
-    let data;
-
-    try {
-        data = readData(); // Leer los datos desde el archivo JSON
-    } catch (err) {
-        sendResponse(res, 500, "Error al leer el archivo de datos");
-        return;
-    }
-
-    res.setHeader("Content-Type", "application/json");
-
-    // Ruta para añadir usuario
-    if (pathname === "/add" && req.method === "POST") {
-        let body = "";
-        req.on("data", chunk => {
-            body += chunk;
-        });
-
-        req.on("end", () => {
-            try {
-                const newUser = JSON.parse(body);
-                
-                // Asignar un ID único
-                newUser.id = data.TablaUsuario.length + 1;
-
-                // Validar los campos necesarios
-                if (!newUser.nombre || !newUser.email || !newUser.numTel || !newUser.direccion) {
-                    sendResponse(res, 400, "Faltan campos obligatorios");
-                    return;
-                }
-
-                // Agregar el nuevo usuario
-                data.TablaUsuario.push(newUser);
-                writeData(data); // Guardar los cambios en el archivo
-                sendResponse(res, 200, "Usuario añadido", newUser);
-
-            } catch (err) {
-                sendResponse(res, 400, "Error al procesar los datos enviados");
-            }
-        });
-
-    // Ruta para modificar usuario
-    } else if (pathname === "/modify" && req.method === "PUT") {
-        let body = "";
-        req.on("data", chunk => {
-            body += chunk;
-        });
-
-        req.on("end", () => {
-            try {
-                const updatedUser = JSON.parse(body);
-                const index = data.TablaUsuario.findIndex(user => user.id === updatedUser.id);
-                
-                if (index !== -1) {
-                    data.TablaUsuario[index] = updatedUser;
-                    writeData(data);
-                    sendResponse(res, 200, "Usuario modificado", updatedUser);
-                } else {
-                    sendResponse(res, 404, "Usuario no encontrado");
-                }
-
-            } catch (err) {
-                sendResponse(res, 400, "Error al procesar los datos enviados");
-            }
-        });
-
-    // Ruta para eliminar usuario
-    } else if (pathname === "/delete" && req.method === "DELETE") {
-        const id = parseInt(query.id, 10);
-        const index = data.TablaUsuario.findIndex(user => user.id === id);
-        
-        if (index !== -1) {
-            const deletedUser = data.TablaUsuario.splice(index, 1);
-            writeData(data);
-            sendResponse(res, 200, "Usuario eliminado", deletedUser[0]);
-        } else {
-            sendResponse(res, 404, "Usuario no encontrado");
-        }
-
-    // Ruta para obtener usuarios
-    } else if (pathname === "/users" && req.method === "GET") {
-        sendResponse(res, 200, "Usuarios obtenidos", data.TablaUsuario);
-
-    // Si la ruta no es válida
-    } else {
-        sendResponse(res, 404, "Ruta no encontrada");
-    }
+// Ruta GET para obtener los usuarios
+app.get('/empleados', (req, res) => {
+    const data = readData();  // Leemos los datos
+    res.json(data.TablaUsuario);  // Respondemos solo con la tabla de usuarios
 });
 
-server.listen(port, hostname, () => {
-    console.log(`Servidor corriendo en http://${hostname}:${port}/`);
+// Ruta POST para agregar un nuevo usuario
+app.post('/empleados/add', (req, res) => {
+    const newUser = req.body;  // Obtenemos los datos del cuerpo de la solicitud
+
+    if (!newUser.nombre || !newUser.apellidos || !newUser.email || !newUser.numTel || !newUser.direccion) {
+        return res.status(400).json({ message: "Faltan datos del usuario." });
+    }
+
+    const data = readData();  // Leemos los datos actuales
+    const newId = data.TablaUsuario.length + 1;  // Generamos un nuevo ID
+
+    // Creamos el nuevo usuario
+    const userToAdd = { id: newId, ...newUser };
+
+    // Agregamos el nuevo usuario a los datos
+    data.TablaUsuario.push(userToAdd);
+
+    // Escribimos los datos actualizados en el archivo JSON
+    writeData(data);
+
+    // Respondemos con el usuario agregado
+    res.status(201).json({ message: "Usuario agregado", data: userToAdd });
+});
+
+// Iniciamos el servidor para que escuche en el puerto 3000
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
