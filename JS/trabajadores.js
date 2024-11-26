@@ -1,22 +1,30 @@
 var workerCount = 0; // Contador global de trabajadores
 
-let currentEditingId; // Variable global para almacenar el ID del trabajador que se está editando
-
-
+// Función para eliminar un trabajador
+// Función para eliminar un trabajador usando POST
 function deleteWorker(workerId) {
-
-    const workerCard = document.getElementById(`worker-card-${workerId}`);
-
-    if (workerCard) {
-
-        workerCard.remove();
-
-        workerCount--;
-
-        updateWorkerCount();
-
-    }
-
+    fetch("http://localhost:3000/empleados/delete", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: workerId })
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else {
+            throw new Error("Error al eliminar el trabajador.");
+        }
+    })
+    .then(result => {
+        alert("Trabajador eliminado correctamente");
+        console.log(result);
+        showWorkers(); // Actualiza la lista de trabajadores en el frontend
+    })
+    .catch(error => {
+        alert(error.message);
+    });
 }
 
 
@@ -126,10 +134,8 @@ function addWorker() {
     const nuevoUsuario = {
 
         nombre: name,
-        apellidos: name,
-
-        contrasena: "usuario", // Esto parece ser fijo; tal vez debería ser un campo también
-
+        apellidos: name, // Opcional: Cambia esto si tienes un campo para "apellidos"
+        contrasena: "usuario", // Contraseña fija o basada en un campo
         email: email,
 
         numTel: phone,
@@ -150,17 +156,11 @@ function addWorker() {
             "Content-Type": "application/json"
 
         },
-
-        body: JSON.stringify(nuevoUsuario) // Enviar los datos como JSON
-
+        body: JSON.stringify(nuevoUsuario)
     })
-
-    .then(function(response) {
-
+    .then(response => {
         if (response.ok) {
-
-            return response.json(); // Convertir la respuesta del servidor a JSON
-
+            return response.json();
         } else {
 
             throw new Error("Error al agregar el trabajador.");
@@ -168,19 +168,13 @@ function addWorker() {
         }
 
     })
-
-    .then(function(result) {
-
+    .then(result => {
         alert("Trabajador agregado correctamente");
-
-        shoWorkers();  // Actualiza la lista de trabajadores
-
+        console.log(result);
+        showWorkers(); // Actualiza la lista de trabajadores en el frontend
     })
-
-    .catch(function(error) {
-
-        alert(error.message);  // Mostrar el error en caso de que algo falle
-
+    .catch(error => {
+        alert(error.message);
     });
 
 
