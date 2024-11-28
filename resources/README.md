@@ -29,7 +29,7 @@ se descarga un programa llamado "VSCodeUserSetup" una vez lo habrá le deberá a
 tocar nada y darle a "Siguiente" y finalmente deberá darle a instalar y ya lo tendra listo para su disposición.
 
 ## HTML:
-El HTML 
+El HTML es el lenguaje estándar utilizado para crear la estructura y el contenido básico de una página web. No es un lenguaje de programación, sino un lenguaje de marcado que se utiliza para estructurar y organizar elementos en la web.
 
 ## CSS:
 CSS también se escribe en un archivo que puedes crear en un editor de texto. Para que el navegador sepa que debe aplicar esos estilos, debes decirle al archivo HTML que use ese archivo de CSS.
@@ -48,7 +48,6 @@ irm get.scoop.sh | iex
 "
 Una vez terminada la instalacion deberemos de copiar y pegar este comando
 "
-/*hola*/
 winget install Schniz.fnm
 
 fnm env --use-on-cd | Out-String | Invoke-Expression
