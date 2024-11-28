@@ -1,21 +1,27 @@
-const http = require("http");
-const fs = require("fs");
-const url = require("url");
+const express = require('express');
+const cors = require('cors');
+const fs = require('fs');
 
-// Ruta al archivo JSON
-const dataPath = "BD.json"
+// Crear la aplicación express
+const app = express();
+const dataPath = './Json/BD.json'; // Archivo de datos de trabajadores 
+const idPath = './Json/id.json'; // Archivo para guardar el último ID usado
 
-// Leer el archivo JSON
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Función para leer los datos del archivo BD.json
 function readData() {
     try {
-        const rawData = fs.readFileSync("BD.json");
+        const rawData = fs.readFileSync(dataPath);
         return JSON.parse(rawData);
     } catch (err) {
         throw new Error("Error al leer el archivo de datos");
     }
 }
 
-// Escribir en el archivo JSON
+// Función para escribir datos en BD.json
 function writeData(data) {
     try {
         fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
@@ -24,107 +30,123 @@ function writeData(data) {
     }
 }
 
-// Responder con un mensaje de éxito o error
-function sendResponse(res, statusCode, message, data = null) {
-    res.statusCode = statusCode;
-    const response = { message, data };
-    res.end(JSON.stringify(response));
+// Función para leer el último ID desde id.json
+function readId() {
+    try {
+        const rawId = fs.readFileSync(idPath);
+        return JSON.parse(rawId);
+    } catch (err) {
+        return { idProhibido: 0 }; // Si no existe, inicializa con 0
+    }
 }
 
-const hostname = "localhost";
-const port = 3000;
-
-const server = http.createServer((req, res) => {
-    const { pathname, query } = url.parse(req.url, true);
-    let data;
-
+// Función para escribir el último ID en id.json
+function writeId(newId) {
     try {
-        data = readData(); // Leer los datos desde el archivo JSON
+        fs.writeFileSync(idPath, JSON.stringify({ idProhibido: newId }, null, 2));
     } catch (err) {
-        sendResponse(res, 500, "Error al leer el archivo de datos");
-        return;
+        throw new Error("Error al escribir el archivo de ID");
     }
+}
 
-    res.setHeader("Content-Type", "application/json");
-
-    // Ruta para añadir usuario
-    if (pathname === "/add" && req.method === "POST") {
-        let body = "";
-        req.on("data", chunk => {
-            body += chunk;
-        });
-
-        req.on("end", () => {
-            try {
-                const newUser = JSON.parse(body);
-                
-                // Asignar un ID único
-                newUser.id = data.TablaUsuario.length + 1;
-
-                // Validar los campos necesarios
-                if (!newUser.nombre || !newUser.email || !newUser.numTel || !newUser.direccion) {
-                    sendResponse(res, 400, "Faltan campos obligatorios");
-                    return;
-                }
-
-                // Agregar el nuevo usuario
-                data.TablaUsuario.push(newUser);
-                writeData(data); // Guardar los cambios en el archivo
-                sendResponse(res, 200, "Usuario añadido", newUser);
-
-            } catch (err) {
-                sendResponse(res, 400, "Error al procesar los datos enviados");
-            }
-        });
-
-    // Ruta para modificar usuario
-    } else if (pathname === "/modify" && req.method === "PUT") {
-        let body = "";
-        req.on("data", chunk => {
-            body += chunk;
-        });
-
-        req.on("end", () => {
-            try {
-                const updatedUser = JSON.parse(body);
-                const index = data.TablaUsuario.findIndex(user => user.id === updatedUser.id);
-                
-                if (index !== -1) {
-                    data.TablaUsuario[index] = updatedUser;
-                    writeData(data);
-                    sendResponse(res, 200, "Usuario modificado", updatedUser);
-                } else {
-                    sendResponse(res, 404, "Usuario no encontrado");
-                }
-
-            } catch (err) {
-                sendResponse(res, 400, "Error al procesar los datos enviados");
-            }
-        });
-
-    // Ruta para eliminar usuario
-    } else if (pathname === "/delete" && req.method === "DELETE") {
-        const id = parseInt(query.id, 10);
-        const index = data.TablaUsuario.findIndex(user => user.id === id);
-        
-        if (index !== -1) {
-            const deletedUser = data.TablaUsuario.splice(index, 1);
-            writeData(data);
-            sendResponse(res, 200, "Usuario eliminado", deletedUser[0]);
-        } else {
-            sendResponse(res, 404, "Usuario no encontrado");
-        }
-
-    // Ruta para obtener usuarios
-    } else if (pathname === "/users" && req.method === "GET") {
-        sendResponse(res, 200, "Usuarios obtenidos", data.TablaUsuario);
-
-    // Si la ruta no es válida
-    } else {
-        sendResponse(res, 404, "Ruta no encontrada");
-    }
+// Ruta GET para obtener los trabajadores
+app.get('/empleados', (req, res) => {
+    const data = readData();
+    res.json(data.TablaUsuario);
 });
 
-server.listen(port, hostname, () => {
-    console.log(`Servidor corriendo en http://${hostname}:${port}/`);
+// Ruta POST para agregar un nuevo trabajador
+app.post('/empleados/add', (req, res) => {
+    const newUser = req.body;
+
+    if (!newUser.nombre || !newUser.apellidos || !newUser.email || !newUser.numTel || !newUser.direccion) {
+        return res.status(400).json({ message: "Faltan datos del trabajador." });
+    }
+
+    // Leer el último id prohibido y los datos actuales
+    const idData = readId();
+    const data = readData();
+
+    const lastIdInDb = data.TablaUsuario.length > 0 
+        ? Math.max(...data.TablaUsuario.map(worker => worker.id)) 
+        : 0;
+
+    // Determinar el nuevo ID basado en la comparación
+    const newId = Math.max(idData.idProhibido, lastIdInDb) + 1;
+
+    // Crear el nuevo trabajador con el nuevo ID
+    const workerToAdd = { id: newId, ...newUser };
+
+    // Agregar el trabajador a la lista
+    data.TablaUsuario.push(workerToAdd);
+
+    // Actualizar los archivos
+    writeData(data);
+    writeId(newId);
+
+    // Responder con el trabajador agregado
+    res.status(201).json({ message: "Trabajador agregado", data: workerToAdd });
+});
+
+// Ruta POST para eliminar un trabajador por ID
+app.post('/empleados/delete', (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: "ID del trabajador es requerido." });
+    }
+
+    const data = readData();
+
+    // Buscar y eliminar el trabajador con el ID especificado
+    const updatedWorkers = data.TablaUsuario.filter(worker => worker.id !== id);
+
+    if (updatedWorkers.length === data.TablaUsuario.length) {
+        return res.status(404).json({ message: "Trabajador no encontrado." });
+    }
+
+    // Guardar la lista actualizada
+    data.TablaUsuario = updatedWorkers;
+    writeData(data);
+
+    // Si el ID eliminado era el mayor, actualizar idProhibido
+    const newLastId = updatedWorkers.length > 0 
+        ? Math.max(...updatedWorkers.map(worker => worker.id)) 
+        : 0;
+
+    writeId(newLastId);
+
+    res.json({ message: "Trabajador eliminado", id });
+});
+
+// Iniciar el servidor
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
+});
+
+// Ruta PUT para actualizar un usuario existente
+app.post('/empleados/update/:id', (req, res) => {
+    const id = parseInt(req.params.id); // Obtener el ID del usuario desde la URL
+    const updatedUser  = req.body; // Obtener los datos actualizados del cuerpo de la solicitud
+
+    if (!updatedUser .nombre || !updatedUser .email || !updatedUser .numTel || !updatedUser .direccion) {
+        return res.status(400).json({ message: "Faltan datos del usuario." });
+    }
+
+    const data = readData(); // Leemos los datos actuales
+    const userIndex = data.TablaUsuario.findIndex(user => user.id === id); // Buscar el índice del usuario a actualizar
+
+    if (userIndex === -1) {
+        return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+
+    // Actualizamos el usuario en el array
+    data.TablaUsuario[userIndex] = { id, ...updatedUser  }; // Mantener el ID existente
+
+    // Escribimos los datos actualizados en el archivo JSON
+    writeData(data);
+
+    // Respondemos con el usuario actualizado
+    res.status(200).json({ message: "Usuario actualizado", data: data.TablaUsuario[userIndex] });
 });

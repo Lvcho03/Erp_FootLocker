@@ -17,12 +17,19 @@ Optimiza el rendimiento: Con el ERP, podrás analizar el rendimiento de cada pro
 
 Lenguages utilizados: utilizaremos HTML, CSS, JavaScript, JSON, XAMMP.
 
-Instalacion y versiones: Las versiones necesarias son: Node.js >= 18.x.x, JSON >= x.x.x, bootstrap: ~5.4.x, XAMMP >= 8.2.12, Git: >= 2.42.x
+Instalacion y versiones: Las versiones necesarias son:VisualStudioCode >=  Node.js >= 18.x.x, JSON >= x.x.x, bootstrap: ~5.4.x, XAMMP >= 8.2.12, Git: >= 2.42.x
 
 Como utilizar los programas:
 
+## VisualStudioCode:
+Para poder utilizar el HTML no es necesario ninguna aplicación para poder hacer el programa; Pero es mejor utilizar programas como Visual Studio.
+Para poder descargarlo es necesario entrar al este link"https://code.visualstudio.com//" este link te llevara directo a la página para poder 
+instalarlo, hay varias opciones pero la más recomendable es la gratuita, diríjase al botón que ponga "Download for Windows" una vez le haga click 
+se descarga un programa llamado "VSCodeUserSetup" una vez lo habrá le deberá aceptar los términos y servicios, en el siguiente apartado no deberá 
+tocar nada y darle a "Siguiente" y finalmente deberá darle a instalar y ya lo tendra listo para su disposición.
+
 ## HTML:
-No necesitas nada especial para escribir HTML. Solo un editor de texto (como Bloc de Notas o Visual Studio Code) donde puedas escribir el código y guardarlo como un archivo .html. Luego, puedes abrir este archivo en cualquier navegador de Internet (como Chrome, Firefox, etc.) para ver el contenido.
+El HTML 
 
 ## CSS:
 CSS también se escribe en un archivo que puedes crear en un editor de texto. Para que el navegador sepa que debe aplicar esos estilos, debes decirle al archivo HTML que use ese archivo de CSS.
@@ -33,5 +40,9 @@ Igual que HTML y CSS, se puede escribir JavaScript en un editor de texto. Luego,
 ## Json:
 JSON también se guarda en un archivo, y puedes crear uno en un editor de texto. Es muy común ver JSON en aplicaciones donde necesitas almacenar información y luego acceder a ella.
 
-## XAMPP:
-XAMPP se instala como cualquier otro programa en tu computadora. Luego de instalarlo, puedes abrir su panel de control para iniciar el servidor. Una vez que el servidor esté en funcionamiento, podrás guardar tu proyecto en una carpeta especial de XAMPP y ver cómo se comporta en el navegador, usando la dirección localhost. Guardamos la carpeta del proyecto en la carpeta HTDOCS dentro de la carpeta de XAMPP luego abrimos la aplicacion le damos a iniciar apache y ya nos dejara entrar al servidor local con nuestro proyecto
+
+
+node JS/servidor.js
+
+const express = require('express');
+const cors = require('cors');
