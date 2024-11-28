@@ -22,9 +22,7 @@ function deleteWorker(workerId) {
         console.log(result);
         showWorkers(); // Actualiza la lista de trabajadores en el frontend
     })
-    .catch(error => {
-        alert(error.message);
-    });
+  
 }
 
 
@@ -64,7 +62,7 @@ function shoWorkers() {
 
                   <span class="delete-icon" id="delete-${usuario.id}" onclick="deleteWorker(${usuario.id})">✖</span>
 
-                  <img src="worker.png" class="profile-pic" id="profile-pic-${usuario.id}">
+                  <img src="../imagenes/worker.png" class="profile-pic" id="profile-pic-${usuario.id}">
 
                   <div class="worker-info">
 
@@ -173,9 +171,7 @@ function addWorker() {
         console.log(result);
         showWorkers(); // Actualiza la lista de trabajadores en el frontend
     })
-    .catch(error => {
-        alert(error.message);
-    });
+ 
 
 
     // Limpiar los campos de entrada

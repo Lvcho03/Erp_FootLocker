@@ -4,8 +4,8 @@ const fs = require('fs');
 
 // Crear la aplicación express
 const app = express();
-const dataPath = './BD.json'; // Archivo de datos de trabajadores
-const idPath = './id.json'; // Archivo para guardar el último ID usado
+const dataPath = './Json/BD.json'; // Archivo de datos de trabajadores 
+const idPath = './Json/id.json'; // Archivo para guardar el último ID usado
 
 // Middleware
 app.use(cors());

@@ -16,8 +16,12 @@ header .logo {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     width: 300px;
     height: 100px;
+
+    margin: 0px;
+    margin-left: 25px;
 }
 
 header .FormAdd{
@@ -384,3 +388,4 @@ input[type="text"], input[type="email"], input[type="tel"] {
 .guardar:hover{
     background: linear-gradient(to right, #c9c9d5, #272a57); /* Cambia el orden del degradado al pasar el mouse */
 }
+

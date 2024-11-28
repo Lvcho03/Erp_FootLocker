@@ -65,11 +65,11 @@ document.getElementById("myForm").addEventListener("submit", function(event) {
         const adminValido = conexion.validarAdmin(usuario, contrasena);
 
         if (adminValido) {
-            window.location.href = "templateAdminPage.html"; // Redirigir a la página de administrador
+            window.location.href = "../html/templateAdminPage.html"; // Redirigir a la página de administrador
             cerrarFormulario(); 
             
         } else if (usuarioValido) {
-            window.location.href = "templateNotAdminPage.html"; // Redirigir a la página de usuario
+            window.location.href = "../html/templateNotAdminPage.html"; // Redirigir a la página de usuario
         } else {
             mostrarAlerta("Usuario o contraseña incorrectos. Por favor, intenta de nuevo.");
         }

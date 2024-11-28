@@ -116,7 +116,7 @@ section .estado nav li {
     text-align: left;
 }
 
-footer {
+footer  {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -128,7 +128,9 @@ footer {
     box-shadow: 0 -10px 15px rgba(255, 0, 149, 0.6);
 }
 
-
+footer .cajafooter{
+    height: 20px;
+}
 
 /* Estilo del nav */
 .menu-header {

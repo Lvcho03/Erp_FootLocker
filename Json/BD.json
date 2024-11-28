@@ -23,14 +23,6 @@
       "direccion": "calle Aragón nº5"
     },
     {
-      "id": 4,
-      "nombre": "toni Martorell Lopez",
-      "contrasena": "usuario",
-      "email": "tomarlo@gmail.com",
-      "numTel": "683689773",
-      "direccion": "calle Aragón nº6"
-    },
-    {
       "id": 5,
       "nombre": "alejandro Benito Camelo",
       "contrasena": "usuario",
@@ -39,13 +31,20 @@
       "direccion": "calle Aragón nº7"
     },
     {
-      "id": 6,
-      "nombre": "22",
-      "apellidos": "22",
+      "id": 7,
+      "nombre": "asAS",
+      "email": "asAS",
+      "numTel": "asAS",
+      "direccion": "asa"
+    },
+    {
+      "id": 8,
+      "nombre": "luciano",
+      "apellidos": "luciano",
       "contrasena": "usuario",
-      "email": "22",
-      "numTel": "22",
-      "direccion": "22"
+      "email": "sd",
+      "numTel": "d",
+      "direccion": "sd"
     }
   ]
 }
