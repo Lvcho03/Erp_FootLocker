@@ -17,7 +17,7 @@ Optimiza el rendimiento: Con el ERP, podrás analizar el rendimiento de cada pro
 
 Lenguages utilizados: utilizaremos HTML, CSS, JavaScript, JSON, XAMMP.
 
-Instalacion y versiones: Las versiones necesarias son:VisualStudioCode >=  Node.js >= 18.x.x, JSON >= x.x.x, bootstrap: ~5.4.x, XAMMP >= 8.2.12, Git: >= 2.42.x
+Instalacion y versiones: Las versiones necesarias son:VisualStudioCode >=  Node.js >= v22.11.0, JSON >= x.x.x, bootstrap: ~5.4.x, XAMMP >= 8.2.12, Git: >= 2.42.x
 
 Como utilizar los programas:
 
@@ -48,19 +48,15 @@ irm get.scoop.sh | iex
 "
 Una vez terminada la instalacion deberemos de copiar y pegar este comando
 "
-# installs fnm (Fast Node Manager)
+/*hola*/
 winget install Schniz.fnm
 
-# configure fnm environment
 fnm env --use-on-cd | Out-String | Invoke-Expression
 
-# download and install Node.js
 fnm use --install-if-missing 22
 
-# verifies the right Node.js version is in the environment
 node -v # should print `v22.11.0`
 
-# verifies the right npm version is in the environment
 npm -v # should print `10.9.0`
 "
 una vez terminada con la instalacion del programa solo faltaria porner este comando " node JS/servidor.js " para iniciar el servidor responsable con el registro y actualizacion del Json(base de datos).
