@@ -4,8 +4,8 @@ const fs = require('fs');
 
 // Crear la aplicación express
 const app = express();
-const dataPath = './BD.json'; // Archivo de datos de trabajadores
-const idPath = './id.json'; // Archivo para guardar el último ID usado
+const dataPath = './Json/BD.json'; // Archivo de datos de trabajadores 
+const idPath = './Json/id.json'; // Archivo para guardar el último ID usado
 
 // Middleware
 app.use(cors());
@@ -123,4 +123,30 @@ app.post('/empleados/delete', (req, res) => {
 const port = 3000;
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
+});
+
+// Ruta PUT para actualizar un usuario existente
+app.post('/empleados/update/:id', (req, res) => {
+    const id = parseInt(req.params.id); // Obtener el ID del usuario desde la URL
+    const updatedUser  = req.body; // Obtener los datos actualizados del cuerpo de la solicitud
+
+    if (!updatedUser .nombre || !updatedUser .email || !updatedUser .numTel || !updatedUser .direccion) {
+        return res.status(400).json({ message: "Faltan datos del usuario." });
+    }
+
+    const data = readData(); // Leemos los datos actuales
+    const userIndex = data.TablaUsuario.findIndex(user => user.id === id); // Buscar el índice del usuario a actualizar
+
+    if (userIndex === -1) {
+        return res.status(404).json({ message: "Usuario no encontrado." });
+    }
+
+    // Actualizamos el usuario en el array
+    data.TablaUsuario[userIndex] = { id, ...updatedUser  }; // Mantener el ID existente
+
+    // Escribimos los datos actualizados en el archivo JSON
+    writeData(data);
+
+    // Respondemos con el usuario actualizado
+    res.status(200).json({ message: "Usuario actualizado", data: data.TablaUsuario[userIndex] });
 });

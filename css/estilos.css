@@ -29,6 +29,7 @@ header {
     background-color: rgb(39, 42, 87);
     width: 100%;
     height: 300px;
+    box-shadow: -10px 0px 15px rgba(255, 0, 149, 0.6);
 }
 
 header .logo {
@@ -41,11 +42,16 @@ header .logo {
 
 section {
     display: flex;
+
     flex-direction: column;
+    
     align-items: center;
+    
     justify-content: center;
+    
     width: 100%;
-    background-color:rgb(201, 189, 219);
+    
+    background: linear-gradient(to bottom, rgb(167, 132, 219), rgb(100, 50, 200)); /* Cambia el segundo color según lo desees */
 }
 
 section .bienvenido {
@@ -110,7 +116,7 @@ section .estado nav li {
     text-align: left;
 }
 
-footer {
+footer  {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -119,9 +125,12 @@ footer {
     background-color: rgb(39, 42, 87);
     margin-top: auto; /* Empuja el footer hacia abajo */
     margin: 0px;
+    box-shadow: 0 -10px 15px rgba(255, 0, 149, 0.6);
 }
 
-
+footer .cajafooter{
+    height: 20px;
+}
 
 /* Estilo del nav */
 .menu-header {
@@ -201,11 +210,12 @@ footer {
 .abrir {
     background-color: #9b59b6;
     color: white;
-    border: none;
+    border-radius: 100%;
     padding: 10px 15px;
     font-size: 18px;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-left: 10px;
 }
 
 .abrir:hover {

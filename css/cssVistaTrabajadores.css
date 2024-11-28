@@ -16,8 +16,12 @@ header .logo {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     width: 300px;
     height: 100px;
+
+    margin: 0px;
+    margin-left: 25px;
 }
 
 header .FormAdd{
@@ -78,7 +82,7 @@ content: '';
 body {
 
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #a7a8c4;
     height: auto;
     width: auto;
     margin: 0px;
@@ -98,7 +102,8 @@ body {
 
 .worker-card {
 
-    background: white;
+    background: #535579;
+    
 
     border-radius: 8px;
 
@@ -260,3 +265,127 @@ input[type="text"], input[type="email"], input[type="tel"] {
     background-color: #218838; /* Color más oscuro al pasar el ratón */
 
 }
+.modal {
+
+    display: none; /* Oculto por defecto */
+
+    position: fixed; /* Fijo en la pantalla */
+
+    z-index: 1; /* En frente */
+
+    left: 0;
+
+    top: 0;
+
+    width: 100%; /* Ancho completo */
+
+    height: 100%; /* Alto completo */
+
+    overflow: auto; /* Habilitar scroll si es necesario */
+
+    background-color: rgba(0, 0, 0, 0.2); /* Fondo semi-transparente */
+
+}
+
+
+.modal-content {
+
+    border: 2px solid #272a57; /* Color y grosor del borde */
+
+    border-radius: 10px; /* Suaviza las esquinas */
+
+    background-color: #2f0a9477;
+
+    margin: 15% auto; /* 15% desde arriba y centrado */
+
+    padding: 20px;
+
+    border: 1px solid #888;
+
+    width: 80%; /* Ancho del modal */
+    text-align: center; /* Centra el texto */
+    box-shadow: 0 8px 25px 10px rgba(39, 42, 87, 0.5); 
+}
+.modal-content, input{
+    background: linear-gradient(to bottom, #272a57, #c9c9d5);
+}
+.modal-content, h2{
+    color:#cacbe7;
+}
+
+
+.close-button {
+
+    color: #aaa;
+
+    float: right;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+}
+
+
+.close-button:hover,
+
+.close-button:focus {
+
+    color: black;
+
+    text-decoration: none;
+
+    cursor: pointer;
+
+}
+
+
+.edicion {
+
+    background: linear-gradient(to right, #272a57, #c9c9d5); /* Degradado lineal de izquierda a derecha */
+
+    color: white; /* Color del texto */
+
+    border: none; /* Sin borde */
+
+    border-radius: 5px; /* Bordes redondeados */
+
+    padding: 10px 20px; /* Espaciado interno (padding) */
+
+    font-size: 16px; /* Tamaño de la fuente */
+
+    cursor: pointer; /* Cambia el cursor a mano al pasar sobre el botón */
+
+    transition:  0.3s ease; /* Transición suave para el cambio de fondo */
+
+}
+
+
+/* Efecto al pasar el mouse sobre el botón */
+
+.edicion:hover {
+
+    background: linear-gradient(to right, #c9c9d5, #272a57); /* Cambia el orden del degradado al pasar el mouse */
+
+}
+.guardar{
+    background: linear-gradient(to right, #272a57, #c9c9d5); /* Degradado lineal de izquierda a derecha */
+
+    color: white; /* Color del texto */
+
+    border: none; /* Sin borde */
+
+    border-radius: 5px; /* Bordes redondeados */
+
+    padding: 10px 20px; /* Espaciado interno (padding) */
+
+    font-size: 16px; /* Tamaño de la fuente */
+
+    cursor: pointer; /* Cambia el cursor a mano al pasar sobre el botón */
+
+    transition:  0.3s ease; /* Transición suave para el cambio de fondo */
+}
+.guardar:hover{
+    background: linear-gradient(to right, #c9c9d5, #272a57); /* Cambia el orden del degradado al pasar el mouse */
+}
+

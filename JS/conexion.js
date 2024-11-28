@@ -7,7 +7,7 @@ class Conexion {
 
     // Cargar datos desde el archivo JSON y retornar la promesa de `fetch`
     cargarDatos() {
-        return fetch('BD.json')
+        return fetch('../Json/BD.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('No se cargó el archivo');
