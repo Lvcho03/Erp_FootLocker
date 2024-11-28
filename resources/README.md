@@ -40,9 +40,27 @@ Igual que HTML y CSS, se puede escribir JavaScript en un editor de texto. Luego,
 ## Json:
 JSON también se guarda en un archivo, y puedes crear uno en un editor de texto. Es muy común ver JSON en aplicaciones donde necesitas almacenar información y luego acceder a ella.
 
+## Node.js:
+Para Instalar este programa necesitaremos acceder a la terminal de Visual Studio Code. una vez nos encontremos en la terminal deberemos copiar y pegar este comando
+"
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex 
+"
+Una vez terminada la instalacion deberemos de copiar y pegar este comando
+"
+# installs fnm (Fast Node Manager)
+winget install Schniz.fnm
 
+# configure fnm environment
+fnm env --use-on-cd | Out-String | Invoke-Expression
 
-node JS/servidor.js
+# download and install Node.js
+fnm use --install-if-missing 22
 
-const express = require('express');
-const cors = require('cors');
+# verifies the right Node.js version is in the environment
+node -v # should print `v22.11.0`
+
+# verifies the right npm version is in the environment
+npm -v # should print `10.9.0`
+"
+una vez terminada con la instalacion del programa solo faltaria porner este comando " node JS/servidor.js " para iniciar el servidor responsable con el registro y actualizacion del Json(base de datos).
