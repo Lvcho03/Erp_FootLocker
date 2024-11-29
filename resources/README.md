@@ -41,22 +41,27 @@ Igual que HTML y CSS, se puede escribir JavaScript en un editor de texto. Luego,
 JSON también se guarda en un archivo, y puedes crear uno en un editor de texto. Es muy común ver JSON en aplicaciones donde necesitas almacenar información y luego acceder a ella.
 
 ## Node.js:
-Para comenzar con la instalación deberemos ir a este link " https://nodejs.org/ " y hacer clik en " Download Node.js (LTS) ". Una vez instalamos lo inicializamos y deberemos darle a next hasta que se muestre en pantalla varias opciones, nosotros deberemos darle a " add to PATH ", una vez lo hayamos seleccionado deberemos activar la opción " Automatically install the necessary tools. Note that this will also install Chocolatey. The script will pop-up in a new window after the installation completes. " una vez finalizado el proceso de instalación se abrirá la terminal y solo le tendras que dar a cualquier botón para que empieze la instalación.Una vez hecho todo necesitaremos acceder a la terminal de Visual Studio Code. una vez nos encontremos en la terminal deberemos copiar y pegar este comando 
-"
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm get.scoop.sh | iex 
+Para comenzar con la instalación deberemos ir a este link " https://nodejs.org/ " y hacer clik en " Download Node.js (LTS) ". Una vez instalamos lo inicializamos y deberemos darle a next hasta que se muestre en pantalla varias opciones, nosotros deberemos darle a " add to PATH ", una vez lo hayamos seleccionado deberemos activar la opción " Automatically install the necessary tools. Note that this will also install Chocolatey. The script will pop-up in a new window after the installation completes. " una vez finalizado el proceso de instalación se abrirá la terminal y solo le tendras que dar a cualquier botón para que empiece la instalación.Una vez hecho todo necesitaremos acceder a la terminal de Visual Studio Code. una vez nos encontremos en la terminal deberemos copiar y pegar este comando 
 " 
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser 
+irm get.scoop.sh | iex 
+"
 Una vez terminada la instalación deberemos de copiar y pegar este comando 
 "
 winget install Schniz.fnm
 
+
 fnm env --use-on-cd | Out-String | Invoke-Expression
+
 
 fnm use --install-if-missing 22
 
+
 node -v # should print v22.11.0G
 
+
 npm -v # should print 10.9.0 
-"
+" 
 una vez terminada con la instalación del programa solo faltaria poner este comando " node JS/servidor.js " para iniciar el servidor responsable con el registro y actualización del Json(base de datos).
+
 
