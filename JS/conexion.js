@@ -1,27 +1,46 @@
 const sqlite3 = require('sqlite3').verbose();
 
-function validarUsuario(tipo, nombre, contrasena, callback) {
-  // Crear la conexión a la base de datos 'usuarios.db'
-  let db = new sqlite3.Database('usuarios.db');
+class Conexion {
+  constructor() {
+    // Conectar a la base de datos SQLite
+    this.db = new sqlite3.Database('./DB/usuarios.db', (err) => {
+      if (err) {
+        console.error("Error al conectar a la base de datos:", err.message);
+      } else {
+        console.log("Conectado a la base de datos.");
+      }
+    });
+  }
 
-  const query = tipo === 'admin' 
-    ? `SELECT * FROM TablaAdmin WHERE nombre = ? AND contrasena = ?`
-    : `SELECT * FROM TablaUsuario WHERE nombre = ? AND contrasena = ?`;
+  // Método para validar si un usuario existe en la base de datos
+  validarUsuario(nombre, contrasena) {
+    return new Promise((resolve, reject) => {
+      const query = 'SELECT * FROM TablaUsuario WHERE nombre = ? AND contrasena = ?';
+      this.db.get(query, [nombre, contrasena], (err, row) => {
+        if (err) {
+          console.error("Error al consultar la base de datos:", err.message);
+          reject(false);
+        } else {
+          resolve(row ? { validado: true, admin: false } : { validado: false });
+        }
+      });
+    });
+  }
 
-  // Ejecutar la consulta
-  db.get(query, [nombre, contrasena], (err, row) => {
-    if (err) {
-      console.error("Error al consultar la base de datos:", err.message);
-      callback(false);
-    } else {
-      callback(!!row);  // Devuelve true si se encontró un registro
-    }
-  });
-
-  // No cerrar la base de datos al final, manejar la conexión después de recibir la respuesta
+  // Método para cerrar la conexión con la base de datos
+  cerrarConexion() {
+    return new Promise((resolve, reject) => {
+      this.db.close((err) => {
+        if (err) {
+          console.error("Error al cerrar la base de datos:", err.message);
+          reject(false);
+        } else {
+          console.log("Conexión cerrada con éxito.");
+          resolve(true);
+        }
+      });
+    });
+  }
 }
 
-// Ejemplo de uso
-validarUsuario('admin', 'juan', 'admin', (esValido) => {
-  console.log(esValido ? "Usuario válido." : "Credenciales incorrectas.");
-});
+module.exports = Conexion;
