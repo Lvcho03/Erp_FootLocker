@@ -1,55 +1,27 @@
-class Conexion {
-    constructor() {
-        this.usuarios = [];
-        this.administradores = [];
-        this.user = null;
-    }
+const sqlite3 = require('sqlite3').verbose();
 
-    // Cargar datos desde el archivo JSON y retornar la promesa de `fetch`
-    cargarDatos() {
-        return fetch('../Json/BD.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('No se cargó el archivo');
-                }
-                return response.json();
-            })
-            .then(data => {
-              
-                this.usuarios = data.TablaUsuario; // Cargar todos los usuarios
-                this.administradores = data.TablaAdmin; // Cargar todos los administradores
-                
-                console.log(this.administradores);
-                
-            })
-            .catch(error => {
-                console.error('Error al cargar los datos:', error);
-            });
-    }
+function validarUsuario(tipo, nombre, contrasena, callback) {
+  // Crear la conexión a la base de datos 'usuarios.db'
+  let db = new sqlite3.Database('usuarios.db');
 
-    validarUsuario(usuario, contrasena) {
-        const usuarioEncontrado = this.usuarios.find(u => u.nombre === usuario && u.contrasena === contrasena);
-        console.log(usuario,contrasena);
-        if (usuarioEncontrado) {
-            this.user = usuarioEncontrado; // Asignar usuario encontrado a this.user
-            console.log("Usuario validado:", this.user);
-        }
-        return !!usuarioEncontrado;
-    }
+  const query = tipo === 'admin' 
+    ? `SELECT * FROM TablaAdmin WHERE nombre = ? AND contrasena = ?`
+    : `SELECT * FROM TablaUsuario WHERE nombre = ? AND contrasena = ?`;
 
-    validarAdmin(admin, contrasena) {
-        const adminEncontrado = this.administradores.find(a => a.nombre === admin && a.contrasena === contrasena);
-        if (adminEncontrado) {
-            this.user = adminEncontrado; // Asignar admin encontrado a this.user
-            console.log("Administrador validado:", this.user);
-        }
-        return !!adminEncontrado;
+  // Ejecutar la consulta
+  db.get(query, [nombre, contrasena], (err, row) => {
+    if (err) {
+      console.error("Error al consultar la base de datos:", err.message);
+      callback(false);
+    } else {
+      callback(!!row);  // Devuelve true si se encontró un registro
     }
+  });
 
-    devolverNameUsuario() {
-        if (!this.user) {
-            console.log("Error: this.user es null");
-        }
-        return this.user ? this.user.nombre : null;
-    }
+  // No cerrar la base de datos al final, manejar la conexión después de recibir la respuesta
 }
+
+// Ejemplo de uso
+validarUsuario('admin', 'juan', 'admin', (esValido) => {
+  console.log(esValido ? "Usuario válido." : "Credenciales incorrectas.");
+});
