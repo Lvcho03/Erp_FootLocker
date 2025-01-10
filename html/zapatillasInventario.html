@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Zapatillas</title>
+</head>
+<body>
+    <h1>Gestión de Zapatillas</h1>
+
+    <h2>Agregar Zapatilla</h2>
+    <form id="addForm">
+        <label for="id">ID:</label>
+        <input type="number" id="id" name="id" required><br>
+        <label for="modelo">Modelo:</label>
+        <input type="text" id="modelo" name="modelo" required><br>
+        <label for="total_de_ventas">Total de Ventas:</label>
+        <input type="number" id="total_de_ventas" name="total_de_ventas" required><br>
+        <label for="precio">Precio:</label>
+        <input type="text" id="precio" name="precio" required><br>
+        <button type="submit">Agregar</button>
+    </form>
+
+    <h2>Eliminar Zapatilla</h2>
+    <form id="deleteForm">
+        <label for="deleteId">ID:</label>
+        <input type="number" id="deleteId" name="deleteId" required><br>
+        <button type="submit">Eliminar</button>
+    </form>
+
+    <script>
+        // Función para manejar el formulario de agregar
+        document.getElementById('addForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('id').value;
+            const modelo = document.getElementById('modelo').value;
+            const total_de_ventas = document.getElementById('total_de_ventas').value;
+            const precio = document.getElementById('precio').value;
+
+            const response = await fetch('/agregar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, modelo, total_de_ventas, precio })
+            });
+
+            if (response.ok) {
+                alert('Zapatilla agregada correctamente.');
+            } else {
+                alert('Error al agregar zapatilla.');
+            }
+        });
+
+        // Función para manejar el formulario de eliminar
+        document.getElementById('deleteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('deleteId').value;
+
+            const response = await fetch('/eliminar', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
+
+            if (response.ok) {
+                alert('Zapatilla eliminada correctamente.');
+            } else {
+                alert('Error al eliminar zapatilla.');
+            }
+        });
+    </script>
+</body>
+</html>

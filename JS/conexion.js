@@ -52,4 +52,5 @@ class Conexion {
         }
         return this.user ? this.user.nombre : null;
     }
+    
 }
