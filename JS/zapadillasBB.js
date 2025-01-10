@@ -1,130 +1,59 @@
-const sqlite3 = require('sqlite3').verbose();
+const Conexion = require('./conexion'); // Importar la clase Conexion
 
-// Función para obtener los datos de la base de datos
-function obtenerDatosZapatillas(callback) {
-    const db = new sqlite3.Database('./zapatillas.db', (err) => {
-        if (err) {
-            console.error('Error al conectar a la base de datos:', err.message);
-            return callback(err, null);
-        }
-    });
-
-    const query = `SELECT id, modelo, total_de_ventas, precio FROM zapatillas`;
-
-    db.all(query, [], (err, rows) => {
-        if (err) {
-            console.error('Error al obtener los datos:', err.message);
-            db.close();
-            return callback(err, null);
-        }
-
-        db.close((err) => {
-            if (err) {
-                console.error('Error al cerrar la conexión:', err.message);
-            }
-        });
-
-        const datos = rows.map(row => [row.id, row.modelo, row.total_de_ventas, row.precio]);
-        callback(null, datos);
-    });
-}
-
-// Función para agregar nuevos datos a la tabla
-function agregarZapatilla(id, modelo, total_de_ventas, precio, callback) {
-    const db = new sqlite3.Database('./zapatillas.db', (err) => {
-        if (err) {
-            console.error('Error al conectar a la base de datos:', err.message);
-            return callback(err);
-        }
-    });
-
-    const insert = `INSERT INTO zapatillas (id, modelo, total_de_ventas, precio) VALUES (?, ?, ?, ?)`;
-    db.run(insert, [id, modelo, total_de_ventas, precio], (err) => {
-        if (err) {
-            console.error('Error al insertar datos:', err.message);
-            return callback(err);
-        }
-        console.log('Zapatilla agregada correctamente.');
-        callback(null);
-    });
-
-    db.close((err) => {
-        if (err) {
-            console.error('Error al cerrar la conexión:', err.message);
-        }
-    });
-}
-
-// Función para eliminar datos de la tabla
-function eliminarZapatilla(id, callback) {
-    const db = new sqlite3.Database('./zapatillas.db', (err) => {
-        if (err) {
-            console.error('Error al conectar a la base de datos:', err.message);
-            return callback(err);
-        }
-    });
-
-    const del = `DELETE FROM zapatillas WHERE id = ?`;
-    db.run(del, [id], (err) => {
-        if (err) {
-            console.error('Error al eliminar datos:', err.message);
-            return callback(err);
-        }
-        console.log('Zapatilla eliminada correctamente.');
-        callback(null);
-    });
-
-    db.close((err) => {
-        if (err) {
-            console.error('Error al cerrar la conexión:', err.message);
-        }
-    });
-}
-
-/**
- * MOQUEO
- */
-// Crear la tabla y poblarla
-const db = new sqlite3.Database('./zapatillas.db', (err) => {
-    if (err) {
-        console.error('Error al conectar a la base de datos:', err.message);
-    } else {
-        console.log('Conectado a la base de datos SQLite3.');
+class Zapatillas {
+    constructor() {
+        this.conexion = new Conexion(); // Instancia de la clase Conexion
     }
-});
 
-db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS zapatillas (
-        id INTEGER PRIMARY KEY,
-        modelo TEXT NOT NULL,
-        total_de_ventas INTEGER NOT NULL,
-        precio TEXT NOT NULL
-    )`);
-
-    const insert = `INSERT INTO zapatillas (id, modelo, total_de_ventas, precio) VALUES (?, ?, ?, ?)`;
-    const zapatillas = [
-        [1, 'Air Max 90', 1500, '120.00 €'],
-        [2, 'Yeezy Boost 350', 2000, '220.00 €'],
-        [3, 'Jordan 1 Retro High', 1800, '170.00 €'],
-        [4, 'Puma RS-X', 800, '110.00 €'],
-        [5, 'Adidas Ultraboost', 1200, '180.00 €']
-    ];
-
-    zapatillas.forEach((zapatilla) => {
-        db.run(insert, zapatilla, (err) => {
-            if (err) {
-                console.error('Error al insertar datos:', err.message);
-            }
+    // Cargar los productos desde la base de datos
+    cargarProductos() {
+        return new Promise((resolve, reject) => {
+            // Usar la clase Conexion para cargar los productos
+            this.conexion.cargarDatos()
+                .then(() => {
+                    this.productos = this.conexion.obtenerProductos(); // Obtener productos cargados
+                    console.log('Productos cargados:', this.productos);
+                    resolve();
+                })
+                .catch(error => {
+                    console.error('Error al cargar los productos:', error);
+                    reject(error);
+                });
         });
-    });
-});
-
-db.close((err) => {
-    if (err) {
-        console.error('Error al cerrar la conexión:', err.message);
-    } else {
-        console.log('Conexión a la base de datos cerrada.');
     }
-});
 
-module.exports = { obtenerDatosZapatillas, agregarZapatilla, eliminarZapatilla };
+    // Obtener todos los productos
+    obtenerProductos() {
+        return this.productos; // Retorna los productos cargados
+    }
+
+    // Agregar un nuevo producto
+    agregarProducto(id, modelo, total_ventas, precio) {
+        const query = `INSERT INTO productos (id, modelo, total_ventas, precio) VALUES (?, ?, ?, ?)`;
+        this.conexion.db.run(query, [id, modelo, total_ventas, precio], (err) => {
+            if (err) {
+                console.error('Error al agregar producto:', err.message);
+                return;
+            }
+            console.log('Producto agregado correctamente');
+            // Recargar los productos después de agregar uno nuevo
+            this.cargarProductos();
+        });
+    }
+
+    // Eliminar un producto por ID
+    eliminarProducto(id) {
+        const query = `DELETE FROM productos WHERE id = ?`;
+        this.conexion.db.run(query, [id], (err) => {
+            if (err) {
+                console.error('Error al eliminar producto:', err.message);
+                return;
+            }
+            console.log('Producto eliminado correctamente');
+            // Recargar los productos después de eliminar uno
+            this.cargarProductos();
+        });
+    }
+}
+
+module.exports = Zapatillas;

@@ -1,15 +1,18 @@
 const express = require('express');
-const cors = require('cors');
+const bodyParser = require('body-parser');
 const fs = require('fs');
+const cors = require('cors');
+const sqlite3 = require('sqlite3').verbose(); // Añadido para trabajar con SQLite3
 
-// Crear la aplicación express
 const app = express();
-const dataPath = './Json/BD.json'; // Archivo de datos de trabajadores 
-const idPath = './Json/id.json'; // Archivo para guardar el último ID usado
+const db = new sqlite3.Database('./zapatillas.db'); // Conexión a la base de datos SQLite
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Crear una instancia de Zapatillas (si tienes esa clase para manejar zapatillas)
+const zapatillas = new Zapatillas();
 
 // Función para leer los datos del archivo BD.json
 function readData() {
@@ -119,18 +122,12 @@ app.post('/empleados/delete', (req, res) => {
     res.json({ message: "Trabajador eliminado", id });
 });
 
-// Iniciar el servidor
-const port = 3000;
-app.listen(port, () => {
-    console.log(`Servidor escuchando en http://localhost:${port}`);
-});
-
 // Ruta PUT para actualizar un usuario existente
 app.post('/empleados/update/:id', (req, res) => {
     const id = parseInt(req.params.id); // Obtener el ID del usuario desde la URL
     const updatedUser  = req.body; // Obtener los datos actualizados del cuerpo de la solicitud
 
-    if (!updatedUser .nombre || !updatedUser .email || !updatedUser .numTel || !updatedUser .direccion) {
+    if (!updatedUser.nombre || !updatedUser.email || !updatedUser.numTel || !updatedUser.direccion) {
         return res.status(400).json({ message: "Faltan datos del usuario." });
     }
 
@@ -142,11 +139,62 @@ app.post('/empleados/update/:id', (req, res) => {
     }
 
     // Actualizamos el usuario en el array
-    data.TablaUsuario[userIndex] = { id, ...updatedUser  }; // Mantener el ID existente
+    data.TablaUsuario[userIndex] = { id, ...updatedUser }; // Mantener el ID existente
 
     // Escribimos los datos actualizados en el archivo JSON
     writeData(data);
 
     // Respondemos con el usuario actualizado
     res.status(200).json({ message: "Usuario actualizado", data: data.TablaUsuario[userIndex] });
+});
+
+// Rutas para agregar y eliminar zapatillas
+app.post('/agregar', (req, res) => {
+    const { id, modelo, total_ventas, precio } = req.body;
+
+    if (!id || !modelo || !total_ventas || !precio) {
+        return res.status(400).json({ message: "Faltan datos de la zapatilla." });
+    }
+
+    // Insertar la nueva zapatilla en la base de datos
+    const sql = 'INSERT INTO zapatillas (id, modelo, total_ventas, precio) VALUES (?, ?, ?, ?)';
+
+    db.run(sql, [id, modelo, total_ventas, precio], function(err) {
+        if (err) {
+            console.error('Error al agregar zapatilla:', err);
+            return res.status(500).json({ message: "Error al agregar zapatilla." });
+        }
+
+        res.status(200).json({ message: "Zapatilla agregada correctamente", id: this.lastID });
+    });
+});
+
+app.post('/eliminar', (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: "ID de la zapatilla es requerido." });
+    }
+
+    // Eliminar la zapatilla de la base de datos
+    const sql = 'DELETE FROM zapatillas WHERE id = ?';
+
+    db.run(sql, [id], function(err) {
+        if (err) {
+            console.error('Error al eliminar zapatilla:', err);
+            return res.status(500).json({ message: "Error al eliminar zapatilla." });
+        }
+
+        if (this.changes === 0) {
+            return res.status(404).json({ message: "Zapatilla no encontrada." });
+        }
+
+        res.json({ message: "Zapatilla eliminada correctamente", id });
+    });
+});
+
+// Iniciar el servidor
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
 });
