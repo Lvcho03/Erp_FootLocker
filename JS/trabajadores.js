@@ -1,31 +1,44 @@
+const { response } = require('express');
+
 var workerCount = 0; // Contador global de trabajadores
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('workers.db');
+const db = new sqlite3.Database('/DB/usuarios.db');
 
 // Función para eliminar un trabajador
 function deleteWorker(workerId) {
-    db.run(`DELETE FROM trabajadores WHERE id = ?`, [workerId], function (err) {
-        if (err) {
-            console.error("Error al eliminar el trabajador:", err);
-            alert("Error al eliminar el trabajador.");
-        } else {
-            alert("Trabajador eliminado correctamente");
-            showWorkers(); // Actualiza la lista de trabajadores en el frontend
+    const url = `http://localhost:3000/deltrabajador/${workerId}`; // URL del endpoint del servidor
+
+    fetch(url, {
+        method: 'DELETE', // HTTP DELETE para eliminar el trabajador
+        headers: {
+            'Content-Type': 'application/json' // Cabecera para indicar que se envía JSON
         }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al eliminar el trabajador');
+        }
+        return response.json(); // Procesa la respuesta JSON del servidor
+    })
+    .then(data => {
+        alert('Trabajador eliminado correctamente');
+        showWorkers(); // Actualiza la lista de trabajadores en el frontend
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al eliminar el trabajador.');
     });
 }
 
 
-// Función para mostrar trabajadores iniciales desde la base de datos
 function showWorkers() {
-    db.all("SELECT * FROM trabajadores", [], (err, rows) => {
-        if (err) {
-            console.error("Error al cargar los trabajadores:", err);
-        } else {
+    fetch('http://localhost:3000/alltrabajadores')
+        .then(response => response.json())
+        .then(data => {
             const contenedor = document.getElementById("worker-cards-container");
             contenedor.innerHTML = ""; // Limpiar contenedor antes de agregar nuevos trabajadores
 
-            rows.forEach((usuario) => {
+            data.forEach((usuario) => {
                 const div = document.createElement("div");
                 div.classList.add("worker-card");
                 div.id = `worker-card-${usuario.id}`;
@@ -33,7 +46,7 @@ function showWorkers() {
                   <span class="delete-icon" id="delete-${usuario.id}" onclick="deleteWorker(${usuario.id})">✖</span>
                   <img src="../imagenes/worker.png" class="profile-pic" id="profile-pic-${usuario.id}">
                   <div class="worker-info">
-                    <h2 id="worker-name-${usuario.id}">${usuario.nombre} </h2>
+                    <h2 id="worker-name-${usuario.id}">${usuario.nombre}</h2>
                     <p><strong>Email:</strong> <span id="worker-email-${usuario.id}">${usuario.email}</span></p>
                     <p><strong>Teléfono:</strong> <span id="worker-phone-${usuario.id}">${usuario.numTel}</span></p>
                     <p><strong>Dirección:</strong> <span id="worker-address-${usuario.id}">${usuario.direccion}</span></p>
@@ -42,18 +55,21 @@ function showWorkers() {
                 `;
                 contenedor.appendChild(div);
             });
-            workerCount = rows.length; // Actualiza el contador
+
+            workerCount = data.length; // Actualiza el contador
             updateWorkerCount();
-        }
-    });
+        })
+        .catch(error => {
+            console.error("Error al cargar los trabajadores:", error);
+        });
 }
+
 
 // Función para actualizar el contador de trabajadores
 function updateWorkerCount() {
     document.getElementById("worker-count").innerText = `TRABAJADORES ACTUALES: ${workerCount}`;
 }
 
-// Función para agregar un nuevo trabajador
 function addWorker() {
     const name = document.getElementById("new-worker-name").value;
     const email = document.getElementById("new-worker-email").value;
@@ -67,23 +83,32 @@ function addWorker() {
 
     const nuevoUsuario = {
         nombre: name,
-        apellidos: name, // Opcional: Cambia esto si tienes un campo para "apellidos"
-        contrasena: "usuario", // Contraseña fija o basada en un campo
+        contrasena: "usuario", // Contraseña fija o predeterminada
         email: email,
         numTel: phone,
-        direccion: address
+        direccion: address,
+        nacionalidad: "España", // Valor predeterminado
+        sexo: "N/A" // Valor predeterminado
     };
 
-    db.run(`INSERT INTO trabajadores (nombre, apellidos, contrasena, email, numTel, direccion) VALUES (?, ?, ?, ?, ?, ?)`, 
-    [nuevoUsuario.nombre, nuevoUsuario.apellidos, nuevoUsuario.contrasena, nuevoUsuario.email, nuevoUsuario.numTel, nuevoUsuario.direccion], 
-    function (err) {
-        if (err) {
-            console.error("Error al agregar el trabajador:", err);
-            alert("Error al agregar el trabajador.");
-        } else {
+    // Configuración de la solicitud
+    fetch('http://localhost:3000/addtrabajadores', {  // Cambia 'PORT' por tu puerto y 'your-endpoint' por la ruta del servidor donde se maneja la lógica de añadir trabajador.
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(nuevoUsuario)
+    })
+    .then(response => response.json())  // Analiza la respuesta como JSON
+    .then(data => {
+        if (data.success) {
             alert("Trabajador agregado correctamente");
             showWorkers(); // Actualiza la lista de trabajadores en el frontend
-        }
+        } 
+    })
+    .catch((error) => {
+        console.error("Error en la petición al servidor:", error);
+        alert("Error en la petición al servidor.");
     });
 
     // Limpiar los campos de entrada
@@ -96,31 +121,32 @@ function addWorker() {
 // Inicializa la aplicación cargando los trabajadores de la base de datos
 document.addEventListener("DOMContentLoaded", showWorkers);
 
+// Función para abrir el modal de edición
+function editWorker(id) {
+    fetch(`http://localhost:3000/editar-trabajador/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del trabajador');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("edit-name").value = data.nombre;
+            document.getElementById("edit-email").value = data.email;
+            document.getElementById("edit-phone").value = data.numTel;
+            document.getElementById("edit-address").value = data.direccion;
+
+            currentEditingId = id;
+            document.getElementById("edit-modal").style.display = "flex";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
 // Función para cerrar el modal
 function closeModal() {
     document.getElementById("edit-modal").style.display = "none";
-}
-
-// Función para abrir el modal de edición
-function editWorker(id) {
-    db.get("SELECT * FROM trabajadores WHERE id = ?", [id], (err, row) => {
-        if (err) {
-            console.error("Error al obtener los datos del trabajador:", err);
-        } else {
-            const name = row.nombre;
-            const email = row.email;
-            const phone = row.numTel;
-            const address = row.direccion;
-
-            document.getElementById("edit-name").value = name;
-            document.getElementById("edit-email").value = email;
-            document.getElementById("edit-phone").value = phone;
-            document.getElementById("edit-address").value = address;
-
-            currentEditingId = id;
-            document.getElementById("edit-modal").style.display = "block";
-        }
-    });
 }
 
 // Función para guardar los cambios
@@ -130,28 +156,33 @@ function saveChanges() {
     const phone = document.getElementById("edit-phone").value;
     const address = document.getElementById("edit-address").value;
 
-    const updatedUser = {
-        nombre: name,
-        email: email,
-        numTel: phone,
-        direccion: address
-    };
-
-    db.run(`UPDATE trabajadores SET nombre = ?, email = ?, numTel = ?, direccion = ? WHERE id = ?`, 
-    [updatedUser.nombre, updatedUser.email, updatedUser.numTel, updatedUser.direccion, currentEditingId], 
-    function (err) {
-        if (err) {
-            console.error("Error al guardar los cambios:", err);
-            alert("Error al guardar los cambios.");
-        } else {
-            alert("Cambios guardados.");
-
-            document.getElementById(`worker-name-${currentEditingId}`).innerText = name;
-            document.getElementById(`worker-email-${currentEditingId}`).innerText = email;
-            document.getElementById(`worker-phone-${currentEditingId}`).innerText = phone;
-            document.getElementById(`worker-address-${currentEditingId}`).innerText = address;
-
-            closeModal();
+    fetch(`http://localhost:3000/actualizar-trabajador/${currentEditingId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ nombre: name, email: email, numTel: phone, direccion: address })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al guardar los cambios');
         }
+        return response.json();
+    })
+    .then(data => {
+        alert("Cambios guardados correctamente.");
+        document.getElementById(`worker-name-${currentEditingId}`).innerText = name;
+        document.getElementById(`worker-email-${currentEditingId}`).innerText = email;
+        document.getElementById(`worker-phone-${currentEditingId}`).innerText = phone;
+        document.getElementById(`worker-address-${currentEditingId}`).innerText = address;
+        closeModal();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Error al guardar los cambios.");
     });
 }
+
+// Asegúrate de agregar un evento al botón "Guardar" en el modal para llamar a saveChanges
+document.getElementById("save-button").addEventListener("click", saveChanges);
+
