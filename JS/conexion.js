@@ -1,46 +1,55 @@
-const sqlite3 = require('sqlite3').verbose();
-
+import sqlite3 from 'sqlite3';
 class Conexion {
   constructor() {
-    // Conectar a la base de datos SQLite
     this.db = new sqlite3.Database('./DB/usuarios.db', (err) => {
       if (err) {
         console.error("Error al conectar a la base de datos:", err.message);
       } else {
-        console.log("Conectado a la base de datos.");
+        console.log("Conectado2 a la base de datos.");
       }
     });
   }
 
-  // Método para validar si un usuario existe en la base de datos
   validarUsuario(nombre, contrasena) {
     return new Promise((resolve, reject) => {
-      const query = 'SELECT * FROM TablaUsuario WHERE nombre = ? AND contrasena = ?';
-      this.db.get(query, [nombre, contrasena], (err, row) => {
+      const queryUsuario = 'SELECT * FROM TablaUsuario WHERE nombre = ? AND contrasena = ?';
+      const queryAdmin = 'SELECT * FROM TablaAdmin WHERE nombre = ? AND contrasena = ?';
+
+      this.db.get(queryUsuario, [nombre, contrasena], (err, rowUsuario) => {
         if (err) {
-          console.error("Error al consultar la base de datos:", err.message);
-          reject(false);
-        } else {
-          resolve(row ? { validado: true, admin: false } : { validado: false });
+          console.error("Error al consultar la base de datos (Usuario):", err.message);
+          return reject(false);
         }
+        if (rowUsuario) {
+          return resolve({ validado: true, rol: 'usuario' });
+        }
+
+        this.db.get(queryAdmin, [nombre, contrasena], (err, rowAdmin) => {
+          if (err) {
+            console.error("Error al consultar la base de datos (Admin):", err.message);
+            return reject(false);
+          }
+          if (rowAdmin) {
+            return resolve({ validado: true, rol: 'admin' });
+          }
+          resolve({ validado: false });
+        });
       });
     });
   }
 
-  // Método para cerrar la conexión con la base de datos
   cerrarConexion() {
     return new Promise((resolve, reject) => {
       this.db.close((err) => {
         if (err) {
           console.error("Error al cerrar la base de datos:", err.message);
-          reject(false);
-        } else {
-          console.log("Conexión cerrada con éxito.");
-          resolve(true);
+          return reject(false);
         }
+        console.log("Conexión cerrada con éxito.");
+        resolve(true);
       });
     });
   }
 }
 
-module.exports = Conexion;
+export default Conexion;  // Exportamos la clase Conexion para ser importada en otros módulos
