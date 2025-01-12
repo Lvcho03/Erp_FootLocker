@@ -68,3 +68,22 @@ una vez terminada con la instalación del programa solo faltaria poner este coma
 Live Server es una extensión para Visual Studio Code que te permite lanzar un servidor de desarrollo local para tus proyectos web.
 Para instalarlo es necesario abrir Visual Studio Code y en el lado izquierdo buscar el icono de la Marketplace, una vez estes dentro en el buscador de la extensión tendrás que poner Live Server, cuando te salga la extensión y dale a instalar.
 Ahora para utilizarlo solo debes darle al botón de abajo a la derecha que pone " Go Live " con eso bastaría para que se te abra el navegador con la página ya cargada.
+
+
+## Dependencias a instalar
+
+Para que tu proyecto funcione correctamente, asegúrate de instalar las siguientes dependencias. Estas son necesarias para configurar el servidor y conectarse a la base de datos SQLite:
+
+```json
+"dependencies": {
+  "cors": "^2.8.5",
+  "express": "^4.21.2",
+  "node": "^22.13.0",
+  "sqlite3": "^5.1.7"
+}
+
+Insertar el siguiente comando en la terminal para instalar las dependencias :
+
+npm install cors express sqlite3
+
+ 
