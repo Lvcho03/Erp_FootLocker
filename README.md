@@ -79,7 +79,8 @@ Para que tu proyecto funcione correctamente, asegúrate de instalar las siguient
   "cors": "^2.8.5",
   "express": "^4.21.2",
   "node": "^22.13.0",
-  "sqlite3": "^5.1.7"
+  "sqlite3": "^5.1.7",
+   "xlsx": "^0.18.5"
 }
 
 Insertar el siguiente comando en la terminal para instalar las dependencias :
