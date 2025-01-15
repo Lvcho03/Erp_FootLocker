@@ -12,7 +12,6 @@ app.use(cors());
 app.use(express.json());
 
 // Crear una instancia de Zapatillas (si tienes esa clase para manejar zapatillas)
-const zapatillas = new Zapatillas();
 
 // Función para leer los datos del archivo BD.json
 function readData() {
