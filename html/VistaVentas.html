@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <title>Panel de Usuario</title>
+    <link href="../css/cssVistaVentas.css" rel="stylesheet" type="text/css">
+    <script src="../JS/graficas.js" defer></script>
+
+    <!-- Load the AJAX API -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+    <script type="text/javascript">
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', { 'packages': ['corechart', 'bar'] });
+        google.charts.setOnLoadCallback(drawCharts);
+
+        function drawCharts() {
+            drawPieChart();
+            drawAreaChart();
+            drawBarChart();
+        }
+
+        // Primera gráfica: PieChart
+        async function drawPieChart() {
+            try {
+                const ventasPorProducto = await obtenerVentasTotalesPorProducto();
+                if (!ventasPorProducto || Object.keys(ventasPorProducto).length === 0) {
+                    throw new Error("Datos vacíos o no disponibles.");
+                }
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Producto');
+                data.addColumn('number', 'Ventas');
+                const dataArray = Object.entries(ventasPorProducto);
+                data.addRows(dataArray);
+
+                var options = {
+                    title: 'Proporción de ventas de modelos',
+                    width: 1000,
+                    height: 500,
+                    is3D: true
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('chart_pie'));
+                chart.draw(data, options);
+            } catch (error) {
+                console.error("Error al cargar el gráfico de pastel:", error);
+                document.getElementById('chart_pie').innerText = "Error al cargar el gráfico.";
+            }
+        }
+
+        // Segunda gráfica: AreaChart
+        async function drawAreaChart() {
+            try {
+                const ventasMensuales = await obtenerVentasMensualesPorProducto();
+                if (!ventasMensuales || ventasMensuales.length === 0) {
+                    throw new Error("Datos vacíos o no disponibles.");
+                }
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Mes', 'Nike', 'Vans', 'Converse'],
+                    ...ventasMensuales
+                ]);
+
+                var options = {
+                    title: 'Tendencia de ventas mensuales por marca',
+                    hAxis: { title: 'Mes', titleTextStyle: { color: '#333' } },
+                    vAxis: { title: 'Ventas', minValue: 0 },
+                    width: 1000,
+                    height: 500
+                };
+
+                var chart = new google.visualization.AreaChart(document.getElementById('chart_area'));
+                chart.draw(data, options);
+            } catch (error) {
+                console.error("Error al cargar el gráfico de área:", error);
+                document.getElementById('chart_area').innerText = "Error al cargar el gráfico.";
+            }
+        }
+
+        // Tercera gráfica: BarChart
+        async function drawBarChart() {
+            try {
+                const diferenciasVentas = await obtenerDiferenciasVentasPorProducto();
+
+                if (!diferenciasVentas || diferenciasVentas.length === 0) {
+                    throw new Error("Datos vacíos o no disponibles.");
+                }
+
+                var data = google.visualization.arrayToDataTable([
+                    ['Producto', 'Diferencia de Ventas'],
+                    ...diferenciasVentas
+                ]);
+
+                var options = {
+                    title: 'Diferencias de ventas entre productos',
+                    chartArea: { width: '50%' },
+                    hAxis: {
+                        title: 'Ventas Totales',
+                        minValue: 0,
+                        textStyle: { bold: true, fontSize: 12, color: '#4d4d4d' },
+                        titleTextStyle: { bold: true, fontSize: 18, color: '#4d4d4d' }
+                    },
+                    vAxis: {
+                        title: 'Producto',
+                        textStyle: { fontSize: 14, bold: true, color: '#848484' },
+                        titleTextStyle: { fontSize: 14, bold: true, color: '#848484' }
+                    },
+                    width: 1000,
+                    height: 500
+                };
+
+                var chart = new google.visualization.BarChart(document.getElementById('chart_bar'));
+                chart.draw(data, options);
+
+            } catch (error) {
+                console.error("Error al cargar el gráfico de barras:", error);
+                document.getElementById('chart_bar').innerText = "Error al cargar el gráfico.";
+            }
+        }
+
+        function exportChartToExcel(chartId, filename) {
+            var chart = document.getElementById(chartId);
+            if (chart) {
+                var table = chart.querySelector('table');
+                if (table) {
+                    try {
+                        // Convierte la tabla a libro de Excel
+                        var workbook = XLSX.utils.table_to_book(table, { sheet: "Sheet1" });
+                        // Genera el archivo Excel y lo descarga
+                        XLSX.writeFile(workbook, filename);
+                    } catch (error) {
+                        console.error("Error al convertir la tabla a Excel:", error);
+                    }
+                } else {
+                    console.error("No se encuentra una tabla en el gráfico para exportar.");
+                }
+            } else {
+                console.error("El contenedor del gráfico no se encuentra.");
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <a href="../html/templateAdminPage.html">
+                <img class="imagen-1" src="../imagenes/logo.png" alt="Logo">
+            </a>
+        </div>
+        <button onclick="window.location.href='../html/templateAdminPage.html';" class="volver-button">Volver</button>
+    </header>
+
+    <section>
+        <!-- Divs para las gráficas -->
+        <div id="chart_pie" class="chart">
+            <!-- Aquí se dibuja el gráfico PieChart -->
+        </div>
+        <button onclick="exportChartToExcel('chart_pie', 'Ventas_Por_Producto.xlsx')" class="export-button-chart">Exportar a Excel</button>
+
+        <div id="chart_area" class="chart">
+            <!-- Aquí se dibuja el gráfico AreaChart -->
+        </div>
+        <button onclick="exportChartToExcel('chart_area', 'Ventas_Mensuales.xlsx')" class="export-button-chart">Exportar a Excel</button>
+
+        <div id="chart_bar" class="chart">
+            <!-- Aquí se dibuja el gráfico BarChart -->
+        </div>
+        <button onclick="exportChartToExcel('chart_bar', 'Diferencias_Ventas.xlsx')" class="export-button-chart">Exportar a Excel</button>
+    </section>
+
+    <footer></footer>
+</body>
+
+</html>

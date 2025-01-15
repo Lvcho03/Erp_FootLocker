@@ -1,0 +1,114 @@
+/* Estilos del header */
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 97%;
+    height: 150px;
+    background-color: rgb(39, 42, 87);
+    margin-top: 0;
+    box-shadow: 5px 0 40px rgba(0, 0, 0, 0.5);
+    padding: 0 20px;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Logo dentro del header */
+header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 300px;
+    height: 100px;
+}
+
+/* Imagen del logo */
+header .logo img {
+    width: 300px;
+    height: 120px;
+}
+
+/* Estilo del botón 'Volver' */
+.volver-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover efecto en el botón */
+.volver-button:hover {
+    background-color: #45a049;
+}
+
+section{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+/* Estilos generales para los gráficos */
+.chart {
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    height: 500px;
+    display: flex;                  /* Ajuste para usar flexbox */
+    flex-direction: column;         /* Se coloca en columnas */
+    align-items: center;            /* Alinea los elementos verticalmente */
+    justify-content: center;        /* Alinea los elementos horizontalmente */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Estilos para los divs gráficos */
+#chart_pie, #chart_area, #chart_bar {
+    width: 100%;
+    height: 500px;
+    display: flex;                 /* Utilización de flexbox */
+    flex-direction: column;        /* Para que los elementos estén en una columna */
+}
+
+/* Botones exportar gráficos */
+.export-button-chart {
+    margin-right: 10px;
+    width:250px;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: -10px;
+    float: right;                   /* Corrige el flujo del botón */
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Cambia el hover en el botón 'Exportar a Excel' */
+.export-button-chart:hover {
+    background-color: #0056b3;
+}
+
+footer{
+    margin-top: 10px;
+height: 50px;
+width: 100%;
+background-color: rgb(39, 42, 87);
+}

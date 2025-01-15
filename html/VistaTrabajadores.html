@@ -11,7 +11,7 @@
 
     <link href="../css/cssVistaTrabajadores.css" rel="stylesheet" type="text/css">
 
-    <script src="../JS/trabajadores.js" defer></script>
+    <script src="../JS/trabajadores.js" ></script>
 
 </head>
 
@@ -78,7 +78,7 @@
 
             <input  type="text" id="edit-address" placeholder="Dirección">
 
-            <button class="guardar" onclick="saveChanges()">Guardar Cambios</button>
+            <button class="guardar" id="save-button" onclick="saveChanges()">Guardar Cambios</button>
 
         </div>
 
@@ -86,6 +86,13 @@
 
 
     <footer></footer>
+    <script src="../JS/trabajadores.js" ></script>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            showWorkers(); // Llamar a la función para mostrar trabajadores al cargar la página
+        });
+    </script>
 
 </body>
 

@@ -1,471 +1,190 @@
+const { response } = require('express');
+
 var workerCount = 0; // Contador global de trabajadores
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('/DB/usuarios.db');
 
 // Función para eliminar un trabajador
-// Función para eliminar un trabajador usando POST
 function deleteWorker(workerId) {
-    fetch("http://localhost:3000/empleados/delete", {
-        method: "POST",
+    const url = `http://localhost:3000/deltrabajador/${workerId}`; // URL del endpoint del servidor
+
+    fetch(url, {
+        method: 'DELETE', // HTTP DELETE para eliminar el trabajador
         headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ id: workerId })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Error al eliminar el trabajador.");
+            'Content-Type': 'application/json' // Cabecera para indicar que se envía JSON
         }
     })
-    .then(result => {
-        alert("Trabajador eliminado correctamente");
-        console.log(result);
-        showWorkers(); // Actualiza la lista de trabajadores en el frontend
-    })
-  
-}
-function addProduct(id, modelo, total_ventas, precio) {
-    fetch("http://localhost:3000/agregar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ id, modelo, total_ventas, precio })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Error al agregar la zapatilla.");
-        }
-    })
-    .then(result => {
-        alert("Zapatilla agregada correctamente");
-        console.log(result);
-        showProducts(); // Actualiza la lista de productos en el frontend
-    })
-    .catch(error => {
-        console.error(error);
-        alert("Hubo un error al agregar la zapatilla.");
-    });
-}
-function deleteProduct(productId) {
-    fetch("http://localhost:3000/eliminar", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ id: productId })
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Error al eliminar el producto.");
-        }
-    })
-    .then(result => {
-        alert("Producto eliminado correctamente");
-        console.log(result);
-        showProducts();  // Actualiza la lista de productos en el frontend
-    })
-    .catch(error => {
-        console.error(error);
-        alert("Hubo un error al eliminar el producto.");
-    });
-}
-
-
-// Función para mostrar trabajadores iniciales desde un archivo JSON
-
-function shoWorkers() {
-
-    fetch("http://localhost:3000/empleados")
-
-        .then((respuesta) => {
-
-            if (!respuesta.ok) {
-
-                throw new Error("Error al cargar los trabajadores");
-
-            }
-
-            return respuesta.json();
-
-        })
-
-        .then((usuarios) => {
-
-            const contenedor = document.getElementById("worker-cards-container");
-
-            contenedor.innerHTML = ""; // Limpiar contenedor antes de agregar nuevos trabajadores
-
-            usuarios.forEach((usuario) => {
-
-                const div = document.createElement("div");
-
-                div.classList.add("worker-card");
-
-                div.id = `worker-card-${usuario.id}`;
-
-                div.innerHTML = `
-
-                  <span class="delete-icon" id="delete-${usuario.id}" onclick="deleteWorker(${usuario.id})">✖</span>
-
-                  <img src="../imagenes/worker.png" class="profile-pic" id="profile-pic-${usuario.id}">
-
-                  <div class="worker-info">
-
-                    <h2 id="worker-name-${usuario.id}">${usuario.nombre} </h2>
-
-                    <p><strong>Email:</strong> <span id="worker-email-${usuario.id}">${usuario.email}</span></p>
-
-                    <p><strong>Teléfono:</strong> <span id="worker-phone-${usuario.id}">${usuario.numTel}</span></p>
-
-                    <p><strong>Dirección:</strong> <span id="worker-address-${usuario.id}">${usuario.direccion}</span></p>
-
-                    <button class="edicion" id="edit-${usuario.id}" onclick="editWorker(${usuario.id})">Editar</button>
-
-                  </div>
-
-                `;
-
-                contenedor.appendChild(div);
-
-            });
-
-            workerCount = usuarios.length; // Actualiza
-
-
-            workerCount = usuarios.length; // Actualiza el contador
-
-            updateWorkerCount();
-
-        })
-
-        .catch((error) => console.error("Error:", error));
-
-}
-function showProducts() {
-    fetch("http://localhost:3000/zapatillas")  // Ruta que obtiene los productos desde el servidor
     .then(response => {
         if (!response.ok) {
-            throw new Error("Error al cargar los productos");
+            throw new Error('Error al eliminar el trabajador');
         }
-        return response.json();
+        return response.json(); // Procesa la respuesta JSON del servidor
     })
-    .then(products => {
-        const contenedor = document.getElementById("product-cards-container");  // Contenedor donde se mostrarán los productos
-        contenedor.innerHTML = '';  // Limpiar el contenedor antes de agregar los nuevos productos
-
-        products.forEach(product => {
-            const div = document.createElement("div");
-            div.classList.add("product-card");
-            div.id = `product-card-${product.id}`;
-
-            div.innerHTML = `
-                <span class="delete-icon" id="delete-${product.id}" onclick="deleteProduct(${product.id})">✖</span>
-
-                <img src="../imagenes/product.png" class="product-pic" id="product-pic-${product.id}">
-
-                <div class="product-info">
-                    <h2 id="product-name-${product.id}">${product.modelo}</h2>
-                    <p><strong>Precio:</strong> <span id="product-price-${product.id}">${product.precio}</span></p>
-                    <p><strong>Total de ventas:</strong> <span id="product-sales-${product.id}">${product.total_ventas}</span></p>
-                    <button class="edit" id="edit-${product.id}" onclick="editProduct(${product.id})">Editar</button>
-                </div>
-            `;
-
-            contenedor.appendChild(div);
-        });
+    .then(data => {
+        alert('Trabajador eliminado correctamente');
+        showWorkers(); // Actualiza la lista de trabajadores en el frontend
     })
     .catch(error => {
-        console.error('Error al obtener los productos:', error);
+        console.error('Error:', error);
+        alert('Error al eliminar el trabajador.');
     });
 }
+
+
+
+function showWorkers() {
+    fetch('http://localhost:3000/alltrabajadores')
+        .then(response => response.json())
+        .then(data => {
+            const contenedor = document.getElementById("worker-cards-container");
+            contenedor.innerHTML = ""; // Limpiar contenedor antes de agregar nuevos trabajadores
+
+            data.forEach((usuario) => {
+                const div = document.createElement("div");
+                div.classList.add("worker-card");
+                div.id = `worker-card-${usuario.id}`;
+                div.innerHTML = `
+                  <span class="delete-icon" id="delete-${usuario.id}" onclick="deleteWorker(${usuario.id})">✖</span>
+                  <img src="../imagenes/worker.png" class="profile-pic" id="profile-pic-${usuario.id}">
+                  <div class="worker-info">
+                    <h2 id="worker-name-${usuario.id}">${usuario.nombre}</h2>
+                    <p><strong>Email:</strong> <span id="worker-email-${usuario.id}">${usuario.email}</span></p>
+                    <p><strong>Teléfono:</strong> <span id="worker-phone-${usuario.id}">${usuario.numTel}</span></p>
+                    <p><strong>Dirección:</strong> <span id="worker-address-${usuario.id}">${usuario.direccion}</span></p>
+                    <button class="edicion" id="edit-${usuario.id}" onclick="editWorker(${usuario.id})">Editar</button>
+                  </div>
+                `;
+                contenedor.appendChild(div);
+            });
+
+            workerCount = data.length; // Actualiza el contador
+            updateWorkerCount();
+        })
+        .catch(error => {
+            console.error("Error al cargar los trabajadores:", error);
+        });
+}
+
 
 
 // Función para actualizar el contador de trabajadores
-
 function updateWorkerCount() {
-
     document.getElementById("worker-count").innerText = `TRABAJADORES ACTUALES: ${workerCount}`;
-
 }
 
-
-// Función para agregar un nuevo trabajador
-
 function addWorker() {
-
     const name = document.getElementById("new-worker-name").value;
-
     const email = document.getElementById("new-worker-email").value;
-
     const phone = document.getElementById("new-worker-phone").value;
-
     const address = document.getElementById("new-worker-address").value;
 
-
     if (!name || !email || !phone || !address) {
-
         alert("Por favor, completa todos los campos.");
-
         return;
-
     }
 
-
     const nuevoUsuario = {
-
         nombre: name,
-        apellidos: name, // Opcional: Cambia esto si tienes un campo para "apellidos"
-        contrasena: "usuario", // Contraseña fija o basada en un campo
+        contrasena: 'usuario', // Contraseña fija o predeterminada
         email: email,
-
         numTel: phone,
-
-        direccion: address
-
+        direccion: address,
+        nacionalidad: 'España', // Valor predeterminado
+        sexo: 'N/A' // Valor predeterminado
     };
 
-
-    // Enviar la solicitud al servidor
-
-    fetch("http://localhost:3000/empleados/add", {
-
-        method: "POST",
-
+    // Configuración de la solicitud
+    fetch('http://localhost:3000/addtrabajadores', {  // Cambia 'PORT' por tu puerto y 'your-endpoint' por la ruta del servidor donde se maneja la lógica de añadir trabajador.
+        method: 'POST',
         headers: {
-
-            "Content-Type": "application/json"
-
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(nuevoUsuario)
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-
-            throw new Error("Error al agregar el trabajador.");
-
-        }
-
+    .then(response => response.json())  // Analiza la respuesta como JSON
+    .then(data => {
+        if (data.success) {
+            alert("Trabajador agregado correctamente");
+            showWorkers(); // Actualiza la lista de trabajadores en el frontend
+        } 
     })
-    .then(result => {
-        alert("Trabajador agregado correctamente");
-        console.log(result);
-        showWorkers(); // Actualiza la lista de trabajadores en el frontend
-    })
- 
-
+    .catch((error) => {
+        console.error("Error en la petición al servidor:", error);
+        alert("Error en la petición al servidor.");
+    });
 
     // Limpiar los campos de entrada
-
     document.getElementById("new-worker-name").value = "";
-
     document.getElementById("new-worker-email").value = "";
-
     document.getElementById("new-worker-phone").value = "";
-
     document.getElementById("new-worker-address").value = "";
-
 }
 
-
-// Inicializa la aplicación cargando los trabajadores del servidor
-
-document.addEventListener("DOMContentLoaded", shoWorkers);
-
-
-// Función para cerrar el modal
-
-function closeModal() {
-
-    document.getElementById("edit-modal").style.display = "none";
-
-}
-
+// Inicializa la aplicación cargando los trabajadores de la base de datos
+document.addEventListener("DOMContentLoaded", showWorkers);
 
 // Función para abrir el modal de edición
-
 function editWorker(id) {
+    fetch(`http://localhost:3000/editar-trabajador/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del trabajador');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("edit-name").value = data.nombre;
+            document.getElementById("edit-email").value = data.email;
+            document.getElementById("edit-phone").value = data.numTel;
+            document.getElementById("edit-address").value = data.direccion;
 
-    // Obtener los datos del usuario
-
-    const name = document.getElementById(`worker-name-${id}`).innerText;
-
-    const email = document.getElementById(`worker-email-${id}`).innerText;
-
-    const phone = document.getElementById(`worker-phone-${id}`).innerText;
-
-    const address = document.getElementById(`worker-address-${id}`).innerText;
-
-
-    // Llenar el modal con la información del usuario
-
-    document.getElementById("edit-name").value = name;
-
-    document.getElementById("edit-email").value = email;
-
-    document.getElementById("edit-phone").value = phone;
-
-    document.getElementById("edit-address").value = address;
-
-
-    // Guardar el ID del trabajador que se está editando
-
-    currentEditingId = id;
-
-
-    // Mostrar el modal
-
-    document.getElementById("edit-modal").style.display = "block";
-
+            currentEditingId = id;
+            document.getElementById("edit-modal").style.display = "flex";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
+// Función para cerrar el modal
+function closeModal() {
+    document.getElementById("edit-modal").style.display = "none";
+}
 
 // Función para guardar los cambios
-
 function saveChanges() {
-
     const name = document.getElementById("edit-name").value;
-
     const email = document.getElementById("edit-email").value;
-
     const phone = document.getElementById("edit-phone").value;
-
     const address = document.getElementById("edit-address").value;
 
-
-    // Crear el objeto del trabajador actualizado
-
-    const updatedUser  = {
-
-        nombre: name,
-
-        email: email,
-
-        numTel: phone,
-
-        direccion: address
-
-    };
-
-
-    // Enviar la solicitud al servidor para actualizar el trabajador
-
-    fetch(`http://localhost:3000/empleados/update/${currentEditingId}`, {
-
-        method: "POST",
-
+    fetch(`http://localhost:3000/actualizar-trabajador/${currentEditingId}`, {
+        method: 'PUT',
         headers: {
-
-            "Content-Type": "application/json"
-
+            'Content-Type': 'application/json'
         },
-
-        body: JSON.stringify(updatedUser ) // Asegúrate de que esto sea correcto
-
+        body: JSON.stringify({ nombre: name, email: email, numTel: phone, direccion: address })
     })
-
-    .then(function(response) {
-
-        if (response.ok) {
-
-            return response.json(); // Asegúrate de manejar la respuesta JSON
-
-        } else {
-
-            throw new Error("Error al guardar los cambios.");
-
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al guardar los cambios');
         }
-
+        return response.json();
     })
-
-    .then(function(data) {
-
-        alert("Cambios guardados.");
-
-        
-
-        // Actualizar la información en la interfaz de usuario
-
+    .then(data => {
+        alert("Cambios guardados correctamente.");
         document.getElementById(`worker-name-${currentEditingId}`).innerText = name;
-
         document.getElementById(`worker-email-${currentEditingId}`).innerText = email;
-
         document.getElementById(`worker-phone-${currentEditingId}`).innerText = phone;
-
         document.getElementById(`worker-address-${currentEditingId}`).innerText = address;
-
-
-        // Cerrar el modal
-
         closeModal();
-
     })
-
-    .catch(function(error) {
-
-        alert(error.message); // Mostrar el error en caso de que algo falle
-
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Error al guardar los cambios.");
     });
-
 }
 
-
-    // Enviar la solicitud al servidor para actualizar el trabajador
-
-    fetch(`http://localhost:3000/empleados/update/${currentEditingId}`, {
-
-        method: "PUT",
-
-        headers: {
-
-            "Content-Type": "application/json"
-
-        },
-
-        body: JSON.stringify(updatedUser )
-
-    })
-
-    .then(function(response) {
-
-        if (response.ok) {
-
-            alert("Cambios guardados.");
-
-            
-
-            // Actualizar la información en la interfaz de usuario
-
-            document.getElementById(`worker-name-${currentEditingId}`).innerText = name;
-
-            document.getElementById(`worker-email-${currentEditingId}`).innerText = email;
-
-            document.getElementById(`worker-phone-${currentEditingId}`).innerText = phone;
-
-            document.getElementById(`worker-address-${currentEditingId}`).innerText = address;
-
-
-            // Cerrar el modal
-
-            closeModal();
-
-        } else {
-
-            throw new Error("Error al guardar los cambios.");
-
-        }
-
-    })
-
-    .catch(function(error) {
-
-        alert(error.message); // Mostrar el error en caso de que algo falle
-
-    });
+// Asegúrate de agregar un evento al botón "Guardar" en el modal para llamar a saveChanges
+document.getElementById("save-button").addEventListener("click", saveChanges);
 

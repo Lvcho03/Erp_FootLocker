@@ -1,4 +1,4 @@
-<!Doctype html>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -18,24 +18,24 @@
             <button class="abrir" id="abrir">
                 <i class="bi bi-list"></i> 
             </button> 
-        
+            
             <!-- Nav adaptado -->
             <nav id="nav" class="menu-header">
                 <button class="cerrar" id="cerrar"><i class="bi bi-x"></i></button>
                 <ul>
                     <li><a href="../html/VistaTrabajadores.html">Trabajadores</a></li>
-                    <li><a href="#opcion2">Opción 2</a></li>
+                    <li><a href="../html/VistaVentas.html">Ventas</a></li>
                     <li><a href="#opcion3">Opción 3</a></li>
                     <li><a href="#opcion4">Opción 4</a></li>
                     <li><a href="../index.html">Cerrar Sesión</a></li>
                 </ul>
             </nav>
         </header>
+        
         <section>
-
             <div class="sombra">
                 <div class="bienvenido">
-                    <p>Bienvenido,<span id="nameAdmin"></span>,eres administrador</p>
+                    <p>Bienvenido,<span id="nameAdmin"></span>, eres administrador</p>
                 </div>
                 <div class="estado">
                     <ul> Eres Admin </ul>
@@ -50,28 +50,23 @@
                 </div>
             </div>
         </section>
+        
         <footer>
-
             <div class="cajafooter"></div>
-
         </footer>
 
         <script>
-            const conexion = new Conexion();
             document.addEventListener("DOMContentLoaded", () => {
                 const nombreUsuario = localStorage.getItem("nombreUsuario");
-                console.log(nombreUsuario+"nombreusu");
                 if (nombreUsuario) {
-                    
                     document.getElementById("nameAdmin").textContent = nombreUsuario;
-                    console.log(nombreUsuario);
-                   
+                    console.log(nombreUsuario + " nombreusuario");
+                } else {
+                    console.error('No se encontró información del usuario en el localStorage');
                 }
             });
         </script>
         
         <script src="../JS/menuDesplegable.js"></script>
-
     </body>
-
 </html>

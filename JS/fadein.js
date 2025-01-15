@@ -1,3 +1,6 @@
+
+
+
 function mostrarFormulario() {
     const contenedorForm = document.getElementById("contenedor-form");
     contenedorForm.classList.add("in"); // añade la clase `in` para hacerlo visible
@@ -50,39 +53,6 @@ function cerrarAlerta() {
         console.log(esBoolean);
     }, { once: true }); 
 }
-
-// En el submit del formulario, para cargar datos y validar usuario/admin
-document.getElementById("myForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-
-    const conexion = new Conexion();
-    const usuario = document.getElementById("usuario").value;
-    const contrasena = document.getElementById("contrasena").value;
-
-    // Cargar los datos antes de intentar validar
-    conexion.cargarDatos().then(() => {
-        const usuarioValido = conexion.validarUsuario(usuario, contrasena);
-        const adminValido = conexion.validarAdmin(usuario, contrasena);
-
-        if (adminValido) {
-            window.location.href = "../html/templateAdminPage.html"; // Redirigir a la página de administrador
-            cerrarFormulario(); 
-            
-        } else if (usuarioValido) {
-            window.location.href = "../html/templateNotAdminPage.html"; // Redirigir a la página de usuario
-        } else {
-            mostrarAlerta("Usuario o contraseña incorrectos. Por favor, intenta de nuevo.");
-        }
-
-        localStorage.setItem("nombreUsuario", usuario);
-
-    }).catch(error => {
-        console.error("Error al cargar los datos:", error);
-        mostrarAlerta("Hubo un error al cargar los datos. Por favor, intenta de nuevo.");
-    });
-});
-
-
 
 
 

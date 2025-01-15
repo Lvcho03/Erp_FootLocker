@@ -2,6 +2,19 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "sqlite3": "^5.1.7"
-  }
+    "node": "^22.13.0",
+    "sqlite3": "^5.1.7",
+    "xlsx": "^0.18.5"
+  },
+  "name": "erp_footlocker",
+  "version": "1.0.0",
+  "description": "¿De qué se trata la empresa?",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

@@ -17,7 +17,7 @@
     },
     {
       "id": 3,
-      "nombre": "carlota Matirnez Martinez",
+      "nombre": "carlota kerry Kapiha",
       "email": "carmarmar@gmail.com",
       "numTel": "686358765",
       "direccion": "calle Aragón nº5"
@@ -32,10 +32,19 @@
     },
     {
       "id": 7,
-      "nombre": "asAS",
-      "email": "asAS",
+      "nombre": "isagi Yoichi",
+      "email": "egoistuvjuivlbdfsvkbl",
       "numTel": "asAS",
       "direccion": "asa"
+    },
+    {
+      "id": 8,
+      "nombre": "debora Meltroso Bienbig",
+      "apellidos": "debora Meltroso Bienbig",
+      "contrasena": "usuario",
+      "email": "sdkgfhkafakukaishk",
+      "numTel": "890789678",
+      "direccion": "Son Gotleu"
     }
   ]
 }
