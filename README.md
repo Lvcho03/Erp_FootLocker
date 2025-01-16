@@ -88,3 +88,11 @@ Insertar el siguiente comando en la terminal para instalar las dependencias :
 npm install cors express sqlite3
 
 para arrancar el servidor seria node JS/servidor.js
+
+LOGUEO ADMIN :
+USUARIO : juan
+CONTRASEÑA : admin
+
+LOGUEO USUARIO :
+USUARIO :pepe Capo Gonzalez
+CONTRASEÑA: usuario
