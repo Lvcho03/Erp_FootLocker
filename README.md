@@ -70,22 +70,32 @@ Para instalarlo es necesario abrir Visual Studio Code y en el lado izquierdo bus
 Ahora para utilizarlo solo debes darle al botón de abajo a la derecha que pone " Go Live " con eso bastaría para que se te abra el navegador con la página ya cargada.
 
 
-## Dependencias a instalar
+Dependencias necesarias
 
-Para que tu proyecto funcione correctamente, asegúrate de instalar las siguientes dependencias. Estas son necesarias para configurar el servidor y conectarse a la base de datos SQLite:
+Asegúrate de instalar las siguientes dependencias para que tu proyecto funcione correctamente:
 
-```json
 "dependencies": {
   "cors": "^2.8.5",
   "express": "^4.21.2",
-  "node": "^22.13.0",
   "sqlite3": "^5.1.7",
-   "xlsx": "^0.18.5"
+  "xlsx": "^0.18.5"
 }
 
-Insertar el siguiente comando en la terminal para instalar las dependencias :
+Pasos para instalarlas:
 
-npm install cors express sqlite3
+    Abre la terminal y navega a la carpeta de tu proyecto:
+
+cd ruta/de/tu/proyecto
+
+Si no tienes un archivo package.json, inicialízalo:
+
+npm init -y
+
+Instala las dependencias ejecutando el siguiente comando:
+
+npm install cors express sqlite3 xlsx
+
+Una vez instaladas, verifica que aparezcan en el archivo package.json.
 
 para arrancar el servidor seria node JS/servidor.js
 
