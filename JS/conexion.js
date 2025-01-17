@@ -12,8 +12,8 @@ class Conexion {
 
   validarUsuario(nombre, contrasena) {
     return new Promise((resolve, reject) => {
-      const queryUsuario = 'SELECT * FROM TablaUsuario WHERE nombre = ? AND contrasena = ?';
-      const queryAdmin = 'SELECT * FROM TablaAdmin WHERE nombre = ? AND contrasena = ?';
+      const queryUsuario = 'SELECT * FROM TablaUsuario WHERE n = ? AND c = ?';
+      const queryAdmin = 'SELECT * FROM TablaAdmin WHERE n = ? AND c = ?';
 
       this.db.get(queryUsuario, [nombre, contrasena], (err, rowUsuario) => {
         if (err) {
