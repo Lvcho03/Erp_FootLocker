@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestión de Zapatillas</title>
+    <link src="zapatillasBB.js">
 </head>
 <body>
     <h1>Gestión de Zapatillas</h1>
@@ -29,45 +30,6 @@
     </form>
     
 
-    <script>
-        // Función para manejar el formulario de agregar
-        document.getElementById('addForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('id').value;
-            const modelo = document.getElementById('modelo').value;
-            const total_ventas = document.getElementById('total_ventas').value;
-            const precio = document.getElementById('precio').value;
-
-            const response = await fetch('/agregar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, modelo, total_ventas, precio })
-            });
-
-            if (response.ok) {
-                alert('Zapatilla agregada correctamente.');
-            } else {
-                alert('Error al agregar zapatilla.');
-            }
-        });
-
-        // Función para manejar el formulario de eliminar
-        document.getElementById('deleteForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('deleteId').value;
-
-            const response = await fetch('/eliminar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id })
-            });
-
-            if (response.ok) {
-                alert('Zapatilla eliminada correctamente.');
-            } else {
-                alert('Error al eliminar zapatilla.');
-            }
-        });
-    </script>
+   
 </body>
 </html>

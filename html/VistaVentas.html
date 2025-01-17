@@ -52,43 +52,59 @@
             }
         }
 
+        
         async function drawAreaChart() {
     try {
-        const response = await fetch('http://localhost:3000/ventasMensuales');
-        if (!response.ok) {
-            throw new Error("Error al obtener datos del servidor.");
-        }
+        const ventasMensuales = await obtenerVentasMensualesPorProducto();
 
-        const ventasMensuales = await response.json();
+// Obtener todas las marcas únicas
+const marcas = [...new Set(ventasMensuales.map(v => v.marca))]; // Extraer marcas únicas
+const encabezado = ['mes', ...marcas]; // Encabezado con las marcas
 
-        if (!ventasMensuales || ventasMensuales.length === 0) {
-            throw new Error("Datos vacíos o no disponibles.");
-        }
+// Agrupar ventas por mes
+const datosAgrupados = {};
+ventasMensuales.forEach(({ mes, marca, total_ventas }) => {
+    if (!datosAgrupados[mes]) {
+        datosAgrupados[mes] = { mes: new Date(mes) }; // Convierte a objeto Date // Inicializar con el mes
+    }
+    datosAgrupados[mes][marca] = total_ventas; // Agregar ventas por marca
+});
 
-        // Extraer las marcas dinámicamente de los datos
-        const marcas = [...new Set(ventasMensuales.map(mes => mes.m))]; // Set para quitar duplicados
-        marcas.unshift('Mes');  // Agregar "Mes" al inicio para los títulos
 
-        var data = google.visualization.arrayToDataTable([
-            marcas, // Títulos de columnas
-            ...ventasMensuales.map(mes => [mes.mes, mes.m, mes.total_ventas])
-        ]);
 
+// Convertir datos agrupados a filas para Google Charts
+const data = google.visualization.arrayToDataTable([
+    encabezado,
+    ...Object.values(datosAgrupados).map(mesData => {
+        return [mesData.mes, ...marcas.map(marca => mesData[marca] || 0)];
+    })
+    
+]);
+
+console.log("Datos agrupados:", datosAgrupados);
+console.log("Encabezado:", encabezado);
+        console.log("Data for chart:", data);  // Debug: Verificar la estructura final de datos
+
+        // Opciones del gráfico
         var options = {
             title: 'Tendencia de ventas mensuales por marca',
-            hAxis: { title: 'Año-Mes', titleTextStyle: { color: '#333' } },
+            hAxis: { title: 'Año-Mes', format: 'yyyy-MM', gridlines: { count: 10 } },
             vAxis: { title: 'Ventas', minValue: 0 },
             width: 1000,
-            height: 500
+            height: 500,
+            isStacked: true,
+            chartArea: { left: 60, width: '80%', height: '70%' },
         };
 
         var chart = new google.visualization.AreaChart(document.getElementById('chart_area'));
         chart.draw(data, options);
     } catch (error) {
         console.error("Error al cargar el gráfico de área:", error);
-        document.getElementById('chart_area').innerText = "Error al cargar el gráfico.";
+        document.getElementById('chart_area').innerText = "Error al cargar el gráfico. Por favor, intente más tarde.";
     }
 }
+
+
 
 
         // Tercera gráfica: BarChart

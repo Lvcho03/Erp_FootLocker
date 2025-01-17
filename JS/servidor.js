@@ -765,8 +765,19 @@ app.get('/ventas', (req, res) => {
   });
 });
 
+// Ruta para obtener marcas únicas
+app.get('/marcas', (req, res) => {
+  db.all('SELECT DISTINCT m FROM Productos', (error, results) => {
+      if (error) {
+          console.error('Error al consultar las marcas:', error);
+          return res.status(500).json({ error: 'Error interno del servidor' });
+      }
+      res.json(results.map(row => row.m));  // Enviar las marcas como respuesta
+  });
+});
 
-app.get('/ventasMensualesPorMarca', (req, res) => {
+
+app.get('/ventasMensuales', (req, res) => {
   const query = `
       SELECT DISTINCT
           strftime('%Y-%m', v.f) as mes,
@@ -785,6 +796,8 @@ app.get('/ventasMensualesPorMarca', (req, res) => {
       res.json(results);
   });
 });
+
+
 
 
 
