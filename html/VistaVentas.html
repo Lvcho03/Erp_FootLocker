@@ -52,34 +52,44 @@
             }
         }
 
-        // Segunda gráfica: AreaChart
         async function drawAreaChart() {
-            try {
-                const ventasMensuales = await obtenerVentasMensualesPorProducto();
-                if (!ventasMensuales || ventasMensuales.length === 0) {
-                    throw new Error("Datos vacíos o no disponibles.");
-                }
-
-                var data = google.visualization.arrayToDataTable([
-                    ['Mes', 'Nike', 'Vans', 'Converse'],
-                    ...ventasMensuales
-                ]);
-
-                var options = {
-                    title: 'Tendencia de ventas mensuales por marca',
-                    hAxis: { title: 'Año-Mes', titleTextStyle: { color: '#333' } },
-                    vAxis: { title: 'Ventas', minValue: 0 },
-                    width: 1000,
-                    height: 500
-                };
-
-                var chart = new google.visualization.AreaChart(document.getElementById('chart_area'));
-                chart.draw(data, options);
-            } catch (error) {
-                console.error("Error al cargar el gráfico de área:", error);
-                document.getElementById('chart_area').innerText = "Error al cargar el gráfico.";
-            }
+    try {
+        const response = await fetch('http://localhost:3000/ventasMensuales');
+        if (!response.ok) {
+            throw new Error("Error al obtener datos del servidor.");
         }
+
+        const ventasMensuales = await response.json();
+
+        if (!ventasMensuales || ventasMensuales.length === 0) {
+            throw new Error("Datos vacíos o no disponibles.");
+        }
+
+        // Extraer las marcas dinámicamente de los datos
+        const marcas = [...new Set(ventasMensuales.map(mes => mes.m))]; // Set para quitar duplicados
+        marcas.unshift('Mes');  // Agregar "Mes" al inicio para los títulos
+
+        var data = google.visualization.arrayToDataTable([
+            marcas, // Títulos de columnas
+            ...ventasMensuales.map(mes => [mes.mes, mes.m, mes.total_ventas])
+        ]);
+
+        var options = {
+            title: 'Tendencia de ventas mensuales por marca',
+            hAxis: { title: 'Año-Mes', titleTextStyle: { color: '#333' } },
+            vAxis: { title: 'Ventas', minValue: 0 },
+            width: 1000,
+            height: 500
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_area'));
+        chart.draw(data, options);
+    } catch (error) {
+        console.error("Error al cargar el gráfico de área:", error);
+        document.getElementById('chart_area').innerText = "Error al cargar el gráfico.";
+    }
+}
+
 
         // Tercera gráfica: BarChart
         async function drawBarChart() {

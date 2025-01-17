@@ -31,33 +31,50 @@ class Zapatillas {
 }
 
 
-function addProduct(id, modelo, total_ventas, precio) {
-    fetch("http://localhost:3000/agregar", {
-        method: "POST",
+function addProduct() {
+    const modelo = document.getElementById("new-product-modelo").value;
+    const ventas = document.getElementById("new-product-ventas").value;
+    const precio = document.getElementById("new-product-precio").value;
+  
+
+    if (!modelo || !ventas || !precio) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
+    const nuevoProducto = {
+        modelo: modelo,
+        ventas: ventas, // Contraseña fija o predeterminada
+        precio: precio
+    };
+
+    // Configuración de la solicitud
+    fetch('http://localhost:3000/addproduct', {  // Cambia 'PORT' por tu puerto y 'your-endpoint' por la ruta del servidor donde se maneja la lógica de añadir trabajador.
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id, modelo, total_ventas, precio })
+        body: JSON.stringify(nuevoProducto)
     })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
-        } else {
-            throw new Error("Error al agregar la zapatilla.");
-        }
+    .then(response => response.json())  // Analiza la respuesta como JSON
+    .then(data => {
+        if (data.success) {
+            alert("Producto agregado correctamente");
+            showProducts(); // Actualiza la lista de trabajadores en el frontend
+        } 
     })
-    .then(result => {
-        alert("Zapatilla agregada correctamente");
-        console.log(result);
-        showProducts(); // Actualiza la lista de productos en el frontend
-    })
-    .catch(error => {
-        console.error(error);
-        alert("Hubo un error al agregar la zapatilla.");
+    .catch((error) => {
+        console.error("Error en la petición al servidor:", error);
+        alert("Error en la petición al servidor.");
     });
+
+    // Limpiar los campos de entrada
+    document.getElementById("new-product-modelo").value = "";
+    document.getElementById("new-product-ventas").value = "";
+    document.getElementById("new-product-precio").value = "";
 }
 function deleteProduct(productId) {
-    fetch("http://localhost:3000/eliminar", {
+    fetch("http://localhost:3000/eliminarproducto", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -119,5 +136,61 @@ function showProducts() {
         console.error('Error al obtener los productos:', error);
     });
 }
+function editProduct(id){
+    fetch(`http://localhost:3000/editar-producto/${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los datos del producto');
+            }
+            return response.json();
+        })
+        .then(data => {
+            document.getElementById("edit-modelo").value = product.modelo;
+            document.getElementById("edit-ventas").value = product.total_ventas;
+            document.getElementById("edit-precio").value = product.precio;
+
+            currentEditingId = id;
+            document.getElementById("edit-modal").style.display = "flex";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+}
+function closeModal() {
+    document.getElementById("edit-modal").style.display = "none";
+}
+
+function saveChanges() {
+    const modelo = document.getElementById("edit-modelo").value;
+    const ventas = document.getElementById("edit-ventas").value;
+    const precio = document.getElementById("edit-precio").value;
+
+    fetch(`http://localhost:3000/actualizar-producto/${currentEditingId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ modelo: modelo, total_ventas: ventas, precio: precio })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al guardar los cambios');
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert("Cambios guardados correctamente.");
+        document.getElementById(`product-modelo-${currentEditingId}`).innerText = modelo;
+        document.getElementById(`product-ventas-${currentEditingId}`).innerText = ventas;
+        document.getElementById(`product-precio-${currentEditingId}`).innerText = precio;
+        closeModal();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("Error al guardar los cambios.");
+    });
+}
+
 
 module.exports = Zapatillas;

@@ -32,57 +32,59 @@ const db = new sqlite3.Database('./DB/usuarios.db', async (err) => {
 async function crearYPoblarBaseDeDatos() {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
-      db.run('DROP TABLE IF EXISTS TablaAdmin');
-      db.run('DROP TABLE IF EXISTS TablaUsuario');
-      db.run('DROP TABLE IF EXISTS Clientes');
-      db.run('DROP TABLE IF EXISTS Productos');
-      db.run('DROP TABLE IF EXISTS Ventas');
-
-      db.run(`CREATE TABLE IF NOT EXISTS TablaAdmin (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
-        contrasena TEXT NOT NULL
-      )`);
-
-      db.run(`CREATE TABLE IF NOT EXISTS TablaUsuario (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre TEXT NOT NULL,
-        contrasena TEXT,
-        email TEXT,
-        numTel TEXT,
-        direccion TEXT,
-        nacionalidad TEXT,
-        sexo TEXT
-      )`);
-
-      db.run(`CREATE TABLE IF NOT EXISTS Clientes (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        nombre VARCHAR(50),
-        apellido VARCHAR(50),
-        telefono VARCHAR(15),
-        email VARCHAR(100),
-        nacionalidad VARCHAR(50),
-        sexo CHAR(1)
-      )`);
-
-      db.run(`CREATE TABLE IF NOT EXISTS Productos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        marca VARCHAR(50),
-        modelo VARCHAR(50),
-        precio DECIMAL(10,2),
-        stock INT
-      )`);
-
-      db.run(`CREATE TABLE IF NOT EXISTS Ventas (
-        id_venta INTEGER PRIMARY KEY AUTOINCREMENT,
-        id_cliente INT,
-        id_producto INT,
-        fecha DATE,
-        forma_pago VARCHAR(50),
-        cantidad INT,
-        FOREIGN KEY (id_cliente) REFERENCES Clientes(id),
-        FOREIGN KEY (id_producto) REFERENCES Productos(id)
-      )`);
+      db.serialize(() => {
+        db.run('DROP TABLE IF EXISTS TablaAdmin');
+        db.run('DROP TABLE IF EXISTS TablaUsuario');
+        db.run('DROP TABLE IF EXISTS Clientes');
+        db.run('DROP TABLE IF EXISTS Productos');
+        db.run('DROP TABLE IF EXISTS Ventas');
+      
+        db.run(`CREATE TABLE IF NOT EXISTS TablaAdmin (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          n TEXT NOT NULL,  -- nombre
+          c TEXT NOT NULL   -- contrasena
+        )`);
+      
+        db.run(`CREATE TABLE IF NOT EXISTS TablaUsuario (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          n TEXT NOT NULL,  -- nombre
+          c TEXT,           -- contrasena
+          e TEXT,           -- email
+          nt TEXT,          -- numTel
+          d TEXT,           -- direccion
+          na TEXT,          -- nacionalidad
+          s TEXT            -- sexo
+        )`);
+      
+        db.run(`CREATE TABLE IF NOT EXISTS Clientes (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          n VARCHAR(50),    -- nombre
+          a VARCHAR(50),    -- apellido
+          t VARCHAR(15),    -- telefono
+          e VARCHAR(100),   -- email
+          na VARCHAR(50),   -- nacionalidad
+          s CHAR(1)         -- sexo
+        )`);
+      
+        db.run(`CREATE TABLE IF NOT EXISTS Productos (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          m VARCHAR(50),    -- marca
+          mo VARCHAR(50),   -- modelo
+          p DECIMAL(10,2),  -- precio
+          st INT            -- stock
+        )`);
+      
+        db.run(`CREATE TABLE IF NOT EXISTS Ventas (
+          id_v INTEGER PRIMARY KEY AUTOINCREMENT,  -- id_venta
+          id_c INT,        -- id_cliente
+          id_p INT,        -- id_producto
+          f DATE,          -- fecha
+          fp VARCHAR(50),  -- forma_pago
+          c INT,           -- cantidad
+          FOREIGN KEY (id_c) REFERENCES Clientes(id),
+          FOREIGN KEY (id_p) REFERENCES Productos(id)
+        )`);
+      });
 
       db.run(`DELETE FROM TablaAdmin`);
       db.run(`DELETE FROM TablaUsuario`);
@@ -97,7 +99,7 @@ async function crearYPoblarBaseDeDatos() {
       ];
 
       usuarios.forEach(user => {
-        db.run(`INSERT INTO TablaAdmin (nombre, contrasena) VALUES (?, ?)`, [user.nombre, user.contrasena]);
+        db.run(`INSERT INTO TablaAdmin (n, c) VALUES (?, ?)`, [user.nombre, user.contrasena]);
       });
 
       // Insertar datos en TablaUsuario
@@ -109,7 +111,7 @@ async function crearYPoblarBaseDeDatos() {
       ];
 
       usuariosTablaUsuario.forEach(user => {
-        db.run(`INSERT INTO TablaUsuario (nombre, contrasena, email, numTel, direccion, nacionalidad, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)`, [user.nombre, user.contrasena, user.email, user.numTel, user.direccion, user.nacionalidad, user.sexo]);
+        db.run(`INSERT INTO TablaUsuario (n, c, e, n, d, na, s) VALUES (?, ?, ?, ?, ?, ?, ?)`, [user.nombre, user.contrasena, user.email, user.numTel, user.direccion, user.nacionalidad, user.sexo]);
       });
 
       // Insertar datos en la tabla Clientes
@@ -171,7 +173,7 @@ async function crearYPoblarBaseDeDatos() {
       
 
       clientes.forEach(cliente => {
-        db.run(`INSERT INTO Clientes (nombre, apellido, telefono, email, nacionalidad, sexo) VALUES (?, ?, ?, ?, ?, ?)`, [cliente.nombre, cliente.apellido, cliente.telefono, cliente.email, cliente.nacionalidad, cliente.sexo]);
+        db.run(`INSERT INTO Clientes (n, a, t, e, na, s) VALUES (?, ?, ?, ?, ?, ?)`, [cliente.nombre, cliente.apellido, cliente.telefono, cliente.email, cliente.nacionalidad, cliente.sexo]);
       });
 
       // Insertar datos en la tabla Productos (Zapatillas)
@@ -208,7 +210,7 @@ async function crearYPoblarBaseDeDatos() {
     ];
     
       productos.forEach(producto => {
-        db.run(`INSERT INTO Productos (marca, modelo, precio, stock) VALUES (?, ?, ?, ?)`,
+        db.run(`INSERT INTO Productos (m, mo, p, st) VALUES (?, ?, ?, ?)`,
           [producto.marca, producto.modelo, producto.precio, producto.stock]);
       });
       
@@ -556,7 +558,7 @@ async function crearYPoblarBaseDeDatos() {
 
 
 ventas.forEach(venta => {
-  db.run(`INSERT INTO Ventas (id_cliente, id_producto, fecha, forma_pago, cantidad) VALUES (?, ?, ?, ?, ?)`, [venta.id_cliente, venta.id_producto, venta.fecha, venta.forma_pago, venta.cantidad]);
+  db.run(`INSERT INTO Ventas (id_c, id_p, f, fp, c) VALUES (?, ?, ?, ?, ?)`, [venta.id_cliente, venta.id_producto, venta.fecha, venta.forma_pago, venta.cantidad]);
 });
 
 
@@ -598,7 +600,7 @@ app.post('/agregarZapatilla', (req, res) => {
     }
 
     // Insertar la nueva zapatilla en la base de datos
-    const sql = 'INSERT INTO zapatillas (id, modelo, total_ventas, precio) VALUES (?, ?, ?, ?)';
+    const sql = 'INSERT INTO Productos ( m, mo,p, st) VALUES (?, ?, ?, ?)';
 
     db.run(sql, [id, modelo, total_ventas, precio], function(err) {
         if (err) {
@@ -618,7 +620,7 @@ app.post('/eliminarZapatilla', (req, res) => {
     }
 
     // Eliminar la zapatilla de la base de datos
-    const sql = 'DELETE FROM zapatillas WHERE id = ?';
+    const sql = 'DELETE FROM Productos WHERE id = ?';
 
     db.run(sql, [id], function(err) {
         if (err) {
@@ -679,7 +681,7 @@ app.get('/alltrabajadores', (req, res) => {
 // Ruta para agregar un trabajador
 app.post('/addtrabajadores', (req, res) => {
   const { nombre, apellidos, contrasena, email, numTel, direccion } = req.body;
-  db.run(`INSERT INTO TablaUsuario (nombre, contrasena, email, numTel, direccion, nacionalidad, sexo) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+  db.run(`INSERT INTO TablaUsuario (n, c, e, nt, d, na, s) VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [nombre, apellidos, contrasena, email, numTel, direccion],
       function (err) {
           if (err) {
@@ -725,7 +727,7 @@ app.put('/actualizar-trabajador/:id', (req, res) => {
   const workerId = req.params.id;
   const { nombre, email, numTel, direccion } = req.body;
 
-  db.run(`UPDATE TablaUsuario SET nombre = ?, email = ?, numTel = ?, direccion = ? WHERE id = ?`,
+  db.run(`UPDATE TablaUsuario SET n = ?, e = ?, nt = ?, d = ? WHERE id = ?`,
       [nombre, email, numTel, direccion, workerId],
       function (err) {
           if (err) {
@@ -743,11 +745,11 @@ app.put('/actualizar-trabajador/:id', (req, res) => {
 app.get('/ventas', (req, res) => {
   const query = `
       SELECT 
-          p.modelo as producto,
-          SUM(v.cantidad) as total_ventas
+          p.mo as producto,
+          SUM(v.c) as total_ventas
       FROM Ventas v
-      JOIN Productos p ON v.id_producto = p.id
-      GROUP BY p.modelo
+      JOIN Productos p ON v.id_p = p.id
+      GROUP BY p.mo
   `;
 
   db.all(query, (error, results) => {
@@ -764,18 +766,18 @@ app.get('/ventas', (req, res) => {
 });
 
 
-// Ruta para obtener las ventas mensuales por producto
-app.get('/ventasMensuales', (req, res) => {
+app.get('/ventasMensualesPorMarca', (req, res) => {
   const query = `
-      SELECT 
-          strftime('%Y-%m', fecha) as mes,
-          id_producto,
-          SUM(CASE WHEN id_producto = 1 THEN cantidad ELSE 0 END) as nike,
-          SUM(CASE WHEN id_producto = 2 THEN cantidad ELSE 0 END) as vans,
-          SUM(CASE WHEN id_producto = 3 THEN cantidad ELSE 0 END) as converse
-      FROM Ventas
-      GROUP BY mes, id_producto
+      SELECT DISTINCT
+          strftime('%Y-%m', v.f) as mes,
+          p.m as marca,
+          SUM(v.c) as total_ventas
+      FROM Ventas v
+      JOIN Productos p ON v.id_p = p.id
+      GROUP BY mes, p.m
+      ORDER BY mes, p.m;
   `;
+
   db.all(query, (error, results) => {
       if (error) {
           return res.status(500).json({ message: "Error al obtener datos del servidor.", error });
@@ -784,15 +786,18 @@ app.get('/ventasMensuales', (req, res) => {
   });
 });
 
+
+
+
 // Ruta para obtener las diferencias de ventas por producto
 app.get('/diferenciasVentas', (req, res) => {
   const query = `
       SELECT 
-          p.marca as producto,
-          SUM(cantidad) as total_ventas
+          p.m as producto,
+          SUM(c) as total_ventas
       FROM Ventas v
-      JOIN Productos p ON v.id_producto = p.id
-      GROUP BY p.marca
+      JOIN Productos p ON v.id_p = p.id
+      GROUP BY p.m
   `;
   
   db.all(query, (error, results) => {
