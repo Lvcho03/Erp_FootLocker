@@ -54,6 +54,7 @@ header .logo img {
 
 section{
 display: flex;
+align-content: center;
 flex-direction: column;
 justify-content: center;
 align-items: center;
@@ -113,9 +114,9 @@ width: 100%;
 background-color: rgb(39, 42, 87);
 }
 
- /* Estilo para la tabla */
- table {
-    width: 100%; /* Ajusta el ancho completo de la pantalla */
+ /* Estilos para la tabla */
+table {
+    width: 100px; /* Ajusta el ancho completo de la pantalla */
     border-collapse: collapse;
     margin: 20px 0;
 }
@@ -139,104 +140,131 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-caption {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-/* Estilo para la columna de acciones */
 .acciones {
-    width: 20%; /* Cambiar el ancho de la columna de acciones */
-    text-align: center;
-}
-
-.editar-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    margin: 2px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.ver-button {
-    background-color: #2196F3;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    margin: 2px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.eliminar-button {
-    background-color: #F44336;
-    color: white;
-    padding: 6px 12px;
-    border: none;
-    margin: 2px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-/* Estilo para el cuadro de lista de productos en el header */
-.productos-header {
+    width: 50%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
 }
 
-.productos-cuadro {
-    width: 250px; /* Ajusta el ancho según necesites */
-    height: 150px; /* Reduce la altura para que sea más pequeño */
-    overflow-y: auto; /* Habilita el scroll vertical */
-    border: 1px solid #ccc; /* Opcional: agrega un borde para visualizar mejor */
-    padding: 10px;
-    background-color: #f9f9f9; /* Fondo claro */
-    border-radius: 5px; /* Opcional: bordes redondeados */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: efecto de sombra */
+.d-flex {
+    display: flex;
+    align-items: center;
 }
 
-
-.producto-item {
-    margin-bottom: 10px;
+.spinner-border {
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
-.agregar-venta-button {
-    background-color:#4CAF50;
-    color: white;
+.btn {
     padding: 6px 12px;
-    border: none;
-    cursor: pointer;
     font-size: 14px;
 }
 
-/* Campo de entrada para cantidad */
-.cantidad-input {
-    width: 80px;
-    padding: 5px;
-    margin-right: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
 }
 
-/* Botón del carrito de compras */
-.carrito-button {
-    background-color: #f4f4f4;
-    border: 1px solid #ccc;
-    color: #555;
-    font-size: 16px;
-    padding: 5px 8px;
-    margin-right: 5px;
-    border-radius: 5px;
-    cursor: pointer;
+.btn-primary:hover {
+    background-color: #0056b3;
 }
 
-.carrito-button:hover {
-    background-color: #ddd;
+.btn-danger {
+    background-color: #f44336;
+    border-color: #f44336;
+}
+
+.btn-danger:hover {
+    background-color: #c12e2e;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Estilo para el ícono del carrito */
+.bi-cart {
+    font-size: 20px;
+
+}
+
+.modal .modal-dialog {
+    max-width: 500px;
+}
+
+/* Estilos básicos del modal */
+.modal-content {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+
+/* Encabezado del modal */
+.modal-header {
+    background-color: #f8f9fa;
+    padding: 15px 20px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Títulos del modal */
+.modal-title {
+    font-size: 1.75rem;
     color: #333;
+}
+
+/* Botones de cierre */
+.btn-close {
+    color: #495057;
+    font-size: 1.25rem;
+}
+
+/* Body del modal */
+.modal-body {
+    padding: 20px;
+}
+
+/* Campos de entrada en el formulario */
+.form-control {
+    border-radius: 4px;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    font-size: 1rem;
+}
+
+/* Botón de guardar */
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Hover y focus en el botón */
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.5);
+}
+
+/* Asegurarse de que los inputs y etiquetas tengan un buen espaciado */
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+/* Fondo del overlay */
+.modal-backdrop {
+    background-color: rgba(0,0,0,0.5);
 }
