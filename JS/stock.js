@@ -36,7 +36,7 @@ function mostrarProductos(productos) {
                         <i class="bi bi-cart"></i>
                     </button>
                     <span class="me-2">Cantidad:</span>
-                    <input type="number" class="form-control me-2" style="width: 60px;" value="1" min="1">
+                    <input type="number" class="form-control me-2" style="width: 100px;" value="1" min="1">
                 </div>
                 <div>
                     <button class="btn btn-primary me-2" onclick="editarProducto(${producto.id})">Editar</button>
