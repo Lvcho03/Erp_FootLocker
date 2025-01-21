@@ -3,7 +3,7 @@ import sqlite3 from 'sqlite3';
 import bodyParser from 'body-parser';
 import cors from 'cors';  
 import Conexion from './conexion.js';  // Asegúrate de ajustar la ruta correcta a 'conexion.js'
-
+const router = express.Router();  // Define el enrutador
 const app = express();
 const PORT = process.env.PORT || 3000;  // Puerto donde el servidor escuchará
 
@@ -25,10 +25,10 @@ const db = new sqlite3.Database('./DB/usuarios.db', async (err) => {
     console.error("Error al conectar a la base de datos:", err.message);
   } else {
     console.log("Conectado a la base de datos.");
-    await crearYPoblarBaseDeDatos();  
+   // await crearYPoblarBaseDeDatos();  
   }
 });
-
+/*
 async function crearYPoblarBaseDeDatos() {
   return new Promise((resolve, reject) => {
     db.serialize(() => {
@@ -566,7 +566,7 @@ ventas.forEach(venta => {
     });
   });
 }
-
+*/
 
 
 // Instancia de la clase Conexion
@@ -640,29 +640,28 @@ app.get("/allProducto", (req, res) => {
   });
 });
 
-app.post('/eliminarProducto', (req, res) => {
-    const { id } = req.body;
+app.delete('/eliminarProducto/:id', (req, res) => {
+  const { id } = req.params;
 
-    if (!id) {
-        return res.status(400).json({ message: "ID de la zapatilla es requerido." });
-    }
+  if (!id) {
+      return res.status(400).json({ message: "ID de la zapatilla es requerido." });
+  }
 
-    // Eliminar la zapatilla de la base de datos
-    const sql = 'DELETE FROM Productos WHERE id = ?';
+  const sql = 'DELETE FROM Productos WHERE id = ?';
+  db.run(sql, [id], function(err) {
+      if (err) {
+          console.error('Error al eliminar zapatilla:', err);
+          return res.status(500).json({ message: "Error al eliminar zapatilla." });
+      }
 
-    db.run(sql, [id], function(err) {
-        if (err) {
-            console.error('Error al eliminar zapatilla:', err);
-            return res.status(500).json({ message: "Error al eliminar zapatilla." });
-        }
+      if (this.changes === 0) {
+          return res.status(404).json({ message: "Zapatilla no encontrada." });
+      }
 
-        if (this.changes === 0) {
-            return res.status(404).json({ message: "Zapatilla no encontrada." });
-        }
-
-        res.json({ message: "Zapatilla eliminada correctamente", id });
-    });
+      res.json({ message: "Zapatilla eliminada correctamente", id });
+  });
 });
+
 
 
 app.post('/cerrarSesion', async (req, res) => {
@@ -766,6 +765,41 @@ app.put('/actualizar-trabajador/:id', (req, res) => {
           }
       }
   );
+});
+
+
+app.post('/crearventa', async (req, res) => {
+  const { idCliente, formaPago, fecha, productos } = req.body;
+
+  try {
+      // Iniciar una transacción para asegurar la consistencia
+      await db.beginTransaction();
+
+      for (const producto of productos) {
+          const { idProducto, cantidad } = producto;
+
+          // Insertar una fila por cada producto vendido
+          await db.query(
+              `INSERT INTO Ventas (id_c, id_p, f, fp, c) VALUES (?, ?, ?, ?, ?)`,
+              [idCliente, idProducto, fecha, formaPago, cantidad]
+          );
+
+          // Actualizar el stock del producto
+          await db.query(
+              `UPDATE Productos SET stock = stock - ? WHERE id = ? AND stock >= ?`,
+              [cantidad, idProducto, cantidad]
+          );
+      }
+
+      // Confirmar la transacción
+      await db.commit();
+      res.json({ success: true, message: 'Venta registrada y stock actualizado correctamente.' });
+  } catch (error) {
+      // Revertir la transacción en caso de error
+      await db.rollback();
+      console.error('Error al registrar la venta:', error);
+      res.status(500).json({ success: false, message: 'Error al registrar la venta.' });
+  }
 });
 
 

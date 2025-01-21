@@ -20,8 +20,9 @@ function mostrarProductos(productos) {
     const tableBody = document.querySelector("#productTable tbody");
     tableBody.innerHTML = "";
 
-    productos.forEach((producto) => {
+    productos.forEach((producto, index) => {
         const fila = document.createElement("tr");
+        fila.setAttribute('id', `producto-${index + 1}`); // Identificador único para cada fila
 
         fila.innerHTML = `
             <td>${producto.id}</td>
@@ -31,28 +32,35 @@ function mostrarProductos(productos) {
             <td>${producto.st}</td>
             <td class="acciones d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-secondary me-2" onclick="agregarAlCarrito(${producto.id})">
+                    <button class="btn btn-secondary me-2" onclick="agregarAlCarrito(${index + 1})">
                         <i class="bi bi-cart"></i>
                     </button>
                     <span class="me-2">Cantidad:</span>
-                    <input type="number" class="form-control me-2" style="width: 60px;" value="1">
+                    <input type="number" class="form-control me-2" style="width: 60px;" value="1" min="1">
                 </div>
                 <div>
                     <button class="btn btn-primary me-2" onclick="editarProducto(${producto.id})">Editar</button>
-                    <button class="btn btn-danger me-2" onclick="eliminarProducto(${producto.id})">Eliminar</button>
+                    <button class="btn btn-danger me-2 btnBorrar" data-id="${producto.id}">Eliminar</button>
                 </div>
             </td>
         `;
 
         tableBody.appendChild(fila);
     });
+    // Agregar eventos a los botones "Eliminar"
+    document.querySelectorAll(".btnBorrar").forEach((boton) => {
+        boton.addEventListener("click", function () {
+            const productoId = this.getAttribute("data-id");
+            eliminarProducto(productoId);
+        });
+    });
 }
 
 
-// Función para agregar al carrito (puede ser igual o modificar según tus necesidades)
-function agregarAlCarrito(id) {
-    alert(`Agregar al carrito producto con ID: ${id}`);
-}
+
+
+
+
 
 document.querySelector("table").addEventListener("click", function(event) {
     if (event.target.tagName === "BUTTON" && event.target.textContent.trim() === "Editar") {
@@ -181,6 +189,42 @@ document.querySelector("#guardar-producto").addEventListener("click", function(e
     const modal = bootstrap.Modal.getInstance(document.getElementById("addProductModal"));
     modal.hide();
 });
+
+
+
+
+//ELIMINAR PRODUCTO
+function eliminarProducto(productoId) {
+    if (!productoId) {
+        alert("Por favor, proporciona un ID de producto válido.");
+        return;
+    }
+
+    // Realizar la solicitud DELETE para eliminar el producto del servidor
+    fetch(`http://localhost:3000/eliminarProducto/${productoId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Error al eliminar el producto");
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log("Producto eliminado:", data);
+            // Actualizar la lista de productos después de eliminar
+            obtenerProductos();
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+        const modal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
+        modal.hide();
+}
+
 
 
 
