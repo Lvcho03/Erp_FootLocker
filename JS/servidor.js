@@ -592,17 +592,17 @@ app.post('/validarUsuario', async (req, res) => {
 
 
 // Rutas para agregar y eliminar zapatillas
-app.post('/agregarZapatilla', (req, res) => {
-    const { id, modelo, total_ventas, precio } = req.body;
+app.post('/agregarProducto', (req, res) => {
+    const { marca, modelo, precio,stock } = req.body;
 
-    if (!id || !modelo || !total_ventas || !precio) {
+    if (!marca || !modelo || !precio || !stock) {
         return res.status(400).json({ message: "Faltan datos de la zapatilla." });
     }
 
     // Insertar la nueva zapatilla en la base de datos
     const sql = 'INSERT INTO Productos ( m, mo,p, st) VALUES (?, ?, ?, ?)';
 
-    db.run(sql, [id, modelo, total_ventas, precio], function(err) {
+    db.run(sql, [marca, modelo, precio, stock], function(err) {
         if (err) {
             console.error('Error al agregar zapatilla:', err);
             return res.status(500).json({ message: "Error al agregar zapatilla." });
@@ -612,7 +612,35 @@ app.post('/agregarZapatilla', (req, res) => {
     });
 });
 
-app.post('/eliminarZapatilla', (req, res) => {
+app.put('/actualizar-producto/:id', (req, res) => {
+  const productoId = req.params.id;
+  const { marca, modelo, precio, stock } = req.body;
+
+  db.run(`UPDATE Productos SET m = ?, mo = ?, p = ?, st = ? WHERE id = ?`,
+      [marca, modelo, precio, stock, productoId],
+      function (err) {
+          if (err) {
+              console.error(err);
+              res.status(500).send("Error al actualizar el producto");
+          } else {
+              res.json({ message: "Producto actualizado correctamente" });
+          }
+      }
+  );
+});
+
+
+
+app.get("/allProducto", (req, res) => {
+  db.all("SELECT * FROM Productos", [], (err, rows) => {
+      if (err) {
+          return res.status(500).send({ error: "Error al obtener productos" });
+      }
+      res.json(rows);
+  });
+});
+
+app.post('/eliminarProducto', (req, res) => {
     const { id } = req.body;
 
     if (!id) {
