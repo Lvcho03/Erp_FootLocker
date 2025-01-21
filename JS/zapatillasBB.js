@@ -1,35 +1,3 @@
-const Conexion = require('./conexion'); // Importar la clase Conexion
-
-class Zapatillas {
-    constructor() {
-        this.conexion = new Conexion(); // Instancia de la clase Conexion
-    }
-
-    // Cargar los productos desde la base de datos
-    cargarProductos() {
-        return new Promise((resolve, reject) => {
-            // Usar la clase Conexion para cargar los productos
-            this.conexion.cargarDatos()
-                .then(() => {
-                    this.productos = this.conexion.obtenerProductos(); // Obtener productos cargados
-                    console.log('Productos cargados:', this.productos);
-                    resolve();
-                })
-                .catch(error => {
-                    console.error('Error al cargar los productos:', error);
-                    reject(error);
-                });
-        });
-    
-    }
-
-    // Obtener todos los productos
-    obtenerProductos() {
-        return this.productos; // Retorna los productos cargados
-    }
-
-}
-
 
 function addProduct() {
     const modelo = document.getElementById("new-product-modelo").value;
