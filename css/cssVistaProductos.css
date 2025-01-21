@@ -1,0 +1,242 @@
+/* Estilos del header */
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 98%;
+    height: 150px;
+    background-color: rgb(39, 42, 87);
+    margin-top: 0;
+    box-shadow: 5px 0 40px rgba(0, 0, 0, 0.5);
+    padding: 0 20px;
+    color: #fff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Logo dentro del header */
+header .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 300px;
+    height: 100px;
+}
+
+/* Imagen del logo */
+header .logo img {
+    width: 300px;
+    height: 120px;
+}
+
+/* Estilo del botón 'Volver' */
+.volver-button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 12px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover efecto en el botón */
+.volver-button:hover {
+    background-color: #45a049;
+}
+
+section{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+}
+
+/* Estilos generales para los gráficos */
+.chart {
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 1000px;
+    height: 500px;
+    display: flex;                  /* Ajuste para usar flexbox */
+    flex-direction: column;         /* Se coloca en columnas */
+    align-items: center;            /* Alinea los elementos verticalmente */
+    justify-content: center;        /* Alinea los elementos horizontalmente */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+/* Estilos para los divs gráficos */
+#chart_pie, #chart_area, #chart_bar {
+    width: 100%;
+    height: 500px;
+    display: flex;                 /* Utilización de flexbox */
+    flex-direction: column;        /* Para que los elementos estén en una columna */
+}
+
+/* Botones exportar gráficos */
+.export-button-chart {
+    margin-right: 10px;
+    width:250px;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: -10px;
+    float: right;                   /* Corrige el flujo del botón */
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+/* Cambia el hover en el botón 'Exportar a Excel' */
+.export-button-chart:hover {
+    background-color: #0056b3;
+}
+
+footer{
+    margin-top: 10px;
+height: 50px;
+width: 100%;
+background-color: rgb(39, 42, 87);
+}
+
+ /* Estilo para la tabla */
+ table {
+    width: 100%; /* Ajusta el ancho completo de la pantalla */
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+caption {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Estilo para la columna de acciones */
+.acciones {
+    width: 20%; /* Cambiar el ancho de la columna de acciones */
+    text-align: center;
+}
+
+.editar-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.ver-button {
+    background-color: #2196F3;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.eliminar-button {
+    background-color: #F44336;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Estilo para el cuadro de lista de productos en el header */
+.productos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.productos-cuadro {
+    width: 250px; /* Ajusta el ancho según necesites */
+    height: 150px; /* Reduce la altura para que sea más pequeño */
+    overflow-y: auto; /* Habilita el scroll vertical */
+    border: 1px solid #ccc; /* Opcional: agrega un borde para visualizar mejor */
+    padding: 10px;
+    background-color: #f9f9f9; /* Fondo claro */
+    border-radius: 5px; /* Opcional: bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Opcional: efecto de sombra */
+}
+
+
+.producto-item {
+    margin-bottom: 10px;
+}
+
+.agregar-venta-button {
+    background-color:#4CAF50;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Campo de entrada para cantidad */
+.cantidad-input {
+    width: 80px;
+    padding: 5px;
+    margin-right: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Botón del carrito de compras */
+.carrito-button {
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    color: #555;
+    font-size: 16px;
+    padding: 5px 8px;
+    margin-right: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.carrito-button:hover {
+    background-color: #ddd;
+    color: #333;
+}
