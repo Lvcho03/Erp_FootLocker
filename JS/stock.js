@@ -225,7 +225,41 @@ function eliminarProducto(productoId) {
         modal.hide();
 }
 
+    // Función para ordenar la tabla
+    function ordenarTabla(criterio) {
+        const tabla = document.getElementById('productTable');
+        const filas = Array.from(tabla.tBodies[0].rows);
+
+        filas.sort((filaA, filaB) => {
+            let valorA, valorB;
+
+            switch (criterio) {
+                case 'marca':
+                    valorA = filaA.cells[1].textContent.toLowerCase();
+                    valorB = filaB.cells[1].textContent.toLowerCase();
+                    return valorA.localeCompare(valorB);
+                
+                case 'modelo':
+                    valorA = filaA.cells[2].textContent.toLowerCase();
+                    valorB = filaB.cells[2].textContent.toLowerCase();
+                    return valorA.localeCompare(valorB);
 
 
+                case 'precio':
+                    valorA = parseFloat(filaA.cells[3].textContent);
+                    valorB = parseFloat(filaB.cells[3].textContent);
+                    return valorB - valorA;
+
+                case 'stock':
+                    valorA = parseInt(filaA.cells[4].textContent, 10);
+                    valorB = parseInt(filaB.cells[4].textContent, 10);
+                    return valorB - valorA;
+            }
+        });
+
+        // Reordenar las filas en la tabla
+        const tbody = tabla.tBodies[0];
+        filas.forEach(fila => tbody.appendChild(fila));
+    }
 
 

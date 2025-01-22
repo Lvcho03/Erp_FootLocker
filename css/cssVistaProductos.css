@@ -1,3 +1,10 @@
+
+body{
+    background-color: #dbdbdb;
+    height: auto;
+    width: auto;
+}
+
 /* Estilos del header */
 header {
     display: flex;
@@ -72,7 +79,7 @@ header .logo img {
 
 /* Estilo del botón 'Volver' */
 .volver-button {
-    background-color: #4CAF50;
+    background-color: #ff9800;
     border: none;
     color: white;
     padding: 12px 24px;
@@ -87,7 +94,7 @@ header .logo img {
 }
 
 .volver-button:hover {
-    background-color: #45a049;
+    background-color: #e68900;
     transform: translateY(-2px);
 }
 
@@ -189,4 +196,27 @@ header .logo img {
 
 .producto-item:hover {
     background-color: #ddd;
+}
+
+.h1lista {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.h1lista .ordenar button {
+    margin-left: 10px;
+    padding: 8px 12px;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.h1lista .ordenar button:hover {
+    background-color: #5a6268;
 }
