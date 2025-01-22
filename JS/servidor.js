@@ -782,13 +782,15 @@ app.post('/crearventa', (req, res) => {
     });
 
     try {
+      let totalVenta = 0;
       productos.forEach((producto) => {
-        const { idProducto, cantidad } = producto;
+        const { idProducto, cantidad, precio } = producto;
+        totalVenta += precio;
 
         // Insertar en la tabla Ventas
         db.run(
-          `INSERT INTO Ventas (id_c, id_p, f, fp, c) VALUES (?, ?, ?, ?, ?)`,
-          [idCliente, idProducto, fecha, formaPago, cantidad],
+          `INSERT INTO Ventas (id_c, id_p, f, fp, c, t) VALUES (?, ?, ?, ?, ?, ?)`,
+          [idCliente, idProducto, fecha, formaPago, cantidad, totalVenta],
           function (err) {
             if (err) {
               throw new Error(`Error al insertar en Ventas: ${err.message}`);
@@ -816,7 +818,7 @@ app.post('/crearventa', (req, res) => {
           console.error("Error al confirmar la transacción:", err.message);
           return res.status(500).json({ success: false, message: "Error al confirmar la transacción." });
         }
-        res.json({ success: true, message: "Venta registrada y stock actualizado correctamente." });
+        res.json({ success: true, message: "Venta registrada y stock actualizado correctamente.", total: totalVenta });
       });
     } catch (error) {
       console.error("Error durante la transacción:", error.message);
@@ -831,6 +833,7 @@ app.post('/crearventa', (req, res) => {
     }
   });
 });
+
 
 
 
