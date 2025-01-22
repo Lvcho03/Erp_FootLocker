@@ -768,38 +768,68 @@ app.put('/actualizar-trabajador/:id', (req, res) => {
 });
 
 
-app.post('/crearventa', async (req, res) => {
+
+
+app.post('/crearventa', (req, res) => {
   const { idCliente, formaPago, fecha, productos } = req.body;
 
-  try {
-      // Iniciar una transacción para asegurar la consistencia
-      await db.beginTransaction();
-
-      for (const producto of productos) {
-          const { idProducto, cantidad } = producto;
-
-          // Insertar una fila por cada producto vendido
-          await db.query(
-              `INSERT INTO Ventas (id_c, id_p, f, fp, c) VALUES (?, ?, ?, ?, ?)`,
-              [idCliente, idProducto, fecha, formaPago, cantidad]
-          );
-
-          // Actualizar el stock del producto
-          await db.query(
-              `UPDATE Productos SET stock = stock - ? WHERE id = ? AND stock >= ?`,
-              [cantidad, idProducto, cantidad]
-          );
+  db.serialize(() => {
+    db.run("BEGIN TRANSACTION", (err) => {
+      if (err) {
+        console.error("Error al iniciar la transacción:", err.message);
+        return res.status(500).json({ success: false, message: "Error al iniciar la transacción." });
       }
+    });
+
+    try {
+      productos.forEach((producto) => {
+        const { idProducto, cantidad } = producto;
+
+        // Insertar en la tabla Ventas
+        db.run(
+          `INSERT INTO Ventas (id_c, id_p, f, fp, c) VALUES (?, ?, ?, ?, ?)`,
+          [idCliente, idProducto, fecha, formaPago, cantidad],
+          function (err) {
+            if (err) {
+              throw new Error(`Error al insertar en Ventas: ${err.message}`);
+            }
+            console.log(`Venta registrada: ${this.lastID}`);
+          }
+        );
+
+        // Actualizar el stock en la tabla Productos
+        db.run(
+          `UPDATE Productos SET st = st - ? WHERE id = ? AND st >= ?`,
+          [cantidad, idProducto, cantidad],
+          function (err) {
+            if (err) {
+              throw new Error(`Error al actualizar el stock: ${err.message}`);
+            }
+            console.log(`Stock actualizado para producto ID: ${idProducto}`);
+          }
+        );
+      });
 
       // Confirmar la transacción
-      await db.commit();
-      res.json({ success: true, message: 'Venta registrada y stock actualizado correctamente.' });
-  } catch (error) {
-      // Revertir la transacción en caso de error
-      await db.rollback();
-      console.error('Error al registrar la venta:', error);
-      res.status(500).json({ success: false, message: 'Error al registrar la venta.' });
-  }
+      db.run("COMMIT", (err) => {
+        if (err) {
+          console.error("Error al confirmar la transacción:", err.message);
+          return res.status(500).json({ success: false, message: "Error al confirmar la transacción." });
+        }
+        res.json({ success: true, message: "Venta registrada y stock actualizado correctamente." });
+      });
+    } catch (error) {
+      console.error("Error durante la transacción:", error.message);
+
+      // Revertir la transacción
+      db.run("ROLLBACK", (err) => {
+        if (err) {
+          console.error("Error al revertir la transacción:", err.message);
+        }
+        res.status(500).json({ success: false, message: "Error al registrar la venta." });
+      });
+    }
+  });
 });
 
 

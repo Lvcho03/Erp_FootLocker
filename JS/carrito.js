@@ -26,40 +26,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Función para agregar productos al carrito
-    window.agregarAlCarrito = function (id) {
-        const fila = document.querySelector(`#productTable tbody tr:nth-child(${id})`);
-
-        if (!fila) {
+    window.agregarAlCarrito = function (button) {
+        const fila = button.closest('tr'); // Encuentra la fila que contiene el botón
+        const idProducto = parseInt(fila.dataset.id, 10); // Obtiene el ID real del producto
+    
+        if (!idProducto) {
             alert('No se encontró el producto.');
             return;
         }
-
+    
         const name = fila.children[1].textContent; // Nombre del producto
         const price = parseFloat(fila.children[3].textContent); // Precio del producto
         const quantityInput = fila.querySelector('input[type="number"]');
         const quantity = parseInt(quantityInput.value, 10); // Cantidad seleccionada
-
+    
         if (quantity > 0) {
-            const idProducto = parseInt(fila.dataset.id, 10); // Obtener el id del producto desde el atributo 'data-id'
             const existingItem = cartItems.find(item => item.id === idProducto);
-
+    
             if (existingItem) {
                 existingItem.quantity += quantity; // Incrementar cantidad si ya existe en el carrito
             } else {
                 cartItems.push({ id: idProducto, name, price, quantity }); // Agregar nuevo producto al carrito
             }
-
+    
             updateCart();
         } else {
             alert('La cantidad debe ser mayor a 0.');
         }
     };
+    
 
     // Manejar el evento de "Realizar Venta"
     if (checkoutButton) {
         checkoutButton.addEventListener('click', async () => {
             if (cartItems.length === 0) {
-                alert('El carrito está vacío.');
                 return;
             }
 
@@ -122,3 +122,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+

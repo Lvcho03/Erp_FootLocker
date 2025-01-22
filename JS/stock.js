@@ -22,8 +22,8 @@ function mostrarProductos(productos) {
 
     productos.forEach((producto, index) => {
         const fila = document.createElement("tr");
-        fila.setAttribute('id', `producto-${index + 1}`); // Identificador único para cada fila
-
+        fila.setAttribute('data-id', producto.id); // Asigna el ID real del producto como atributo data-id
+    
         fila.innerHTML = `
             <td>${producto.id}</td>
             <td>${producto.m}</td>
@@ -32,7 +32,7 @@ function mostrarProductos(productos) {
             <td>${producto.st}</td>
             <td class="acciones d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-secondary me-2" onclick="agregarAlCarrito(${index + 1})">
+                    <button class="btn btn-secondary me-2" onclick="agregarAlCarrito(this)">
                         <i class="bi bi-cart"></i>
                     </button>
                     <span class="me-2">Cantidad:</span>
@@ -44,9 +44,9 @@ function mostrarProductos(productos) {
                 </div>
             </td>
         `;
-
-        tableBody.appendChild(fila);
+        document.querySelector("#productTable tbody").appendChild(fila);
     });
+    
     // Agregar eventos a los botones "Eliminar"
     document.querySelectorAll(".btnBorrar").forEach((boton) => {
         boton.addEventListener("click", function () {
