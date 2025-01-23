@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const li = document.createElement('li');
             li.className = 'list-group-item d-flex justify-content-between align-items-center';
-            li.innerHTML = `
+            li.innerHTML = 
                 ${item.name} x${item.quantity} 
                 <span>$${(item.price * item.quantity).toFixed(2)}</span>
-            `;
+            ;
 
             cartItemsContainer.appendChild(li);
         });
@@ -62,6 +62,48 @@ document.addEventListener('DOMContentLoaded', () => {
         checkoutButton.addEventListener('click', async () => {
             if (cartItems.length === 0) {
                 return;
+            }
+            function mostrarModalContraseña() {
+                const modal = document.getElementById('passwordModal');
+                modal.style.display = 'block';
+              }
+              
+              // Cerrar el modal de confirmación de contraseña
+              function cerrarModal() {
+                const modal = document.getElementById('passwordModal');
+                modal.style.display = 'none';
+              }
+              
+              // Verificar la contraseña antes de realizar la compra
+              function verificarContraseña() {
+                const passwordInput = document.getElementById('passwordInput').value;
+                const usuarioGuardado = JSON.parse(localStorage.getItem('user'));
+              
+                if (!usuarioGuardado) {
+                  alert("No hay un usuario en sesión. Por favor, inicia sesión.");
+                  cerrarModal();
+                  return;
+                }
+              
+                if (passwordInput === usuarioGuardado.password) {
+                  alert("Contraseña correcta. Compra confirmada.");
+                  cerrarModal();
+                  realizarCompra(); // Llama a la función para realizar la compra
+                } else {
+                  alert("Contraseña incorrecta. Inténtalo de nuevo.");
+                }
+              }
+              
+              // Función que simula la acción de realizar la compra
+              function realizarCompra() {
+                console.log("Compra realizada con éxito.");
+                alert("¡Gracias por tu compra!");
+              }
+            
+            // Función que simula la acción de realizar la compra
+            function realizarCompra() {
+                console.log("Compra realizada con éxito.");
+                alert("¡Gracias por tu compra!");
             }
 
             // Cambiar el estado del botón

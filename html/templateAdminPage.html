@@ -68,17 +68,6 @@
             <div class="cajafooter"></div>
         </footer>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                const nombreUsuario = localStorage.getItem("nombreUsuario");
-                if (nombreUsuario) {
-                    document.getElementById("nameAdmin").textContent = nombreUsuario;
-                    console.log(nombreUsuario + " nombreusuario");
-                } else {
-                    console.error('No se encontró información del usuario en el localStorage');
-                }
-            });
-        </script>
         
         <script src="../JS/menuDesplegable.js"></script>
     </body>

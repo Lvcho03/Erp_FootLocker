@@ -293,60 +293,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                 </div>
             </div>
-        </div>  
-        <script>
-            // Verificar si hay un usuario en sesión al cargar la página
-            if (localStorage.getItem('user')) {
-              showActions();
-            }
-        
-            // Manejar el inicio de sesión
-            document.getElementById('loginBtn').addEventListener('click', () => {
-              const username = document.getElementById('username').value;
-              const password = document.getElementById('password').value;
-        
-              if (username && password) {
-                // Guardar datos en localStorage
-                localStorage.setItem('user', JSON.stringify({ username, password }));
-                alert(`Bienvenido, ${username}!`);
-                showActions();
-              } else {
-                alert('Por favor, completa todos los campos.');
-              }
-            });
-        
-            // Mostrar acciones después de iniciar sesión
-            function showActions() {
-              const user = JSON.parse(localStorage.getItem('user'));
-              document.getElementById('loginForm').classList.add('hidden');
-              document.getElementById('actions').classList.remove('hidden');
-              document.getElementById('userGreeting').textContent = user.username;
-            }
-        
-            // Validar la contraseña
-            document.getElementById('validatePasswordBtn').addEventListener('click', () => {
-              document.getElementById('validatePasswordForm').classList.remove('hidden');
-            });
-        
-            document.getElementById('validateBtn').addEventListener('click', () => {
-              const user = JSON.parse(localStorage.getItem('user'));
-              const enteredPassword = document.getElementById('validatePasswordInput').value;
-        
-              if (enteredPassword === user.password) {
-                alert('Contraseña correcta.');
-              } else {
-                alert('Contraseña incorrecta.');
-              }
-            });
-        
-            // Cerrar sesión
-            document.getElementById('logoutBtn').addEventListener('click', () => {
-              localStorage.removeItem('user');
-              document.getElementById('loginForm').classList.remove('hidden');
-              document.getElementById('actions').classList.add('hidden');
-              document.getElementById('validatePasswordForm').classList.add('hidden');
-            });
-        </script>  
+        </div> 
         <script src="JS/conexion.js" ></script>
         <script src="JS/fadein.js"></script>
         <script src="JS/iniciarSesion.js" ></script>
