@@ -1,3 +1,10 @@
+
+body{
+    background-color: #dbdbdb;
+    height: auto;
+    width: auto;
+}
+
 /* Estilos del header */
 header {
     display: flex;
@@ -72,7 +79,7 @@ header .logo img {
 
 /* Estilo del botón 'Volver' */
 .volver-button {
-    background-color: #4CAF50;
+    background-color: #ff9800;
     border: none;
     color: white;
     padding: 12px 24px;
@@ -87,7 +94,7 @@ header .logo img {
 }
 
 .volver-button:hover {
-    background-color: #45a049;
+    background-color: #e68900;
     transform: translateY(-2px);
 }
 

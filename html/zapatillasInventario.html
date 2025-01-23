@@ -53,6 +53,19 @@
 
     <div class="h1lista">
         <h1>Lista de Productos</h1>
+        <div class="ordenar">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="ordenarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Ordenar por
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="ordenarDropdown">
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('marca')">Marca</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('modelo')">Modelo</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('precio')">Precio</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('stock')">Stock</a></li>
+                </ul>
+            </div>
+        </div>
          <!-- Botón Guardar Producto -->
          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
             Añadir Producto
@@ -169,6 +182,8 @@
     console.log('Evento disparado en:', event.target);  // Muestra el elemento que se hizo clic
 }, false);
 
+
+    
 
     </script>
 
