@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cartItems = [];
     const cartItemsContainer = document.getElementById('cartItems');
-    const cartTotalElement = document.getElementById('cartTotal');
+    const cartTotalElement = document.getElementById('cartTotal'); // Elemento donde se muestra el total del carrito
     const checkoutButton = document.getElementById('checkoutButton');
+    const totalModalElement = document.getElementById('cartTotal'); // Referencia al modal total
 
     // Función para actualizar el carrito
     function updateCart() {
@@ -23,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         cartTotalElement.textContent = total.toFixed(2);
+        totalModalElement.textContent = total.toFixed(2); // Actualizamos el total en el modal
     }
 
     // Función para agregar productos al carrito
@@ -54,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('La cantidad debe ser mayor a 0.');
         }
     };
-    
 
     // Manejar el evento de "Realizar Venta"
     if (checkoutButton) {
@@ -72,6 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const formaPago = "Efectivo"; // Forma de pago seleccionada
             const fecha = new Date().toISOString().split("T")[0]; // Fecha actual en formato YYYY-MM-DD
 
+            // Capturar el total del modal
+            const totalModal = parseFloat(totalModalElement.textContent);
+
             // Crear el objeto de venta
             const ventaData = {
                 idCliente,
@@ -79,8 +83,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 fecha,
                 productos: cartItems.map(item => ({
                     idProducto: item.id,
-                    cantidad: item.quantity
-                }))
+                    cantidad: item.quantity,
+                    precio: item.price * item.quantity
+                })),
+                total: totalModal // Se añade el total del modal al objeto de venta
             };
 
             try {
@@ -122,5 +128,3 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-
