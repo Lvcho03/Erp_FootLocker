@@ -247,7 +247,7 @@ input[type="text"], input[type="email"], input[type="tel"] {
 
     padding: 8px 12px;
 
-    background-color: #28a745; /* Color verde para el botón */
+    background-color: #ff9800; /* Color verde para el botón */
 
     color: white;
 
@@ -262,7 +262,7 @@ input[type="text"], input[type="email"], input[type="tel"] {
 
 #add-worker-button:hover {
 
-    background-color: #218838; /* Color más oscuro al pasar el ratón */
+    background-color: #e68900; /* Color más oscuro al pasar el ratón */
 
 }
 .modal {
