@@ -27,8 +27,8 @@
                 // Crear datos que se enviarán de forma automática
                 const templateParams = {
                     message: "Mensaje enviado automáticamente",
-                    user_name: "Nombre Predeterminado",
-                    user_email: "correo@example.com"
+                    user_name: "Juan",
+                    user_email: "alexgarciabordoy@gmail.com"
                 };
 
                 // Enviar el formulario usando EmailJS
@@ -57,10 +57,12 @@
             <i class="bi bi-cart"></i> Carrito
         </button>
     
-        <button onclick="window.location.href='../html/templateAdminPage.html';" class="volver-button">Volver</button>
+        <button onclick="window.location.href='../html/templateAdminPage.html';" class="volver-button">
+            <i class="bi bi-arrow-left"></i>
+          </button>
     </header>
     
-    <!-- Modal del carrito -->
+<!-- Modal del carrito -->
 <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -76,14 +78,38 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-success" id="checkoutButton">Realizar Venta</button>
+                <button type="button" onclick="mostrarModalContraseña()" class="btn btn-success" id="checkoutButton">Realizar Venta</button>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Modal para confirmar contraseña -->
+<div id="passwordModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="cerrarModal()">&times;</span>
+        <h2>Confirmar Contraseña</h2>
+        <p>Por favor, ingresa tu contraseña para continuar:</p>
+        <input id="passwordInput" type="password" placeholder="Contraseña" required>
+        <button onclick="verificarContraseña()" id="send-button">Confirmar</button>
+    </div>
+</div>
+
     <div class="h1lista">
         <h1>Lista de Productos</h1>
+        <div class="ordenar">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="ordenarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Ordenar por
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="ordenarDropdown">
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('marca')">Marca</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('modelo')">Modelo</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('precio')">Precio</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('stock')">Stock</a></li>
+                </ul>
+            </div>
+        </div>
          <!-- Botón Guardar Producto -->
          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
             Añadir Producto
@@ -192,12 +218,27 @@
         </div>
     </div>
 </div>
+
+
+<div id="cartConfirmation" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
+            Producto añadido al carrito.
+        </div>
+    </div>
+</div>
+
+
+
+
     <script>
       
         document.querySelector("table tbody").addEventListener("click", function(event) {
     console.log('Evento disparado en:', event.target);  // Muestra el elemento que se hizo clic
 }, false);
 
+
+    
 
     </script>
 
