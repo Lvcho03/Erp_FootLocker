@@ -16,6 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 });
 
+// Función para agregar productos al carrito
+function agregarAlCarrito(button) {
+    const cartConfirmation = new bootstrap.Toast(document.getElementById('cartConfirmation'));
+    cartConfirmation.show();
+}
+
 function mostrarProductos(productos) {
     const tableBody = document.querySelector("#productTable tbody");
     tableBody.innerHTML = "";
@@ -51,7 +57,14 @@ function mostrarProductos(productos) {
     document.querySelectorAll(".btnBorrar").forEach((boton) => {
         boton.addEventListener("click", function () {
             const productoId = this.getAttribute("data-id");
-            eliminarProducto(productoId);
+            mostrarModalEliminar(productoId);
+        });
+    });
+    // Agregar evento al botón "Añadir al carrito"
+    document.querySelectorAll(".btn.btn-secondary").forEach((boton) => {
+        boton.addEventListener("click", function () {
+            const cartConfirmation = new bootstrap.Toast(document.getElementById('cartConfirmation'));
+            cartConfirmation.show();
         });
     });
 }
@@ -191,17 +204,23 @@ document.querySelector("#guardar-producto").addEventListener("click", function(e
 });
 
 
+function mostrarModalEliminar(productoId) {
+    productoAEliminar = productoId; // Guarda el ID del producto
+    console.log("Producto a eliminar:", productoAEliminar); // Verifica el ID
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteProductModal"));
+    deleteModal.show();
+}
 
 
-//ELIMINAR PRODUCTO
-function eliminarProducto(productoId) {
-    if (!productoId) {
-        alert("Por favor, proporciona un ID de producto válido.");
+
+function eliminarProducto() {
+    if (!productoAEliminar) {
+        console.error("No se encontró un ID de producto para eliminar");
         return;
     }
 
-    // Realizar la solicitud DELETE para eliminar el producto del servidor
-    fetch(`http://localhost:3000/eliminarProducto/${productoId}`, {
+    console.log("Eliminando producto con ID:", productoAEliminar); // Verifica el ID
+    fetch(`http://localhost:3000/eliminarProducto/${productoAEliminar}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -214,15 +233,16 @@ function eliminarProducto(productoId) {
             return response.json();
         })
         .then((data) => {
-            console.log("Producto eliminado:", data);
-            // Actualizar la lista de productos después de eliminar
-            obtenerProductos();
+            console.log("Producto eliminado correctamente:", data);
+            obtenerProductos(); // Actualiza la lista de productos
         })
         .catch((error) => {
-            console.error("Error:", error);
+            console.error("Error al eliminar el producto:", error);
         });
-        const modal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
-        modal.hide();
+
+    // Cierra el modal
+    const deleteModal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
+    deleteModal.hide();
 }
 
     // Función para ordenar la tabla
