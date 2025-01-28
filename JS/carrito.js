@@ -46,8 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCart(); // Actualizar la visualización del carrito
         }
     }
-    
-
 
     // Función para agregar productos al carrito
     window.agregarAlCarrito = function (button) {
@@ -79,12 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    function cerrarModalCarrito(){
+    function cerrarModalCarrito() {
         const modal = document.getElementById('cartModal');
         modal.style.display = 'none'; // Ocultar el modal
         modal.classList.remove('fade-in'); // Eliminar el efecto fade-in
-
-
     }
 
     // Función para mostrar el modal de la contraseña
@@ -100,7 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.appendChild(backdrop); // Añadirlo al DOM
         }
     }
-    
 
     // Función que cierra el modal de confirmación de contraseña
     function cerrarModal() {
@@ -114,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
             backdrop.remove(); // Elimina el elemento del DOM
         }
     }
-    
 
     // Función que verifica la contraseña ingresada
     function verificarContraseña() {
@@ -204,11 +198,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Asegúrate de que el evento de "Realizar Venta" esté correctamente asignado al botón
     if (checkoutButton) {
         checkoutButton.addEventListener('click', async () => {
-
+            // Cerrar el modal del carrito antes de abrir el de la contraseña
             cerrarModalCarrito();
             // Mostrar el modal de confirmación de contraseña
             mostrarModalContraseña();
-
         });
     }
 

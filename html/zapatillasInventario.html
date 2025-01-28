@@ -53,16 +53,27 @@
     </div>
 </div>
 
-<!-- Modal para confirmar contraseña -->
-<div id="passwordModal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close-btn" onclick="cerrarModal()">&times;</span>
-        <h2>Confirmar Contraseña</h2>
-        <p>Por favor, ingresa tu contraseña para continuar:</p>
-        <input id="passwordInput" type="password" placeholder="Contraseña" required>
-        <button onclick="verificarContraseña()">Confirmar</button>
+
+    <!-- Modal para confirmar contraseña -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordModalLabel">Confirmar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Por favor, ingresa tu contraseña para continuar:</p>
+                <input id="passwordInput" type="password" class="form-control" placeholder="Contraseña" required />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="verificarContraseña()">Confirmar</button>
+            </div>
+        </div>
     </div>
 </div>
+
 
 
     <div class="h1lista">
