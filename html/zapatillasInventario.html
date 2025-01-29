@@ -19,28 +19,76 @@
             });
         })();
     </script>
-    <script type="text/javascript">
-        window.onload = function() {
-            document.getElementById('send-button').addEventListener('click', function(event) {
-                event.preventDefault(); // Evitar recargar la página
+    <script>
+    const STOCK_MINIMO = 10 ; // Límite mínimo para notificar stock
 
-                // Crear datos que se enviarán de forma automática
+    // Función para verificar stock y enviar correo
+    function verificarStockYEnviarCorreo(productos) {
+        productos.forEach(producto => {
+            if (producto.st < STOCK_MINIMO) {
                 const templateParams = {
-                    message: "Mensaje enviado automáticamente",
+                    message: `El producto ${producto.m} (ID: ${producto.id}) tiene un stock bajo: ${producto.st}`,
                     user_name: "Juan",
                     user_email: "alexgarciabordoy@gmail.com"
                 };
 
-                // Enviar el formulario usando EmailJS
-                emailjs.send('service_mo7z1d4', 'template_sp93wwg', templateParams)
+                // Enviar notificación por EmailJS
+                emailjs.send('service_mo7z1d4', 'template_p37lrzm', templateParams)
                     .then(() => {
-                        alert('¡Mensaje enviado con éxito!');
-                    }, (error) => {
-                        alert('Error al enviar el mensaje: ' + JSON.stringify(error));
+                        console.log(`Correo enviado sobre el producto ${producto.m}`);
+                    })
+                    .catch(error => {
+                        console.error(`Error al enviar correo para el producto ${producto.m}:`, error);
                     });
+            }
+        });
+    }
+
+    // Función para obtener productos del servidor
+    function obtenerProductos() {
+        fetch("http://localhost:3000/allProducto")
+            .then(response => response.json())
+            .then(productos => {
+                if (Array.isArray(productos)) {
+                    mostrarProductos(productos); // Mostrar productos en la tabla
+                    verificarStockYEnviarCorreo(productos); // Verificar stock y enviar correo
+                } else {
+                    console.error("La respuesta no es un arreglo de productos.");
+                }
+            })
+            .catch(error => {
+                console.error("Error al obtener los productos:", error);
             });
-        }
-    </script>
+    }
+
+    // Al cargar el DOM, obtiene los productos
+    document.addEventListener("DOMContentLoaded", function() {
+        obtenerProductos();
+    });
+</script>
+
+<script type="text/javascript">
+    window.onload = function() {
+        document.getElementById('send-button').addEventListener('click', function(event) {
+            event.preventDefault(); // Evitar recargar la página
+
+            // Crear datos que se enviarán de forma automática
+            const templateParams = {
+                message: "Mensaje enviado automáticamente",
+                user_name: "Juan",
+                user_email: "alexgarciabordoy@gmail.com"
+            };
+
+            // Enviar el formulario usando EmailJS
+            emailjs.send('service_mo7z1d4', 'template_sp93wwg', templateParams)
+                .then(() => {
+                    alert('¡Mensaje enviado con éxito!');
+                }, (error) => {
+                    alert('Error al enviar el mensaje: ' + JSON.stringify(error));
+                });
+        });
+    }
+</script>
   
 </head>
 <body>
