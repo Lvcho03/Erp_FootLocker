@@ -32,7 +32,7 @@ header .logo img {
 
 /* Estilo del botón 'Volver' */
 .volver-button {
-    background-color: #4CAF50;
+    background-color: #ff9800;
     border: none;
     color: white;
     padding: 12px 24px;
@@ -49,7 +49,7 @@ header .logo img {
 
 /* Hover efecto en el botón */
 .volver-button:hover {
-    background-color: #45a049;
+    background-color: #e68900;
 }
 
 section{
@@ -111,4 +111,70 @@ footer{
 height: 50px;
 width: 100%;
 background-color: rgb(39, 42, 87);
+}
+@media (max-width: 390px) {
+    /* Header */
+    header {
+        flex-direction: column;
+        height: 120px;
+        align-items: center;
+    }
+
+    /* Logo dentro del header */
+    header .logo {
+        width: 200px; /* Ajustamos el tamaño del logo */
+        height: 80px;
+    }
+
+    header .logo img {
+        width: 200px;
+        height: 80px;
+    }
+
+    /* Estilo del botón 'Volver' */
+    .volver-button {
+        font-size: 14px; /* Hacemos el texto más pequeño en pantallas pequeñas */
+        padding: 10px 20px;
+    }
+
+    section {
+        width: 100%;
+    }
+
+    .chart {
+        width: 90%; /* Hacemos los gráficos más pequeños */
+        height: 400px;
+        padding: 15px;
+    }
+
+    /* Estilos de los botones exportar gráficos */
+    .export-button-chart {
+        width: 200px;
+        font-size: 12px;
+        padding: 6px 12px;
+    }
+
+    footer {
+        height: 40px; /* Ajustamos el tamaño del footer */
+    }
+}
+@media (max-width: 768px) {
+    header {
+        height: 120px;
+    }
+
+    .volver-button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+
+    .chart {
+        width: 90%; /* Ajuste de los gráficos */
+        height: 450px;
+    }
+
+    .export-button-chart {
+        font-size: 14px;
+        width: 220px;
+    }
 }

@@ -3,70 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/cssVistaProductos.css" rel="stylesheet" type="text/css">
     <title>Gestión de Zapatillas</title>
+    <script src="/JS/stock.js"></script>
+    <script src="/JS/carrito.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // https://dashboard.emailjs.com/admin/account
+            emailjs.init({
+              publicKey: "imweyiMgc3Z0qDmEk",
+            });
+        })();
+    </script>
+    <script>
+    const STOCK_MINIMO = 10 ; // Límite mínimo para notificar stock
+
+    // Función para verificar stock y enviar correo
+    function verificarStockYEnviarCorreo(productos) {
+        productos.forEach(producto => {
+            if (producto.st < STOCK_MINIMO) {
+                const templateParams = {
+                    message: `El producto ${producto.m} (ID: ${producto.id}) tiene un stock bajo: ${producto.st}`,
+                    user_name: "Juan",
+                    user_email: "alexgarciabordoy@gmail.com"
+                };
+
+                // Enviar notificación por EmailJS
+                emailjs.send('service_mo7z1d4', 'template_p37lrzm', templateParams)
+                    .then(() => {
+                        console.log(`Correo enviado sobre el producto ${producto.m}`);
+                    })
+                    .catch(error => {
+                        console.error(`Error al enviar correo para el producto ${producto.m}:`, error);
+                    });
+            }
+        });
+    }
+
+    // Función para obtener productos del servidor
+    function obtenerProductos() {
+        fetch("http://localhost:3000/allProducto")
+            .then(response => response.json())
+            .then(productos => {
+                if (Array.isArray(productos)) {
+                    mostrarProductos(productos); // Mostrar productos en la tabla
+                    verificarStockYEnviarCorreo(productos); // Verificar stock y enviar correo
+                } else {
+                    console.error("La respuesta no es un arreglo de productos.");
+                }
+            })
+            .catch(error => {
+                console.error("Error al obtener los productos:", error);
+            });
+    }
+
+    // Al cargar el DOM, obtiene los productos
+    document.addEventListener("DOMContentLoaded", function() {
+        obtenerProductos();
+    });
+</script>
+
+<script type="text/javascript">
+    window.onload = function() {
+        document.getElementById('send-button').addEventListener('click', function(event) {
+            event.preventDefault(); // Evitar recargar la página
+
+            // Crear datos que se enviarán de forma automática
+            const templateParams = {
+                message: "Mensaje enviado automáticamente",
+                user_name: "Juan",
+                user_email: "alexgarciabordoy@gmail.com"
+            };
+
+            // Enviar el formulario usando EmailJS
+            emailjs.send('service_mo7z1d4', 'template_sp93wwg', templateParams)
+                .then(() => {
+                    alert('¡Mensaje enviado con éxito!');
+                }, (error) => {
+                    alert('Error al enviar el mensaje: ' + JSON.stringify(error));
+                });
+        });
+    }
+</script>
+  
 </head>
 <body>
-    <h1>Gestión de Zapatillas</h1>
+    <header>
+        <div class="logo">
+            <img class="imagen-1" src="../imagenes/logo.png" alt="Logo">
+        </div>
+    
+           
+        </div>
+    
+        <!-- Botón del carrito -->
+        <button class="cart-button" data-bs-toggle="modal" data-bs-target="#cartModal">
+            <i class="bi bi-cart"></i> Carrito
+        </button>
+    
+        <button onclick="window.location.href='../html/templateAdminPage.html';" class="volver-button">
+            <i class="bi bi-arrow-left"></i>
+          </button>
+    </header>
+    
+<!-- Modal del carrito -->
+<div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cartModalLabel">Carrito de Compras</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul id="cartItems" class="list-group mb-3"></ul>
+                <div class="total-price">
+                    <h6>Total: $<span id="cartTotal">0.00</span></h6>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="mostrarModalContraseña()" class="btn btn-success" id="checkoutButton">Realizar Venta</button>
+            </div>
+        </div>
+    </div>
+</div>
 
-    <h2>Agregar Zapatilla</h2>
-    <form id="addForm">
-        <label for="id">ID:</label>
-        <input type="number" id="id" name="id" required><br>
-        <label for="modelo">Modelo:</label>
-        <input type="text" id="modelo" name="modelo" required><br>
-        <label for="total_ventas">Total de Ventas:</label>
-        <input type="number" id="total_ventas" name="total_ventas" required><br>
-        <label for="precio">Precio:</label>
-        <input type="text" id="precio" name="precio" required><br>
-        <button type="submit">Agregar</button>
-    </form>
+<!-- Modal para confirmar contraseña -->
+<div id="passwordModal" class="modal hidden">
+    <div class="modal-content">
+        <span class="close-btn" onclick="cerrarModal()">&times;</span>
+        <h2>Confirmar Contraseña</h2>
+        <p>Por favor, ingresa tu contraseña para continuar:</p>
+        <input id="passwordInput" type="password" placeholder="Contraseña" required>
+        <button onclick="verificarContraseña()" id="send-button">Confirmar</button>
+    </div>
+</div>
 
-    <h2>Eliminar Zapatilla</h2>
-    <form id="deleteForm">
-        <label for="deleteId">ID:</label>
-        <input type="number" id="deleteId" name="deleteId" required><br>
-        <button type="submit">Eliminar</button>
-    </form>
+    <div class="h1lista">
+        <h1>Lista de Productos</h1>
+        <div class="ordenar">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="ordenarDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Ordenar por
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="ordenarDropdown">
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('marca')">Marca</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('modelo')">Modelo</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('precio')">Precio</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="ordenarTabla('stock')">Stock</a></li>
+                </ul>
+            </div>
+        </div>
+         <!-- Botón Guardar Producto -->
+         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addProductModal">
+            Añadir Producto
+        </button>
+    </div>
+    
+    <table id="productTable" class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th id="new-product-marca">Marca</th>
+                <th id="new-product-modelo">Modelo</th>
+                <th id ="new-product-precio">Precio</th>
+                <th id="new-product-stock">Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Aquí se llenarán los datos dinámicamente -->
+        </tbody>
+    </table>
+
+<!-- Modal para agregar producto -->
+<div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addProductModalLabel">Agregar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addProductForm">
+                    <div class="mb-3">
+                        <label for="newMarca" class="form-label">Marca</label>
+                        <input type="text" class="form-control" id="newMarca" name="marca" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="newModelo" class="form-label">Modelo</label>
+                        <input type="text" class="form-control" id="newModelo" name="modelo" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="newPrecio" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="newPrecio" name="precio" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="newStock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="newStock" name="stock" required />
+                    </div>
+                    <button type="button" class="btn btn-primary" id="guardar-producto">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal para editar producto -->
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProductForm">
+                    <input type="hidden" id="productId" name="id" />
+                    <div class="mb-3">
+                        <label for="marca" class="form-label">Marca</label>
+                        <input type="text" class="form-control" id="marca" name="marca" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="modelo" class="form-label">Modelo</label>
+                        <input type="text" class="form-control" id="modelo" name="modelo" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="precio" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="precio" name="precio" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="stock" name="stock" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteProductModalLabel">Eliminar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Por favor, introduce el ID del producto que deseas eliminar:</p>
+                <input type="text" id="productoId" class="form-control" placeholder="ID del producto">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" id="btnBorrar" class="btn btn-danger">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="cartConfirmation" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="d-flex">
+        <div class="toast-body">
+            Producto añadido al carrito.
+        </div>
+    </div>
+</div>
+
+
+
 
     <script>
-        // Función para manejar el formulario de agregar
-        document.getElementById('addForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('id').value;
-            const modelo = document.getElementById('modelo').value;
-            const total_ventas = document.getElementById('total_ventas').value;
-            const precio = document.getElementById('precio').value;
+      
+        document.querySelector("table tbody").addEventListener("click", function(event) {
+    console.log('Evento disparado en:', event.target);  // Muestra el elemento que se hizo clic
+}, false);
 
-            const response = await fetch('/agregar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id, modelo, total_ventas, precio })
-            });
 
-            if (response.ok) {
-                alert('Zapatilla agregada correctamente.');
-            } else {
-                alert('Error al agregar zapatilla.');
-            }
-        });
+    
 
-        // Función para manejar el formulario de eliminar
-        document.getElementById('deleteForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const id = document.getElementById('deleteId').value;
-
-            const response = await fetch('/eliminar', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id })
-            });
-
-            if (response.ok) {
-                alert('Zapatilla eliminada correctamente.');
-            } else {
-                alert('Error al eliminar zapatilla.');
-            }
-        });
     </script>
+
+    <script src="/JS/stock.js"></script>
+    <script src="/JS/carrito.js"></script>
 </body>
 </html>
