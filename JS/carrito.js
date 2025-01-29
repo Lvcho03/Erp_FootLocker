@@ -182,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Cambiar el estado del botón
                 checkoutButton.textContent = 'Realizar Venta';
                 checkoutButton.disabled = false;
+
+                // Cerrar el modal de confirmación de contraseña
+                cerrarModal();
             } else {
                 alert('Error: ' + result.message);
                 checkoutButton.textContent = 'Realizar Venta';
@@ -195,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Asegúrate de que el evento de "Realizar Venta" esté correctamente asignado al botón
+    // Asegurar que el evento de "Realizar Venta" esté correctamente asignado al botón
     if (checkoutButton) {
         checkoutButton.addEventListener('click', async () => {
             // Cerrar el modal del carrito antes de abrir el de la contraseña
@@ -206,18 +209,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Evento para verificar la contraseña cuando se haga clic en el botón "Confirmar" del modal
-    const confirmarBtn = document.querySelector('#passwordModal button');
+    const confirmarBtn = document.querySelector('#passwordModal .btn-primary');
     if (confirmarBtn) {
-        confirmarBtn.addEventListener('click', () => {
-            verificarContraseña();
-        });
+        confirmarBtn.addEventListener('click', verificarContraseña);
     }
 
-    // Evento para cerrar el modal cuando se haga clic en el botón "Cerrar" del modal
-    const cerrarBtn = document.querySelector('#passwordModal .close-btn');
+    // Evento para cerrar el modal cuando se haga clic en el botón "Cerrar" (X) del modal
+    const cerrarBtn = document.querySelector('#passwordModal .btn-close');
     if (cerrarBtn) {
-        cerrarBtn.addEventListener('click', () => {
-            cerrarModal();
-        });
+        cerrarBtn.addEventListener('click', cerrarModal);
+    }
+
+    // Evento para cerrar el modal cuando se haga clic en el botón "Cancelar" del modal
+    const cancelarBtn = document.querySelector('#passwordModal .btn-secondary');
+    if (cancelarBtn) {
+        cancelarBtn.addEventListener('click', cerrarModal);
     }
 });

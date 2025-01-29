@@ -278,4 +278,6 @@ header .logo img {
         opacity: 1;
     }
 }
-
+#passwordModal {
+    z-index: 1051; /* Asegúrate de que sea mayor que el backdrop (1050) */
+}
