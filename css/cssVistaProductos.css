@@ -242,6 +242,69 @@ header .logo img {
     background-color: #ddd;
 }
 
+
+    @media (max-width: 400px) {
+        
+        /* Ajustar el contenedor principal */
+        body {
+            width: 390px;
+            padding: 5px;
+        }
+
+        /* Tabla responsiva */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            display: block; /* Para permitir el desplazamiento horizontal */
+            overflow-x: auto;
+        }
+
+        table thead {
+            display: none; /* Ocultar encabezados en pantallas pequeñas */
+        }
+
+        table tr {
+            display: block;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table td:last-child {
+            border-bottom: none; /* Eliminar el borde inferior del último elemento */
+        }
+
+        table td:before {
+            content: attr(data-label); /* Mostrar el nombre del campo */
+            font-weight: bold;
+            flex: 1;
+            text-transform: capitalize;
+        }
+
+        table td button {
+            flex: 1;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        /* Botón de añadir producto */
+        .add-product-button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+    }
+
+
+
 /* Animación de Fade-In */
 #passwordModal {
     display: none;
@@ -282,6 +345,8 @@ header .logo img {
         opacity: 1;
     }
 }
+
 #passwordModal {
     z-index: 1051; /* Asegúrate de que sea mayor que el backdrop (1050) */
 }
+
