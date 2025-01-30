@@ -45,13 +45,36 @@ function mostrarProductos(productos) {
                     <input type="number" class="form-control me-2" style="width: 100px;" value="1" min="1">
                 </div>
                 <div>
-                    <button class="btn btn-primary me-2" onclick="editarProducto(${producto.id})">Editar</button>
-                    <button class="btn btn-danger me-2 btnBorrar" data-id="${producto.id}">Eliminar</button>
+                    <button class="btn me-2 btn-editar" onclick="editarProducto(${producto.id})">Editar</button>
+                    <button class="btn me-2 btnBorrar" data-id="${producto.id}">Eliminar</button>
                 </div>
             </td>
         `;
         document.querySelector("#productTable tbody").appendChild(fila);
     });
+
+    document.querySelectorAll(".btn-editar, .btnBorrar").forEach(boton => {
+        boton.style.backgroundColor = "#272a57"; // Azul oscuro en estado normal
+        boton.style.borderColor = "#272a57";
+        boton.style.color = "white";
+
+        boton.addEventListener("mouseenter", function() {
+            if (boton.classList.contains("btn-editar")) {
+                boton.style.backgroundColor = "#0077e6"; // Azul claro en hover
+                boton.style.borderColor = "#0077e6";
+            } else if (boton.classList.contains("btnBorrar")) {
+                boton.style.backgroundColor = "#dc3545"; // Rojo en hover
+                boton.style.borderColor = "#dc3545";
+            }
+        });
+
+        boton.addEventListener("mouseleave", function() {
+            boton.style.backgroundColor = "#272a57"; // Vuelve al azul oscuro
+            boton.style.borderColor = "#272a57";
+        });
+    });
+
+
     
     // Agregar eventos a los botones "Eliminar"
     document.querySelectorAll(".btnBorrar").forEach((boton) => {
