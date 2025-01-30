@@ -237,7 +237,7 @@ header .logo img {
     background-color: #ddd;
 }
 
-    @media (max-width: 1000px) {
+    @media (max-width: 400px) {
         
         /* Ajustar el contenedor principal */
         body {
