@@ -173,7 +173,7 @@ header .logo img {
     cursor: pointer;
     position: absolute;
     top: 6px;
-    right: 0px;
+    right: -30px;
     padding: 0;
 }
 
