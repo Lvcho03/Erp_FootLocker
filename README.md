@@ -106,3 +106,9 @@ CONTRASEÑA : admin
 LOGUEO USUARIO :
 USUARIO :pepe Capo Gonzalez
 CONTRASEÑA: usuario
+
+## EmailJS:
+EmailJS es un servicio basado en la nube que permite el envío de correos electrónicos directamente desde aplicaciones frontend, eliminando la necesidad de configurar un servidor backend. Es compatible con diversos proveedores de correo electrónico, como Gmail, Outlook y Yahoo, y facilita la integración con tecnologías como JavaScript, React y Angular
+
+El Gmail de inicio de sesion es: agarciab@estudiante.edib.es
+La contraseña para iniciar sesion es: Admin1234
