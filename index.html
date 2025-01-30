@@ -238,7 +238,314 @@
     .btn-close {
         font-weight: bold;
         outline: none;
-    }</style>
+    }
+    @media (max-width: 1024px){
+    
+    .form-section{
+        width: 500px;
+    }
+
+    body {
+        font-size: 15px;
+        background-color: rgb(41, 44, 87);
+        background-size: 1300px;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .wrapp {
+        width: 100%;
+        padding: 10px 15px;
+        box-sizing: border-box;
+    }
+
+    .presentacion {
+        width: 90%;
+        height: auto;
+        margin: 40px auto;
+        text-align: center;
+        font-size: 180%;
+    }
+
+    #titulo {
+        font-size: 2.2em;
+        margin-bottom: 10px;
+    }
+
+
+    .boton-registro {
+        padding: 14px 20px;
+        margin: 10px auto;
+        width: 90%;
+        font-size: 1.2em;
+        background-color: #6a5acd;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .boton-registro:hover {
+        background-color: #5948a2;
+    }
+    #contenedor-form {
+        display: flex; 
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .form-section {
+
+        background-color: #f4f4f9;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); 
+        width: 80%;
+        width: 450px; 
+    }
+
+    
+    #contenedor-form .w3-modal {
+        width: 300px; 
+        margin-right: 150px; 
+        padding: 10px; 
+        border-radius: none; 
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); 
+    }
+
+    .formulario {
+       width: 250px;
+       height: 200px;
+    }
+
+    .Usuario, .contraseña {
+        width: 100%; 
+        font-size: 60%; 
+    }
+
+    .aceptar {
+        font-size: 60%; 
+        padding: 4px; 
+    }
+
+    .form-section input[type="text"],
+    .form-section input[type="password"] {
+        width: 325px;
+        padding: 14px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .form-section .aceptar {
+        background-color: #6a5acd;
+        color: white;
+        padding: 14px;
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .form-section .aceptar:hover {
+        background-color: #4b3a92;
+    }
+
+    #alerta {
+        opacity: 1;
+        transition: opacity 0.5s ease;
+    }
+
+    .alerta {
+        display: flex;
+        background-color: #f44336;
+        color: white;
+        padding: 15px;
+        margin: 20px auto;
+        border: 1px solid #d32f2f;
+        border-radius: 6px;
+        position: relative;
+        justify-content: space-between;
+        align-items: center;
+        opacity: 0.9;
+        transition: opacity 0.5s ease;
+        width: 90%;
+    }
+
+    .alerta button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+}   
+
+@media (max-width: 400px) {
+    body {
+        font-size: 15px;
+        background-color: rgb(41, 44, 87);
+        background-size: 750px;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .wrapp {
+        width: 100%;
+        padding: 10px 15px;
+        box-sizing: border-box;
+    }
+
+    .presentacion {
+        width: 90%;
+        height: auto;
+        margin: 40px auto;
+        text-align: center;
+        font-size: 100%;
+    }
+
+    #titulo {
+        font-size: 2.2em;
+        margin-bottom: 10px;
+    }
+
+    #txtPresentacion {
+        font-size: 1em;
+        line-height: 1.6;
+        margin-bottom: 25px;
+    }
+
+    .boton-registro {
+        padding: 14px 20px;
+        margin: 10px auto;
+        width: 90%;
+        font-size: 1.2em;
+        background-color: #6a5acd;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .boton-registro:hover {
+        background-color: #5948a2;
+    }
+    #contenedor-form {
+        display: flex; 
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .form-section {
+
+        background-color: #f4f4f9;
+        padding: 30px; 
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); 
+        width: 80%;
+        max-width: 350px; 
+    }
+
+    
+    #contenedor-form .w3-modal {
+        width: 300px; 
+        margin-right: 150px; 
+        padding: 10px; 
+        border-radius: none; 
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25); 
+    }
+
+    .formulario {
+       width: 250px;
+       height: 200px;
+    }
+
+    .Usuario, .contraseña {
+        width: 100%; 
+        font-size: 60%; 
+    }
+
+    .aceptar {
+        font-size: 60%; 
+        padding: 4px; 
+    }
+
+    .form-section input[type="text"],
+    .form-section input[type="password"] {
+        width: 325px;
+        padding: 14px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .form-section .aceptar {
+        background-color: #6a5acd;
+        color: white;
+        padding: 14px;
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .form-section .aceptar:hover {
+        background-color: #4b3a92;
+    }
+
+    #alerta {
+        opacity: 1;
+        transition: opacity 0.5s ease;
+    }
+
+    .alerta {
+        display: flex;
+        background-color: #f44336;
+        color: white;
+        padding: 15px;
+        margin: 20px auto;
+        border: 1px solid #d32f2f;
+        border-radius: 6px;
+        position: relative;
+        justify-content: space-between;
+        align-items: center;
+        opacity: 0.9;
+        transition: opacity 0.5s ease;
+        width: 350px;
+        margin-right: 69px;
+        margin-top: 5px;
+    }
+
+    .alerta button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 18px;
+        cursor: pointer;
+    }
+}
+    </style>
 
 <script>document.addEventListener("DOMContentLoaded", function() {
     const titulo = document.getElementById("titulo");
@@ -293,7 +600,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                 </div>
             </div>
-        </div>    
+        </div> 
         <script src="JS/conexion.js" ></script>
         <script src="JS/fadein.js"></script>
         <script src="JS/iniciarSesion.js" ></script>

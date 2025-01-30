@@ -17,7 +17,6 @@ function obtenerVentasTotalesPorProducto() {
         ventas.forEach(venta => {
             ventasPorProducto[venta.producto] = venta.total_ventas;
         });
-        console.log("Ventas totales por producto:", ventasPorProducto);
         return ventasPorProducto; // Devuelve el resultado si se necesita.
     })
     .catch(error => {
@@ -26,27 +25,39 @@ function obtenerVentasTotalesPorProducto() {
 }
 
 async function obtenerVentasMensualesPorProducto() {
-    return fetch('http://localhost:3000/ventasMensuales', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(response => {
+    try {
+        const response = await fetch('http://localhost:3000/ventasMensuales', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
         if (!response.ok) {
             throw new Error("Error al obtener datos del servidor.");
         }
-        return response.json();
-    })
-    .then(ventasMensuales => {
-        // Transformar el array recibido en un formato para la gráfica de área
-        const ventasPorMesProducto = ventasMensuales.map(mes => [mes.mes, mes.nike, mes.vans, mes.converse]);
-        return ventasPorMesProducto; // Devuelve el resultado si se necesita.
-    })
-    .catch(error => {
+
+        const ventasMensuales = await response.json();
+
+        if (!ventasMensuales || ventasMensuales.length === 0) {
+            throw new Error("No se encontraron datos de ventas mensuales.");
+        }
+
+        // Transformar las ventas en un formato adecuado [{mes, marca, total_ventas}]
+        return ventasMensuales.map(venta => ({
+            mes: venta.mes,               // Asume que mes está en formato "YYYY-MM"
+            marca: venta.marca,           // Nombre de la marca
+            total_ventas: venta.total_ventas // Total de ventas
+        }));
+    } catch (error) {
         console.error("Error al obtener ventas mensuales por producto:", error);
-    });
+        throw error;
+    }
 }
+
+
+
+
 
 async function obtenerDiferenciasVentasPorProducto() {
     try {
@@ -63,7 +74,6 @@ async function obtenerDiferenciasVentasPorProducto() {
 
         const diferenciasVentas = await response.json();
 
-        console.log(diferenciasVentas + "x");
 
         if (Array.isArray(diferenciasVentas) && diferenciasVentas.length > 0) {
             return diferenciasVentas.map(item => {
