@@ -46,8 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateCart(); // Actualizar la visualización del carrito
         }
     }
-    
-
 
     // Función para agregar productos al carrito
     window.agregarAlCarrito = function (button) {
@@ -79,11 +77,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    function cerrarModalCarrito() {
+        const modal = document.getElementById('cartModal');
+        modal.style.display = 'none'; // Ocultar el modal
+        modal.classList.remove('fade-in'); // Eliminar el efecto fade-in
+    }
+
     // Función para mostrar el modal de la contraseña
     function mostrarModalContraseña() {
         const modal = document.getElementById('passwordModal');
         modal.style.display = 'flex'; // Usamos flex para centrar el modal
         modal.classList.add('fade-in'); // Añadimos el efecto fade-in
+    
+        // Crear el fondo negro si no existe
+        if (!document.querySelector('.modal-backdrop')) {
+            const backdrop = document.createElement('div');
+            backdrop.className = 'modal-backdrop fade show';
+            document.body.appendChild(backdrop); // Añadirlo al DOM
+        }
     }
 
     // Función que cierra el modal de confirmación de contraseña
@@ -91,6 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const modal = document.getElementById('passwordModal');
         modal.style.display = 'none'; // Ocultar el modal
         modal.classList.remove('fade-in'); // Eliminar el efecto fade-in
+    
+        // Remover manualmente el fondo negro (modal-backdrop)
+        const backdrop = document.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.remove(); // Elimina el elemento del DOM
+        }
     }
 
     // Función que verifica la contraseña ingresada
@@ -165,6 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Cambiar el estado del botón
                 checkoutButton.textContent = 'Realizar Venta';
                 checkoutButton.disabled = false;
+
+                // Cerrar el modal de confirmación de contraseña
+                cerrarModal();
             } else {
                 alert('Error: ' + result.message);
                 checkoutButton.textContent = 'Realizar Venta';
@@ -178,28 +198,31 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Asegúrate de que el evento de "Realizar Venta" esté correctamente asignado al botón
+    // Asegurar que el evento de "Realizar Venta" esté correctamente asignado al botón
     if (checkoutButton) {
         checkoutButton.addEventListener('click', async () => {
-
+            // Cerrar el modal del carrito antes de abrir el de la contraseña
+            cerrarModalCarrito();
             // Mostrar el modal de confirmación de contraseña
             mostrarModalContraseña();
         });
     }
 
     // Evento para verificar la contraseña cuando se haga clic en el botón "Confirmar" del modal
-    const confirmarBtn = document.querySelector('#passwordModal button');
+    const confirmarBtn = document.querySelector('#passwordModal .btn-primary');
     if (confirmarBtn) {
-        confirmarBtn.addEventListener('click', () => {
-            verificarContraseña();
-        });
+        confirmarBtn.addEventListener('click', verificarContraseña);
     }
 
-    // Evento para cerrar el modal cuando se haga clic en el botón "Cerrar" del modal
-    const cerrarBtn = document.querySelector('#passwordModal .close-btn');
+    // Evento para cerrar el modal cuando se haga clic en el botón "Cerrar" (X) del modal
+    const cerrarBtn = document.querySelector('#passwordModal .btn-close');
     if (cerrarBtn) {
-        cerrarBtn.addEventListener('click', () => {
-            cerrarModal();
-        });
+        cerrarBtn.addEventListener('click', cerrarModal);
+    }
+
+    // Evento para cerrar el modal cuando se haga clic en el botón "Cancelar" del modal
+    const cancelarBtn = document.querySelector('#passwordModal .btn-secondary');
+    if (cancelarBtn) {
+        cancelarBtn.addEventListener('click', cerrarModal);
     }
 });

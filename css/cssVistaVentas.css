@@ -112,7 +112,7 @@ height: 50px;
 width: 100%;
 background-color: rgb(39, 42, 87);
 }
-@media (max-width: 390px) {
+@media (max-width: 400px) {
     /* Header */
     header {
         flex-direction: column;

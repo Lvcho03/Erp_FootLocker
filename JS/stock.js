@@ -16,6 +16,12 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 });
 
+// Función para agregar productos al carrito
+function agregarAlCarrito(button) {
+    const cartConfirmation = new bootstrap.Toast(document.getElementById('cartConfirmation'));
+    cartConfirmation.show();
+}
+
 function mostrarProductos(productos) {
     const tableBody = document.querySelector("#productTable tbody");
     tableBody.innerHTML = "";
@@ -39,22 +45,44 @@ function mostrarProductos(productos) {
                     <input type="number" class="form-control me-2" style="width: 100px;" value="1" min="1">
                 </div>
                 <div>
-                    <button class="btn btn-primary me-2" onclick="editarProducto(${producto.id})">Editar</button>
-                    <button class="btn btn-danger me-2 btnBorrar" data-id="${producto.id}">Eliminar</button>
+                    <button class="btn me-2 btn-editar" onclick="editarProducto(${producto.id})">Editar</button>
+                    <button class="btn me-2 btnBorrar" data-id="${producto.id}">Eliminar</button>
                 </div>
             </td>
         `;
         document.querySelector("#productTable tbody").appendChild(fila);
     });
+
+    document.querySelectorAll(".btn-editar, .btnBorrar").forEach(boton => {
+        boton.style.backgroundColor = "#272a57"; // Azul oscuro en estado normal
+        boton.style.borderColor = "#272a57";
+        boton.style.color = "white";
+
+        boton.addEventListener("mouseenter", function() {
+            if (boton.classList.contains("btn-editar")) {
+                boton.style.backgroundColor = "#0077e6"; // Azul claro en hover
+                boton.style.borderColor = "#0077e6";
+            } else if (boton.classList.contains("btnBorrar")) {
+                boton.style.backgroundColor = "#dc3545"; // Rojo en hover
+                boton.style.borderColor = "#dc3545";
+            }
+        });
+
+        boton.addEventListener("mouseleave", function() {
+            boton.style.backgroundColor = "#272a57"; // Vuelve al azul oscuro
+            boton.style.borderColor = "#272a57";
+        });
+    });
+
+
     
     // Agregar eventos a los botones "Eliminar"
     document.querySelectorAll(".btnBorrar").forEach((boton) => {
         boton.addEventListener("click", function () {
             const productoId = this.getAttribute("data-id");
-            eliminarProducto(productoId);
+            mostrarModalEliminar(productoId);
         });
     });
-
     // Agregar evento al botón "Añadir al carrito"
     document.querySelectorAll(".btn.btn-secondary").forEach((boton) => {
         boton.addEventListener("click", function () {
@@ -199,17 +227,23 @@ document.querySelector("#guardar-producto").addEventListener("click", function(e
 });
 
 
+function mostrarModalEliminar(productoId) {
+    productoAEliminar = productoId; // Guarda el ID del producto
+    console.log("Producto a eliminar:", productoAEliminar); // Verifica el ID
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteProductModal"));
+    deleteModal.show();
+}
 
 
-//ELIMINAR PRODUCTO
-function eliminarProducto(productoId) {
-    if (!productoId) {
-        alert("Por favor, proporciona un ID de producto válido.");
+
+function eliminarProducto() {
+    if (!productoAEliminar) {
+        console.error("No se encontró un ID de producto para eliminar");
         return;
     }
 
-    // Realizar la solicitud DELETE para eliminar el producto del servidor
-    fetch(`http://localhost:3000/eliminarProducto/${productoId}`, {
+    console.log("Eliminando producto con ID:", productoAEliminar); // Verifica el ID
+    fetch(`http://localhost:3000/eliminarProducto/${productoAEliminar}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -222,15 +256,16 @@ function eliminarProducto(productoId) {
             return response.json();
         })
         .then((data) => {
-            console.log("Producto eliminado:", data);
-            // Actualizar la lista de productos después de eliminar
-            obtenerProductos();
+            console.log("Producto eliminado correctamente:", data);
+            obtenerProductos(); // Actualiza la lista de productos
         })
         .catch((error) => {
-            console.error("Error:", error);
+            console.error("Error al eliminar el producto:", error);
         });
-        const modal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
-        modal.hide();
+
+    // Cierra el modal
+    const deleteModal = bootstrap.Modal.getInstance(document.getElementById("deleteProductModal"));
+    deleteModal.hide();
 }
 
     // Función para ordenar la tabla

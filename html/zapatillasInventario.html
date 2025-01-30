@@ -126,22 +126,34 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" onclick="mostrarModalContraseña()" class="btn btn-success" id="checkoutButton">Realizar Venta</button>
+                <button type="button" onclick="realizarCompra()" class="btn btn-success" id="checkoutButton">Realizar Venta</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal para confirmar contraseña -->
-<div id="passwordModal" class="modal hidden">
-    <div class="modal-content">
-        <span class="close-btn" onclick="cerrarModal()">&times;</span>
-        <h2>Confirmar Contraseña</h2>
-        <p>Por favor, ingresa tu contraseña para continuar:</p>
-        <input id="passwordInput" type="password" placeholder="Contraseña" required>
-        <button onclick="verificarContraseña()" id="send-button">Confirmar</button>
+
+    <!-- Modal para confirmar contraseña -->
+<div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordModalLabel">Confirmar Contraseña</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Por favor, ingresa tu contraseña para continuar:</p>
+                <input id="passwordInput" type="password" class="form-control" placeholder="Contraseña" required />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="verificarContraseña()"      id="send-button">Confirmar</button>
+            </div>
+        </div>
     </div>
 </div>
+
+
 
     <div class="h1lista">
         <h1>Lista de Productos</h1>
@@ -248,30 +260,34 @@
     </div>
 </div>
 
+<!-- Modal de confirmación para eliminar producto -->
 <div class="modal fade" id="deleteProductModal" tabindex="-1" aria-labelledby="deleteProductModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteProductModalLabel">Eliminar Producto</h5>
+                <h5 class="modal-title" id="deleteProductModalLabel">Confirmar eliminación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Por favor, introduce el ID del producto que deseas eliminar:</p>
-                <input type="text" id="productoId" class="form-control" placeholder="ID del producto">
+                ¿Estás seguro de que deseas eliminar este producto?
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" id="btnBorrar" class="btn btn-danger">Eliminar</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteButton">Eliminar</button>
             </div>
         </div>
     </div>
 </div>
 
 
-<div id="cartConfirmation" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-    <div class="d-flex">
-        <div class="toast-body">
-            Producto añadido al carrito.
+
+<div class="position-fixed bottom-0 start-0 p-3" style="z-index: 1055;">
+    <div id="cartConfirmation" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Producto añadido al carrito.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
         </div>
     </div>
 </div>
@@ -279,16 +295,10 @@
 
 
 
-    <script>
-      
-        document.querySelector("table tbody").addEventListener("click", function(event) {
-    console.log('Evento disparado en:', event.target);  // Muestra el elemento que se hizo clic
-}, false);
+<script>
+    document.getElementById("confirmDeleteButton").addEventListener("click", eliminarProducto);
+</script>
 
-
-    
-
-    </script>
 
     <script src="/JS/stock.js"></script>
     <script src="/JS/carrito.js"></script>
