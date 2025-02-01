@@ -1,4 +1,4 @@
-const { response } = require('express');
+const { json } = require('stream/consumers');
 
 var workerCount = 0; // Contador global de trabajadores
 const sqlite3 = require('sqlite3').verbose();
@@ -39,7 +39,7 @@ function showWorkers() {
             const contenedor = document.getElementById("worker-cards-container");
             contenedor.innerHTML = ""; // Limpiar contenedor antes de agregar nuevos trabajadores
 
-            data.forEach((usuario) => {
+            data.forEach((  usuario) => {
                 const div = document.createElement("div");
                 div.classList.add("worker-card");
                 div.id = `worker-card-${usuario.id}`;
@@ -47,16 +47,16 @@ function showWorkers() {
                   <span class="delete-icon" id="delete-${usuario.id}" onclick="deleteWorker(${usuario.id})">✖</span>
                   <img src="../imagenes/worker.png" class="profile-pic" id="profile-pic-${usuario.id}">
                   <div class="worker-info">
-                    <h2 id="worker-name-${usuario.id}">${usuario.nombre}</h2>
-                    <p><strong>Email:</strong> <span id="worker-email-${usuario.id}">${usuario.email}</span></p>
-                    <p><strong>Teléfono:</strong> <span id="worker-phone-${usuario.id}">${usuario.numTel}</span></p>
-                    <p><strong>Dirección:</strong> <span id="worker-address-${usuario.id}">${usuario.direccion}</span></p>
+                    <h2 id="worker-name-${usuario.id}">${usuario.n}</h2>
+                    <p><strong>Email:</strong> <span id="worker-email-${usuario.id}">${usuario.e}</span></p>
+                    <p><strong>Teléfono:</strong> <span id="worker-phone-${usuario.id}">${usuario.nt}</span></p>
+                    <p><strong>Dirección:</strong> <span id="worker-address-${usuario.id}">${usuario.d}</span></p>
                     <button class="edicion" id="edit-${usuario.id}" onclick="editWorker(${usuario.id})">Editar</button>
                   </div>
                 `;
                 contenedor.appendChild(div);
             });
-
+            
             workerCount = data.length; // Actualiza el contador
             updateWorkerCount();
         })
