@@ -18,7 +18,6 @@ header {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     padding: 0 20px;
     color: #fff;
-
 }
 
 /* Contenedor de lista */
@@ -121,7 +120,6 @@ header .logo img {
 }
 
 .modal-header {
-
     background-color: #272a57;
     color: white;
     border-top-left-radius: 8px;
@@ -182,9 +180,6 @@ header .logo img {
     transform: scale(1.2);
 }
 
-
-
-
 /* Estilo para el precio total */
 .total-price {
     text-align: right;
@@ -242,70 +237,93 @@ header .logo img {
     background-color: #ddd;
 }
 
+/* Contenedor para centrar la tabla y limitar su ancho */
+.table-container {
+    max-width: 1700px;           /* Ancho máximo para la tabla */
+    width: 90%;                 /* Se adapta al 90% del ancho en dispositivos pequeños */
+    margin: 30px auto;          /* Centrado horizontal y margen vertical */
+    background-color: #fff;     /* Fondo blanco para destacar la tabla */
+    padding: 20px;              /* Espaciado interno */
+    border-radius: 8px;         /* Bordes redondeados */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);  /* Sombra sutil */
+}
 
-    @media (max-width: 400px) {
-        
-        /* Ajustar el contenedor principal */
-        body {
-            width: 390px;
-            padding: 5px;
-        }
+/* Estilos para la tabla */
+#productTable {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-        /* Tabla responsiva */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            display: block; /* Para permitir el desplazamiento horizontal */
-            overflow-x: auto;
-        }
+/* Encabezado y celdas centradas */
+#productTable th,
+#productTable td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+}
 
-        table thead {
-            display: none; /* Ocultar encabezados en pantallas pequeñas */
-        }
+/* Estilo para el encabezado de la tabla */
+#productTable thead th {
+    background-color: #272a57;
+    color: #fff;
+}
 
-        table tr {
-            display: block;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 10px;
-        }
+/* Efecto hover en las filas */
+#productTable tbody tr:hover {
+    background-color: #f5f5f5;
+}
 
-        table td {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 5px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        table td:last-child {
-            border-bottom: none; /* Eliminar el borde inferior del último elemento */
-        }
-
-        table td:before {
-            content: attr(data-label); /* Mostrar el nombre del campo */
-            font-weight: bold;
-            flex: 1;
-            text-transform: capitalize;
-        }
-
-        table td button {
-            flex: 1;
-            margin: 5px 0;
-            width: 100%;
-        }
-
-        /* Botón de añadir producto */
-        .add-product-button {
-            width: 100%;
-            margin-bottom: 10px;
-        }
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 400px) {
+    .table-container {
+        width: 100%;
+        margin: 20px 0;
+        padding: 10px;
     }
+    
+    #productTable,
+    #productTable thead,
+    #productTable tbody,
+    #productTable th,
+    #productTable td,
+    #productTable tr {
+        display: block;
+    }
+    
+    #productTable thead {
+        display: none;
+    }
+    
+    #productTable tr {
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+    }
+    
+    #productTable td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    #productTable td:last-child {
+        border-bottom: none;
+    }
+    
+    #productTable td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        flex: 1;
+        text-transform: capitalize;
+    }
+}
 
 
-
-/* Animación de Fade-In */
+/* Animación de Fade-In para el modal de password (ejemplo) */
 #passwordModal {
     display: none;
     position: fixed;
@@ -338,15 +356,8 @@ header .logo img {
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-#passwordModal {
-    z-index: 1051; /* Asegúrate de que sea mayor que el backdrop (1050) */
-}
-
+#passwordModal { z-index: 1051; }

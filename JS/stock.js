@@ -1,6 +1,3 @@
-
-
-
 document.addEventListener("DOMContentLoaded", function() {
     fetch("http://localhost:3000/allProducto")
         .then(response => response.json())
@@ -16,7 +13,8 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 });
 
-// Función para agregar productos al carrito
+// Función para agregar productos al carrito (ahora no se llama directamente desde el botón)
+// Puedes conservarla si la necesitas en otro contexto.
 function agregarAlCarrito(button) {
     const cartConfirmation = new bootstrap.Toast(document.getElementById('cartConfirmation'));
     cartConfirmation.show();
@@ -30,6 +28,7 @@ function mostrarProductos(productos) {
         const fila = document.createElement("tr");
         fila.setAttribute('data-id', producto.id); // Asigna el ID real del producto como atributo data-id
     
+        // Se elimina el atributo "id" y el onclick del botón y se agrega la clase "btnCarrito"
         fila.innerHTML = `
             <td>${producto.id}</td>
             <td>${producto.m}</td>
@@ -38,7 +37,7 @@ function mostrarProductos(productos) {
             <td>${producto.st}</td>
             <td class="acciones d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
-                    <button class="btn btn-secondary me-2" id = "btnCarrito" onclick="agregarAlCarrito(this)">
+                    <button class="btn btn-secondary me-2 btnCarrito" onclick="agregarAlCarrito(this)">
                         <i class="bi bi-cart"></i>
                     </button>
                     <span class="me-2">Cantidad:</span>
@@ -50,7 +49,7 @@ function mostrarProductos(productos) {
                 </div>
             </td>
         `;
-        document.querySelector("#productTable tbody").appendChild(fila);
+        tableBody.appendChild(fila);
     });
 
     document.querySelectorAll(".btn-editar, .btnBorrar").forEach(boton => {
@@ -73,8 +72,6 @@ function mostrarProductos(productos) {
             boton.style.borderColor = "#272a57";
         });
     });
-
-
     
     // Agregar eventos a los botones "Eliminar"
     document.querySelectorAll(".btnBorrar").forEach((boton) => {
@@ -83,8 +80,11 @@ function mostrarProductos(productos) {
             mostrarModalEliminar(productoId);
         });
     });
-  // Delegación de eventos en el contenedor de la tabla
+}
+
+// Delegación de eventos en el contenedor de la tabla para el botón del carrito
 document.querySelector("#productTable tbody").addEventListener("click", function (event) {
+    // Si se hace clic en cualquier elemento dentro de un botón con la clase "btnCarrito"
     if (event.target.closest(".btnCarrito")) {
         const cartConfirmation = document.getElementById("cartConfirmation");
         if (cartConfirmation) {
@@ -95,13 +95,6 @@ document.querySelector("#productTable tbody").addEventListener("click", function
         }
     }
 });
-}
-
-
-
-
-
-
 
 document.addEventListener("DOMContentLoaded", function () {
     const tabla = document.querySelector("table");
@@ -193,7 +186,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const botonGuardar = document.querySelector("#guardar-producto");
     
@@ -247,17 +239,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const modal = bootstrap.Modal.getInstance(document.getElementById("addProductModal"));
         modal.hide();
     });
-
-    function mostrarModalEliminar(productoId) {
-        productoAEliminar = productoId; // Guarda el ID del producto
-        console.log("Producto a eliminar:", productoAEliminar); // Verifica el ID
-        const deleteModal = new bootstrap.Modal(document.getElementById("deleteProductModal"));
-        deleteModal.show();
-    }
 });
 
-
-
+function mostrarModalEliminar(productoId) {
+    productoAEliminar = productoId; // Guarda el ID del producto
+    console.log("Producto a eliminar:", productoAEliminar); // Verifica el ID
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteProductModal"));
+    deleteModal.show();
+}
 
 function eliminarProducto() {
     if (!productoAEliminar) {
@@ -291,41 +280,38 @@ function eliminarProducto() {
     deleteModal.hide();
 }
 
-    // Función para ordenar la tabla
-    function ordenarTabla(criterio) {
-        const tabla = document.getElementById('productTable');
-        const filas = Array.from(tabla.tBodies[0].rows);
+// Función para ordenar la tabla
+function ordenarTabla(criterio) {
+    const tabla = document.getElementById('productTable');
+    const filas = Array.from(tabla.tBodies[0].rows);
 
-        filas.sort((filaA, filaB) => {
-            let valorA, valorB;
+    filas.sort((filaA, filaB) => {
+        let valorA, valorB;
 
-            switch (criterio) {
-                case 'marca':
-                    valorA = filaA.cells[1].textContent.toLowerCase();
-                    valorB = filaB.cells[1].textContent.toLowerCase();
-                    return valorA.localeCompare(valorB);
-                
-                case 'modelo':
-                    valorA = filaA.cells[2].textContent.toLowerCase();
-                    valorB = filaB.cells[2].textContent.toLowerCase();
-                    return valorA.localeCompare(valorB);
+        switch (criterio) {
+            case 'marca':
+                valorA = filaA.cells[1].textContent.toLowerCase();
+                valorB = filaB.cells[1].textContent.toLowerCase();
+                return valorA.localeCompare(valorB);
+            
+            case 'modelo':
+                valorA = filaA.cells[2].textContent.toLowerCase();
+                valorB = filaB.cells[2].textContent.toLowerCase();
+                return valorA.localeCompare(valorB);
 
+            case 'precio':
+                valorA = parseFloat(filaA.cells[3].textContent);
+                valorB = parseFloat(filaB.cells[3].textContent);
+                return valorB - valorA;
 
-                case 'precio':
-                    valorA = parseFloat(filaA.cells[3].textContent);
-                    valorB = parseFloat(filaB.cells[3].textContent);
-                    return valorB - valorA;
+            case 'stock':
+                valorA = parseInt(filaA.cells[4].textContent, 10);
+                valorB = parseInt(filaB.cells[4].textContent, 10);
+                return valorB - valorA;
+        }
+    });
 
-                case 'stock':
-                    valorA = parseInt(filaA.cells[4].textContent, 10);
-                    valorB = parseInt(filaB.cells[4].textContent, 10);
-                    return valorB - valorA;
-            }
-        });
-
-        // Reordenar las filas en la tabla
-        const tbody = tabla.tBodies[0];
-        filas.forEach(fila => tbody.appendChild(fila));
-    }
-
-
+    // Reordenar las filas en la tabla
+    const tbody = tabla.tBodies[0];
+    filas.forEach(fila => tbody.appendChild(fila));
+}
