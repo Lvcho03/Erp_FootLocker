@@ -1,38 +1,158 @@
-  /* CSS Personalizado */
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-        
-  :root {
-      --primary-color: #272a57;
-      --secondary-color: #f8f9fa;
-  }
-  html{
+/* CSS Personalizado */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    --primary-color: #272a57;
+    --secondary-color: #f8f9fa;
+}
+
+html {
     height: 100%;
     margin: 0;
     padding: 0;
-  }
+}
 
-  body {
+body {
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
-      font-family: 'Inter', sans-serif;
-      background-color: #f5f5f5;
-      height: 100%;
-      width: 100%;
-      margin: 0;
-      padding: 0;
-  }
+    font-family: 'Inter', sans-serif;
+    background-color: #f5f5f5;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
 
-  main{
+main {
     flex: 1;
-  }
-  
-  .navbar {
-      background: var(--primary-color) !important;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-  }
+}
 
-  .volver-button {
+.navbar {
+    background: var(--primary-color) !important;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+/* Estilo del botón redondo */
+.btn-round {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #272a57;
+    color: white;
+    border: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-left: 10px;
+}
+
+.btn-round:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+/* Estilo del menú desplegable */
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -400px; /* Menú más ancho y oculto por defecto */
+    width: 400px; /* Ancho aumentado */
+    height: 100%;
+    background-color: #272a57;
+    color: white;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Botón de cierre */
+.btn-close-menu {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.btn-close-menu:hover {
+    color: #ff4d4d; /* Cambia el color al pasar el mouse */
+}
+
+.side-menu {
+    position: fixed;
+    top: 0;
+    left: -400px;
+    width: 400px;
+    height: 100%;
+    background-color: #272a57;
+    color: white;
+    transition: left 0.3s ease;
+    z-index: 1000;
+    padding: 20px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.side-menu h4 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+}
+
+.side-menu h5 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+}
+
+.side-menu ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.side-menu ul li {
+    margin-bottom: 15px;
+}
+
+.side-menu ul li label {
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.side-menu ul li input[type="checkbox"],
+.side-menu ul li input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+.side-menu ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem; /* Texto más grande */
+    transition: color 0.3s ease;
+}
+
+.side-menu ul li a:hover {
+    color: #ff4d4d; /* Cambia el color al pasar el mouse */
+}
+
+/* Animación de fade in */
+.fade-in {
+    left: 0;
+}
+
+/* Animación de fade out */
+.fade-out {
+    left: -400px;
+}
+.volver-button {
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -46,7 +166,6 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-
 .volver-button:hover {
     background-color: #0056b3;
     transform: scale(1.1);
@@ -56,55 +175,62 @@
     font-size: 1.5rem;
 }
 
-  
-  .product-card {
-      background: white;
-      border-radius: 12px;
-      transition: transform 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  }
-  
-  .product-card:hover {
-      transform: translateY(-5px);
-  }
-  
-  .product-image {
-      height: 200px;
-      object-fit: cover;
-      border-radius: 12px 12px 0 0;
-  }
-  
-  .price-tag {
-      color: var(--primary-color);
-      font-weight: 600;
-      font-size: 1.25rem;
-  }
-  
-  footer {
-      background: var(--primary-color);
-      color: white;
-      margin-bottom: 0;
-      padding: 0;
-  }
-  
-  .btn-primary {
-      background-color: var(--primary-color);
-      border: none;
-      padding: 0.75rem 1.5rem;
-  }
-  
-  .btn-primary:hover {
-      background-color: #1d1f45;
-  }
+.product-card {
+    background: white;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
 
+.product-card:hover {
+    transform: translateY(-5px);
+}
 
-  footer{
-margin-bottom: 0px;
+.product-image {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px 12px 0 0;
+}
 
-  }
+.price-tag {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.25rem;
+}
 
-  /* Nuevo estilo para tarjetas 3D */
-/* From Uiverse.io by eslam-hany */ 
+footer {
+    background: var(--primary-color);
+    color: white;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 0.75rem 1.5rem;
+}
+
+.btn-primary:hover {
+    background-color: #1d1f45;
+}
+
+footer {
+    margin-bottom: 0px;
+}
+
+/* Nuevo estilo para tarjetas 3D */
+/* From Uiverse.io by eslam-hany */
+.container {
+    display: flex;
+    justify-content: center;
+}
+
+.row {
+    gap: 150px; /* Aumenta la separación entre zapatillas */
+    justify-content: center;
+}
+
 .book {
     position: relative;
     border-radius: 10px;
@@ -118,19 +244,14 @@ margin-bottom: 0px;
     transform: preserve-3d;
     -webkit-perspective: 2000px;
     perspective: 2000px;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
+    flex-direction: column;
     align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
     color: #000;
-  }
-  
-  .cover {
+}
+
+.cover {
     top: 0;
     position: absolute;
     background-color: lightgray;
@@ -145,26 +266,27 @@ margin-bottom: 0px;
     transform-origin: 0;
     -webkit-box-shadow: 1px 1px 12px #000;
     box-shadow: 1px 1px 12px #000;
-    display: -webkit-box;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
     align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
     justify-content: center;
-  }
-  
-  .book:hover .cover {
+}
+
+.cover img {
+    object-fit: contain; /* Evita recortes */
+    width: 100%;
+    height: 250px; /* Ajusta la altura para que no se recorte */
+    border-radius: 10px;
+}
+
+.book:hover .cover {
     -webkit-transition: all 0.5s;
     transition: all 0.5s;
     -webkit-transform: rotatey(-80deg);
     -ms-transform: rotatey(-80deg);
-    transform: rotatey(-90deg);
-  }
-  
-  p {
+    transform: rotatey(-180deg);
+}
+
+p {
     font-size: 20px;
     font-weight: bolder;
-  }
+}

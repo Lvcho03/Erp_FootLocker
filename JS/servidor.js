@@ -933,3 +933,39 @@ app.get('/diferenciasVentas', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
+
+// Ruta para filtrar productos
+app.get('/filtrarProductos', (req, res) => {
+  const { precio, marca, sort } = req.query;
+
+  let query = 'SELECT * FROM Productos WHERE 1=1';
+  const params = [];
+
+  // Filtrar por precio
+  if (precio) {
+      const [min, max] = precio.split('-').map(Number);
+      query += ' AND p BETWEEN ? AND ?';
+      params.push(min, max);
+  }
+
+  // Filtrar por marca
+  if (marca) {
+      query += ' AND m IN (' + marca.map(() => '?').join(',') + ')';
+      params.push(...marca);
+  }
+
+  // Ordenar por modelo
+  if (sort === 'asc') {
+      query += ' ORDER BY mo ASC';
+  } else if (sort === 'desc') {
+      query += ' ORDER BY mo DESC';
+  }
+
+  db.all(query, params, (err, rows) => {
+      if (err) {
+          console.error('Error al filtrar productos:', err);
+          return res.status(500).json({ error: 'Error al filtrar productos' });
+      }
+      res.json(rows);
+  });
+});
