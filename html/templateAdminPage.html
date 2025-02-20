@@ -26,7 +26,7 @@
                     <li><a href="../html/VistaTrabajadores.html">Trabajadores</a></li>
                     <li><a href="../html/VistaVentas.html">Ventas</a></li>
                     <li><a href="../html/zapatillasInventario.html">Inventario</a></li>
-                    <!--<li><a href="#opcion4">Opción 4</a></li>-->
+                    <li><a href="../html/VistaEscaparate.html">Tienda</a></li>
                     <li><a href="../index.html">Cerrar Sesión</a></li>
                 </ul>
             </nav>
@@ -35,22 +35,22 @@
         <section>
             <div class="sombra">
                 <div class="bienvenido">
-                    <p>Bienvenido,<span id="nameAdmin"></span> eres administrador</p>
+                    <p>Bienvenido, <span id="nameAdmin"></span></p>
                 </div>
-
+        
                 <script>
-                 /*   document.addEventListener("DOMContentLoaded", function() {
-                      // Recuperar el nombre del sessionStorage
-                      const nombre = sessionStorage.getItem('nombre');
-                
-                      // Mostrar el nombre en el span
-                          document.getElementById('nameAdmin').textContent = nombre;
-                   
-                          console.error("No se encontró información del usuario en sessionStorage.");
-                    
-                    }); */
-                  </script>
-                
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Recuperar el usuario almacenado en localStorage
+                        const usuarioGuardado = JSON.parse(localStorage.getItem('user'));
+        
+                        if (usuarioGuardado && usuarioGuardado.username) {
+                            // Mostrar el nombre en el span
+                            document.getElementById('nameAdmin').textContent = usuarioGuardado.username;
+                        } else {
+                            console.error("No se encontró información del usuario en localStorage.");
+                        }
+                    });
+                </script>
             </div>
         </section>
         

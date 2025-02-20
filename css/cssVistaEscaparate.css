@@ -42,9 +42,12 @@
     background-color: #272a57;
     color: white;
     border: none;
+    font-size: 24px; /* Asegura que el icono sea visible */
+    cursor: pointer;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 
 
 .volver-button:hover {
@@ -161,7 +164,7 @@ margin-bottom: 0px;
     transition: all 0.5s;
     -webkit-transform: rotatey(-80deg);
     -ms-transform: rotatey(-80deg);
-    transform: rotatey(-90deg);
+    transform: rotatey(-180deg);
   }
   
   p {
