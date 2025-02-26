@@ -21,7 +21,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="../css/cssVistaEscaparate.css" rel="stylesheet" type="text/css">
     <script src="../JS/escaparate.js"></script>
+    <script> src="zapatillasInventario.html" </script>
     <script src="../JS/menuDesplegable.js"></script>
+    <script src="../JS/stock.js"></script>
+    <script src="../JS/carrito.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -44,8 +47,98 @@
                 </div>
             </div>
         </div>
-       
-       
+        <div class="modal fade" id="addProductModal" tabindex="-1" aria-labelledby="addProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addProductModalLabel">Agregar Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addProductForm">
+                            <div class="mb-3">
+                                <label for="newMarca" class="form-label">Marca</label>
+                                <input type="text" class="form-control" id="newMarca" name="marca" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="newModelo" class="form-label">Modelo</label>
+                                <input type="text" class="form-control" id="newModelo" name="modelo" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="newPrecio" class="form-label">Precio</label>
+                                <input type="number" class="form-control" id="newPrecio" name="precio" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="newStock" class="form-label">Stock</label>
+                                <input type="number" class="form-control" id="newStock" name="stock" required />
+                            </div>
+                            <button type="button" class="btn btn-primary" id="guardar-producto">Guardar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passwordModalLabel">Confirmar Contraseña</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Por favor, ingresa tu contraseña para continuar:</p>
+                        <input id="passwordInput" type="password" class="form-control" placeholder="Contraseña" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="verificarContraseña()"      id="send-button">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="cartModalLabel">Carrito de Compras</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul id="cartItems" class="list-group mb-3"></ul>
+                        <div class="total-price">
+                            <h6>Total: $<span id="cartTotal">0.00</span></h6>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="realizarCompra()" class="btn btn-success" id="checkoutButton">Realizar Venta</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="passwordModalLabel">Confirmar Contraseña</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Por favor, ingresa tu contraseña para continuar:</p>
+                        <input id="passwordInput" type="password" class="form-control" placeholder="Contraseña" required />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="verificarContraseña()"      id="send-button">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="cart-button" data-bs-toggle="modal" data-bs-target="#cartModal">
+            <i class="bi bi-cart"></i> Carrito
+        </button>
+        </div>
+
         <div id="sideMenu" class="side-menu">
             <button id="closeMenuButton" class="btn-close-menu">
                 <i class="fas fa-times"></i> <!-- Ícono de "X" -->
@@ -184,9 +277,6 @@ function mostrarProductos(productos) {
         contenedor.insertAdjacentHTML('beforeend', productoHTML);
     });
 }
-
-
-
     </script>
 </body>
 
