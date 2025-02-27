@@ -37,43 +37,10 @@
                         <a class="nav-link" href="#" id="miCuenta">Mi Cuenta</a>
                     </li>
                 </ul>
-                <div class="filtro-boton">
-                    <button id="menuButton" class="btn btn-round">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
+                
             </div>
         </div>
        
-       
-        <div id="sideMenu" class="side-menu">
-            <button id="closeMenuButton" class="btn-close-menu">
-                <i class="fas fa-times"></i> <!-- Ícono de "X" -->
-            </button>
-            <h4>Filtros</h4>
-            <ul>
-                <!-- Filtro por precio -->
-                <li>
-                    <h5>Ordenar Productos</h5>
-                    <label>
-                        <input type="radio" name="sort-option" value="marca-asc">
-                        Marca (A-Z)
-                    </label>
-                    <label>
-                        <input type="radio" name="sort-option" value="marca-desc">
-                        Marca (Z-A)
-                    </label>
-                    <label>
-                        <input type="radio" name="sort-option" value="modelo-asc">
-                        Modelo (A-Z)
-                    </label>
-                    <label>
-                        <input type="radio" name="sort-option" value="modelo-desc">
-                        Modelo (Z-A)
-                    </label>
-                </li>
-            </ul>
-        </div>
     </nav>
     
     <!-- Menú desplegable -->
@@ -146,26 +113,7 @@
     });
 });
 
-function ordenarProductos(criterio) {
-    let productosOrdenados = [productos]; // Copia del array de productos
 
-    switch (criterio) {
-        case 'marca-asc':
-            productosOrdenados.sort((a, b) => a.m.localeCompare(b.m));
-            break;
-        case 'marca-desc':
-            productosOrdenados.sort((a, b) => b.m.localeCompare(a.m));
-            break;
-        case 'modelo-asc':
-            productosOrdenados.sort((a, b) => a.mo.localeCompare(b.mo));
-            break;
-        case 'modelo-desc':
-            productosOrdenados.sort((a, b) => b.mo.localeCompare(a.mo));
-            break;
-    }
-
-    mostrarProductos(productosOrdenados);
-}
 
 // Función para mostrar los productos en la página
 function mostrarProductos(productos) {
