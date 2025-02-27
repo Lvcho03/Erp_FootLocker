@@ -226,7 +226,7 @@
                                 <h5 class="fw-bold mb-2">${producto.m} <br> ${producto.mo}</h5>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="price-tag">$${producto.p}</span>
-                                    <button class="btn btn-primary btn-sm" data-id="${producto.id}">Añadir</button>
+                                    <button class="btn btn-primary btn-sm" data-id="${producto.id}" id=s'admin-button'>Añadir</button>
                                 </div>
                             </div>
                         </div>
@@ -426,6 +426,22 @@
             cancelarBtn.addEventListener('click', cerrarModal);
         }
     </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Supongamos que tienes un objeto de usuario en el localStorage
+    const usuarioGuardado = JSON.parse(localStorage.getItem('user'));
+
+    if (usuarioGuardado && usuarioGuardado.tipo === 'admin') {
+        // Ocultar todos los botones "Añadir"
+        const addButtons = document.querySelectorAll('.admin-button');
+        addButtons.forEach(button => {
+            button.style.display = 'none';
+        });
+    }
+});
+
+</script>
+
 </body>
 
 </html>
