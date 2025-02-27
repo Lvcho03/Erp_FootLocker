@@ -24,31 +24,33 @@ function mostrarProductos(productos) {
     const tableBody = document.querySelector("#productTable tbody");
     tableBody.innerHTML = "";
 
-    function mostrarProductos(productos) {
-        const tableBody = document.querySelector("#row-g-4"); // Corregido el selector para que funcione
-        tableBody.innerHTML = ""; // Limpiamos el contenido previo
+    productos.forEach((producto, index) => {
+        const fila = document.createElement("tr");
+        fila.setAttribute('data-id', producto.id); // Asigna el ID real del producto como atributo data-id
     
-        productos.forEach(producto => {
-            let fila = document.createElement("tr"); // Creamos la fila
-            fila.setAttribute('data-id', producto.id); // Asignamos el ID como atributo data-id
-    
-            // Insertamos los datos en la fila usando template literals
-            fila.innerHTML = `
-                <td>${producto.id}</td>
-                <td>${producto.m}</td>
-                <td>${producto.mo}</td>
-                <td>${producto.p}</td>
-                <td>${producto.st}</td>
-                <td class="image-cell">
-                    <img src="../static/img/esports_${producto.id}.webp" alt="${producto.m}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-                </td>
-                
-            `;
-    
-            tableBody.appendChild(fila); // Añadimos la fila al cuerpo de la tabla
-        });
-    }
-    
+        // Se elimina el atributo "id" y el onclick del botón y se agrega la clase "btnCarrito"
+        fila.innerHTML = `
+            <td>${producto.id}</td> 
+            <td>${producto.m}</td>
+            <td>${producto.mo}</td>
+            <td>${producto.p}</td>
+            <td>${producto.st}</td>
+            <td class="acciones d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-secondary me-2 btnCarrito" onclick="agregarAlCarrito(this)">
+                        <i class="bi bi-cart"></i>
+                    </button>
+                    <span class="me-2">Cantidad:</span>
+                    <input type="number" class="form-control me-2" style="width: 100px;" value="1" min="1">
+                </div>
+                <div>
+                    <button class="btn me-2 btn-editar" onclick="editarProducto(${producto.id})">Editar</button>
+                    <button class="btn me-2 btnBorrar" data-id="${producto.id}">Eliminar</button>
+                </div>
+            </td>
+        `;
+        tableBody.appendChild(fila);
+    });
 
     document.querySelectorAll(".btn-editar, .btnBorrar").forEach(boton => {
         boton.style.backgroundColor = "#272a57"; // Azul oscuro en estado normal
