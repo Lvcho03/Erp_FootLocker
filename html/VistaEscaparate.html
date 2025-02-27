@@ -13,7 +13,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-
     <!-- AOS Library (Animaciones) -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -22,6 +21,8 @@
     <link href="../css/cssVistaEscaparate.css" rel="stylesheet" type="text/css">
     <script src="../JS/escaparate.js"></script>
     <script src="../JS/menuDesplegable.js"></script>
+    <script src="../JS/carrito.js"></script>
+    <script src="../JS/stock.js"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -44,49 +45,107 @@
                 </div>
             </div>
         </div>
-       
-       
-        <div id="sideMenu" class="side-menu">
-            <button id="closeMenuButton" class="btn-close-menu">
-                <i class="fas fa-times"></i> <!-- Ícono de "X" -->
-            </button>
-            <h4>Filtros</h4>
-            <ul>
-                <!-- Filtro por precio -->
-                <li>
-                    <h5>Ordenar Productos</h5>
-                    <label>
-                        <input type="radio" name="sort-option" value="marca-asc">
-                        Marca (A-Z)
-                    </label>
-                    <label>
-                        <input type="radio" name="sort-option" value="marca-desc">
-                        Marca (Z-A)
-                    </label>
-                    <label>
-                        <input type="radio" name="sort-option" value="modelo-asc">
-                        Modelo (A-Z)
-                    </label>
-                    <label>
-                        <input type="radio" name="sort-option" value="modelo-desc">
-                        Modelo (Z-A)
-                    </label>
-                </li>
-            </ul>
-        </div>
+        <!-- Botón del carrito -->
+        <button class="cart-button" data-bs-toggle="modal" data-bs-target="#cartModal">
+            <i class="bi bi-cart"></i> Carrito
+        </button>
     </nav>
-    
-    <!-- Menú desplegable -->
 
+    <!-- Modal del carrito -->
+    <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Carrito de Compras</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id="cartItems" class="list-group mb-3"></ul>
+                    <div class="total-price">
+                        <h6>Total: $<span id="cartTotal">0.00</span></h6>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" onclick="realizarCompra()" class="btn btn-success" id="checkoutButton">Realizar Venta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para confirmar contraseña -->
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="passwordModalLabel">Confirmar Contraseña</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Por favor, ingresa tu contraseña para continuar:</p>
+                    <input id="passwordInput" type="password" class="form-control" placeholder="Contraseña" required />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" onclick="verificarContraseña()" id="send-button">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sideMenu" class="side-menu">
+        <button id="closeMenuButton" class="btn-close-menu">
+            <i class="fas fa-times"></i> <!-- Ícono de "X" -->
+        </button>
+        <h4>Filtros</h4>
+        <ul>
+            <!-- Filtro por precio -->
+            <li>
+                <h5>Precio</h5>
+                <label>
+                    <input type="checkbox" class="price-filter" data-min="0" data-max="100">
+                    Menos de $100
+                </label>
+                <label>
+                    <input type="checkbox" class="price-filter" data-min="100" data-max="120">
+                    $100 - $120
+                </label>
+                <label>
+                    <input type="checkbox" class="price-filter" data-min="120" data-max="150">
+                    $120 - $150
+                </label>
+                <label>
+                    <input type="checkbox" class="price-filter" data-min="150" data-max="9999">
+                    Más de $150
+                </label>
+            </li>
+            <!-- Filtro por marca -->
+            <li>
+                <h5>Marca</h5>
+                <div id="marca-filters">
+                    <!-- Las marcas se cargarán dinámicamente desde la base de datos -->
+                </div>
+            </li>
+            <!-- Ordenar por modelo -->
+            <li>
+                <h5>Ordenar por modelo</h5>
+                <label>
+                    <input type="radio" name="sort-model" value="asc">
+                    A-Z
+                </label>
+                <label>
+                    <input type="radio" name="sort-model" value="desc">
+                    Z-A
+                </label>
+            </li>
+        </ul>
+    </div>
 
     <!-- Productos -->
     <main class="container my-5">
-        
         <div class="row g-4" data-aos="fade-up">
-           
             <!-- Repetir más productos... -->
         </div>
-        
     </main>
 
     <!-- Footer -->
@@ -122,7 +181,7 @@
         });
     </script>
     <script>
-            document.getElementById('menuButton').addEventListener('click', function() {
+        document.getElementById('menuButton').addEventListener('click', function() {
             var sideMenu = document.getElementById('sideMenu');
             if (sideMenu.classList.contains('fade-in')) {
                 sideMenu.classList.remove('fade-in');
@@ -139,60 +198,229 @@
             sideMenu.classList.add('fade-out');
         });
 
-        document.querySelectorAll('input[name="sort-option"]').forEach(input => {
-    input.addEventListener('change', function() {
-        const ordenSeleccionado = this.value;
-        ordenarProductos(ordenSeleccionado);
-    });
-});
+        // Función para mostrar los productos en la página
+        function mostrarProductos(productos) {
+            const contenedor = document.querySelector('.row');
+            contenedor.innerHTML = ''; // Limpiar el contenedor
 
-function ordenarProductos(criterio) {
-    let productosOrdenados = [productos]; // Copia del array de productos
-
-    switch (criterio) {
-        case 'marca-asc':
-            productosOrdenados.sort((a, b) => a.m.localeCompare(b.m));
-            break;
-        case 'marca-desc':
-            productosOrdenados.sort((a, b) => b.m.localeCompare(a.m));
-            break;
-        case 'modelo-asc':
-            productosOrdenados.sort((a, b) => a.mo.localeCompare(b.mo));
-            break;
-        case 'modelo-desc':
-            productosOrdenados.sort((a, b) => b.mo.localeCompare(a.mo));
-            break;
-    }
-
-    mostrarProductos(productosOrdenados);
-}
-
-// Función para mostrar los productos en la página
-function mostrarProductos(productos) {
-    const contenedor = document.querySelector('.row');
-    contenedor.innerHTML = ''; // Limpiar el contenedor
-
-    productos.forEach(producto => {
-        const productoHTML = `
-            <div class="col-md-4 col-lg-3">
-                <div class="product-card p-3 text-center">
-                    <img src="../imagenes/esports_${producto.id}.webp" class="product-image w-100">
-                    <div class="product-info p-3">
-                        <h5 class="fw-bold mb-2">${producto.m} <br> ${producto.mo}</h5>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="price-tag">$${producto.p}</span>
-                            <button class="btn btn-primary btn-sm">Añadir</button>
+            productos.forEach(producto => {
+                const productoHTML = `
+                    <div class="col-md-4 col-lg-3">
+                        <div class="book">
+                            <div class="product-content p-3 text-center">
+                                <div class="image-cell mb-2">
+                                    <img src="../imagenes/esports_${producto.id}.webp"
+                                        style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
+                                </div>
+                                <h5 class="fw-bold mb-2">${producto.m} <br> ${producto.mo}</h5>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="price-tag">$${producto.p}</span>
+                                    <button class="btn btn-primary btn-sm" data-id="${producto.id}">Añadir</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        `;
-        contenedor.insertAdjacentHTML('beforeend', productoHTML);
-    });
-}
+                `;
+                contenedor.insertAdjacentHTML('beforeend', productoHTML);
+            });
+        }
 
+        // Array para almacenar los productos en el carrito
+        const cartItems = [];
 
+        // Función para actualizar el carrito
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotalElement = document.getElementById('cartTotal');
+            cartItemsContainer.innerHTML = ''; // Limpiar contenido actual
+            let total = 0;
 
+            cartItems.forEach(item => {
+                total += item.price * item.quantity;
+
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+                    ${item.name} x${item.quantity}
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                    <button class="delete-btn" data-id="${item.id}">&times;</button>
+                `;
+                cartItemsContainer.appendChild(li);
+            });
+
+            cartTotalElement.textContent = total.toFixed(2);
+
+            // Asegurarnos de que los botones para eliminar estén capturados
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', eliminarDelCarrito);
+            });
+        }
+
+        function eliminarDelCarrito(event) {
+            const button = event.target;
+            const idProducto = parseInt(button.getAttribute('data-id'), 10); // Obtener el ID del producto desde el data-id del botón
+
+            const index = cartItems.findIndex(item => item.id === idProducto);
+            if (index !== -1) {
+                cartItems.splice(index, 1); // Eliminar el producto del carrito
+                updateCart(); // Actualizar la visualización del carrito
+            }
+        }
+
+        // Función para agregar productos al carrito
+        document.addEventListener('click', function(event) {
+            if (event.target && event.target.classList.contains('btn-sm')) {
+                const button = event.target;
+                const idProducto = parseInt(button.getAttribute('data-id'), 10);
+                const name = button.closest('.product-content').querySelector('h5').textContent;
+                const price = parseFloat(button.closest('.product-content').querySelector('.price-tag').textContent.replace('$', ''));
+                const quantity = 1; // Suponiendo que se añade 1 unidad cada vez
+
+                const existingItem = cartItems.find(item => item.id === idProducto);
+
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cartItems.push({ id: idProducto, name, price, quantity });
+                }
+
+                updateCart();
+            }
+        });
+
+        // Mostrar los productos en el carrito cuando se abre el modal
+        const cartModal = document.getElementById('cartModal');
+        cartModal.addEventListener('show.bs.modal', function() {
+            updateCart();
+        });
+
+        function cerrarModalCarrito() {
+            const modal = document.getElementById('cartModal');
+            modal.style.display = 'none';
+            modal.classList.remove('fade-in');
+        }
+
+        function mostrarModalContraseña() {
+            const modal = document.getElementById('passwordModal');
+            modal.style.display = 'flex';
+            modal.classList.add('fade-in');
+
+            if (!document.querySelector('.modal-backdrop')) {
+                const backdrop = document.createElement('div');
+                backdrop.className = 'modal-backdrop fade show';
+                document.body.appendChild(backdrop);
+            }
+        }
+
+        function cerrarModal() {
+            const modal = document.getElementById('passwordModal');
+            modal.style.display = 'none';
+            modal.classList.remove('fade-in');
+
+            const backdrop = document.querySelector('.modal-backdrop');
+            if (backdrop) {
+                backdrop.remove();
+            }
+        }
+
+        function verificarContraseña() {
+            const passwordInput = document.getElementById('passwordInput').value;
+            const usuarioGuardado = JSON.parse(localStorage.getItem('user'));
+
+            if (!usuarioGuardado) {
+                alert("No hay un usuario en sesión. Por favor, inicia sesión.");
+                cerrarModal();
+                return;
+            }
+
+            if (passwordInput === usuarioGuardado.password) {
+                cerrarModal();
+                realizarVenta();
+            } else {
+                alert("Contraseña incorrecta. Inténtalo de nuevo.");
+            }
+        }
+
+        async function realizarVenta() {
+            const checkoutButton = document.getElementById('checkoutButton');
+            checkoutButton.textContent = 'Procesando...';
+            checkoutButton.disabled = true;
+
+            const idCliente = 101;
+            const formaPago = "Efectivo";
+            const fecha = new Date().toISOString().split("T")[0];
+            const totalModal = parseFloat(document.getElementById('cartTotal').textContent);
+
+            const ventaData = {
+                idCliente,
+                formaPago,
+                fecha,
+                productos: cartItems.map(item => ({
+                    idProducto: item.id,
+                    cantidad: item.quantity,
+                    precio: item.price * item.quantity
+                })),
+                total: totalModal
+            };
+
+            try {
+                const response = await fetch('http://localhost:3000/crearventa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(ventaData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error al registrar la venta');
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Venta realizada con éxito.');
+                    cartItems.length = 0;
+                    updateCart();
+                    checkoutButton.textContent = 'Realizar Venta';
+                    checkoutButton.disabled = false;
+                    cerrarModal();
+                } else {
+                    alert('Error: ' + result.message);
+                    checkoutButton.textContent = 'Realizar Venta';
+                    checkoutButton.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Ocurrió un error al realizar la venta. Por favor, inténtalo nuevamente.');
+                checkoutButton.textContent = 'Realizar Venta';
+                checkoutButton.disabled = false;
+            }
+        }
+
+        if (checkoutButton) {
+            checkoutButton.addEventListener('click', async () => {
+                cerrarModalCarrito();
+                mostrarModalContraseña();
+            });
+        }
+
+        const confirmarBtn = document.querySelector('#passwordModal .btn-primary');
+        if (confirmarBtn) {
+            confirmarBtn.addEventListener('click', verificarContraseña);
+        }
+
+        const cerrarBtn = document.querySelector('#passwordModal .btn-close');
+        if (cerrarBtn) {
+            cerrarBtn.addEventListener('click', cerrarModal);
+        }
+
+        const cancelarBtn = document.querySelector('#passwordModal .btn-secondary');
+        if (cancelarBtn) {
+            cancelarBtn.addEventListener('click', cerrarModal);
+        }
     </script>
 </body>
 
