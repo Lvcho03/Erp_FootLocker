@@ -54,41 +54,22 @@
             <ul>
                 <!-- Filtro por precio -->
                 <li>
-                    <h5>Precio</h5>
+                    <h5>Ordenar Productos</h5>
                     <label>
-                        <input type="checkbox" class="price-filter" data-min="0" data-max="100">
-                        Menos de $100
+                        <input type="radio" name="sort-option" value="marca-asc">
+                        Marca (A-Z)
                     </label>
                     <label>
-                        <input type="checkbox" class="price-filter" data-min="100" data-max="120">
-                        $100 - $120
+                        <input type="radio" name="sort-option" value="marca-desc">
+                        Marca (Z-A)
                     </label>
                     <label>
-                        <input type="checkbox" class="price-filter" data-min="120" data-max="150">
-                        $120 - $150
+                        <input type="radio" name="sort-option" value="modelo-asc">
+                        Modelo (A-Z)
                     </label>
                     <label>
-                        <input type="checkbox" class="price-filter" data-min="150" data-max="9999">
-                        Más de $150
-                    </label>
-                </li>
-                <!-- Filtro por marca -->
-                <li>
-                    <h5>Marca</h5>
-                    <div id="marca-filters">
-                        <!-- Las marcas se cargarán dinámicamente desde la base de datos -->
-                    </div>
-                </li>
-                <!-- Ordenar por modelo -->
-                <li>
-                    <h5>Ordenar por modelo</h5>
-                    <label>
-                        <input type="radio" name="sort-model" value="asc">
-                        A-Z
-                    </label>
-                    <label>
-                        <input type="radio" name="sort-model" value="desc">
-                        Z-A
+                        <input type="radio" name="sort-option" value="modelo-desc">
+                        Modelo (Z-A)
                     </label>
                 </li>
             </ul>
@@ -158,6 +139,34 @@
             sideMenu.classList.add('fade-out');
         });
 
+        document.querySelectorAll('input[name="sort-option"]').forEach(input => {
+    input.addEventListener('change', function() {
+        const ordenSeleccionado = this.value;
+        ordenarProductos(ordenSeleccionado);
+    });
+});
+
+function ordenarProductos(criterio) {
+    let productosOrdenados = [productos]; // Copia del array de productos
+
+    switch (criterio) {
+        case 'marca-asc':
+            productosOrdenados.sort((a, b) => a.m.localeCompare(b.m));
+            break;
+        case 'marca-desc':
+            productosOrdenados.sort((a, b) => b.m.localeCompare(a.m));
+            break;
+        case 'modelo-asc':
+            productosOrdenados.sort((a, b) => a.mo.localeCompare(b.mo));
+            break;
+        case 'modelo-desc':
+            productosOrdenados.sort((a, b) => b.mo.localeCompare(a.mo));
+            break;
+    }
+
+    mostrarProductos(productosOrdenados);
+}
+
 // Función para mostrar los productos en la página
 function mostrarProductos(productos) {
     const contenedor = document.querySelector('.row');
@@ -166,12 +175,9 @@ function mostrarProductos(productos) {
     productos.forEach(producto => {
         const productoHTML = `
             <div class="col-md-4 col-lg-3">
-                <div class="book">
-                    <div class="product-content p-3 text-center">
-                        <div class="image-cell mb-2">
-                            <img src="../imagenes/esports_${producto.id}.webp" 
-                                style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px;">
-                        </div>
+                <div class="product-card p-3 text-center">
+                    <img src="../imagenes/esports_${producto.id}.webp" class="product-image w-100">
+                    <div class="product-info p-3">
                         <h5 class="fw-bold mb-2">${producto.m} <br> ${producto.mo}</h5>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="price-tag">$${producto.p}</span>

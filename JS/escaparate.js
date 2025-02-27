@@ -63,36 +63,3 @@ function agregarAlCarrito(button) {
     const cartConfirmation = new bootstrap.Toast(document.getElementById('cartConfirmation'));
     cartConfirmation.show();
 }
-/*
-function mostrarProductos(productos) {
-    const tableBody = document.querySelector("#row-g-4"); // Corregí el selector para que funcione
-    tableBody.innerHTML = "";
-                    
-    productos.forEach(producto => {
-        
-        let row = document.createElement("div");
-        row.classList.add("col-md-4", "col-lg-3"); // Añado las clases correspondientes
-        row.setAttribute("data-id", producto.id);
-       
-        console.log(producto);
-        row.innerHTML = `
-
-            <div class="book">
-                <div class="product-content p-3">
-                    <h5 class="fw-bold mb-2">${producto.p}</h5>
-                    <p class="text-muted small mb-3">${producto.description}</p>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <span class="price-tag">$${producto.price}</span>
-                        <button class="btn btn-primary btn-sm btnCarrito">Añadir</button>
-                    </div>
-                </div>
-                <div class="cover">
-                    <img src="../static/img/esports_${producto.id}.webp" alt="${producto.p}" 
-                        class="w-100 h-100" style="object-fit: cover; border-radius: 10px;">
-                </div>
-            </div>
-        `;
-
-        tableBody.appendChild(row);
-    });
-}*/
