@@ -188,4 +188,5 @@ document.addEventListener('DOMContentLoaded', () => {
     if (cancelarBtn) {
         cancelarBtn.addEventListener('click', cerrarModal);
     }
+    
 });
